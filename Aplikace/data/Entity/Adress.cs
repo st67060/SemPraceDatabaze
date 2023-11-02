@@ -81,3 +81,4 @@ namespace Aplikace.data.Entity
             return false;
         }
     }
+}

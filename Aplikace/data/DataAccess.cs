@@ -26,7 +26,7 @@ namespace Aplikace.data
             using (var connection = new OracleDatabaseConnection())
             {
                 connection.OpenConnection();
-                string query = "SELECT * FROM uzivatel"; // Upravte dotaz podle struktury vaší databáze
+                string query = "SELECT * FROM uzivatel"; 
                 var dataTable = connection.ExecuteQuery(query);
                 foreach (DataRow row in dataTable.Rows)
                 {
