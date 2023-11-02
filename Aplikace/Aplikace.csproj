@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="assets\close.png" />
+    <None Remove="assets\dentist.png" />
+    <None Remove="assets\lockLogin.png" />
+    <None Remove="assets\userLogin.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\close.png" />
+    <Resource Include="assets\dentist.png" />
+    <Resource Include="assets\lockLogin.png" />
+    <Resource Include="assets\userLogin.png" />
+  </ItemGroup>
+
+</Project>
