@@ -10,8 +10,9 @@
     <Border  CornerRadius="20" BorderBrush="Transparent"  BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                <GradientStop Offset="0" Color="#F6BD60" />
-                <GradientStop Offset="1" Color="#F28482" />
+                <GradientStop Offset="0" Color="#bde0fe" />
+                <GradientStop Offset="0.5" Color="#a2d2ff" />
+                <GradientStop Offset="1" Color="#0096c7" />
             </LinearGradientBrush>
         </Border.Background>
 
@@ -81,10 +82,10 @@
                     <Image Source="/assets/lockLogin.png"/>
                     <PasswordBox Name="PasswordBox" Grid.Column="1"/>
                 </Grid>
-                <Button x:Name="loginButton" Content="Login" Width="125" Height="40" Margin="0 10 0 0" Click="loginButton_Click">
+                <Button x:Name="loginButton" Content="Login" Width="125" Height="40" Margin="0 10 0 0" ButtonBase.Click="loginButton_Click_1" >
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="Background" Value="#F6BD60"/>
+                            <Setter Property="Background" Value="#3a86ff"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="FontSize" Value="16"/>

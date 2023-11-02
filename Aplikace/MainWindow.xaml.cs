@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Aplikace.data;
+using Aplikace.data.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +36,26 @@ namespace Aplikace
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Close();
+        }
+
+        private void loginButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            string enteredName = UsernameTextBox.Text;
+            string enteredPassword = PasswordBox.Password;
+            DataAccess dataAccess = new DataAccess();
+            List<User> users = dataAccess.GetUsers();
+
+            foreach (User user in users)
+            {
+                if (user.Name == enteredName && user.Password == enteredPassword)
+                {
+                    MessageBox.Show("Přihlášení probehlo!!!");
+                    return;
+                }
+            }
+
+            MessageBox.Show("Neplatné udaje");
+
         }
     }
 }
