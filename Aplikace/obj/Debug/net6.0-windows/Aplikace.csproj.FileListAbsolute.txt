@@ -3,11 +3,9 @@ C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\b
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.runtimeconfig.json
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.dll
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.pdb
-C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\MainWindow.g.cs
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\App.g.cs
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace_MarkupCompile.cache
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace_MarkupCompile.lref
-C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\MainWindow.baml
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.g.resources
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.AssemblyInfoInputs.cache
@@ -32,3 +30,7 @@ C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\o
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Register.g.cs
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Register.baml
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\bin\Debug\net6.0-windows\SixLabors.ImageSharp.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Login.g.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Login.baml
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Main.g.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Main.baml

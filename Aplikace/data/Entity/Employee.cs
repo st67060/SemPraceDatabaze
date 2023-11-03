@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Aplikace.data.Entity
 {
-    internal class Employee : INotifyPropertyChanged
+    public class Employee : INotifyPropertyChanged
     {
         private int id;
         private string name;

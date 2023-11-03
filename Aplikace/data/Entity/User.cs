@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Aplikace.data.Entity
 {
-    internal class User : INotifyPropertyChanged
+    public class User : INotifyPropertyChanged
     {
         private string name;
         private string password;

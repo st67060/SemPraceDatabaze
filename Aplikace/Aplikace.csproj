@@ -8,10 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\calendar.png" />
+    <None Remove="assets\chat.png" />
     <None Remove="assets\close.png" />
     <None Remove="assets\dentist.png" />
     <None Remove="assets\dentistRegister.png" />
+    <None Remove="assets\home.png" />
+    <None Remove="assets\list.png" />
     <None Remove="assets\lockLogin.png" />
+    <None Remove="assets\settings.png" />
     <None Remove="assets\userLogin.png" />
     <None Remove="assets\username.png" />
   </ItemGroup>
@@ -22,10 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="assets\calendar.png" />
+    <Resource Include="assets\chat.png" />
     <Resource Include="assets\close.png" />
     <Resource Include="assets\dentist.png" />
     <Resource Include="assets\dentistRegister.png" />
+    <Resource Include="assets\home.png" />
+    <Resource Include="assets\list.png" />
     <Resource Include="assets\lockLogin.png" />
+    <Resource Include="assets\settings.png" />
     <Resource Include="assets\userLogin.png" />
     <Resource Include="assets\username.png" />
   </ItemGroup>
