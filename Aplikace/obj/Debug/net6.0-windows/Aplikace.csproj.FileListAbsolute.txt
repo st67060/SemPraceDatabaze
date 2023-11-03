@@ -29,3 +29,6 @@ C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\b
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.DirectoryServices.Protocols.dll
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.csproj.AssemblyReference.cache
 C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.csproj.CopyComplete
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Register.g.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Register.baml
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\bin\Debug\net6.0-windows\SixLabors.ImageSharp.dll

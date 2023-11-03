@@ -10,19 +10,24 @@
   <ItemGroup>
     <None Remove="assets\close.png" />
     <None Remove="assets\dentist.png" />
+    <None Remove="assets\dentistRegister.png" />
     <None Remove="assets\lockLogin.png" />
     <None Remove="assets\userLogin.png" />
+    <None Remove="assets\username.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.120" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="assets\close.png" />
     <Resource Include="assets\dentist.png" />
+    <Resource Include="assets\dentistRegister.png" />
     <Resource Include="assets\lockLogin.png" />
     <Resource Include="assets\userLogin.png" />
+    <Resource Include="assets\username.png" />
   </ItemGroup>
 
 </Project>

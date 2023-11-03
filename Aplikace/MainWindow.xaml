@@ -17,13 +17,12 @@
         </Border.Background>
 
         <Grid>
-            
 
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="210" Height="240" Margin="70 0 0 70">
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="247" Height="320" Margin="280,0,0,0">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
-                        <Setter Property="FontSize" Value="24"/>
-                        <!-- Zvětšeno o 20 % -->
+                        <Setter Property="FontSize" Value="30"/>
                         <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="Foreground" Value="#333333"/>
                     </Style>
@@ -31,37 +30,32 @@
                         <Setter Property="Foreground" Value="#333333"/>
                     </Style>
                     <Style TargetType="Image">
-                        <Setter Property="Width" Value="20"/>
-                        <!-- Zvětšeno o 25 % -->
-                        <Setter Property="Height" Value="20"/>
-                        <!-- Zvětšeno o 25 % -->
+                        <Setter Property="Width" Value="25"/>
+                        <Setter Property="Height" Value="25"/>
                     </Style>
                     <Style TargetType="TextBox">
-                        <Setter Property="Height" Value="20"/>
-                        <!-- Zvětšeno o 25 % -->
-                        <Setter Property="Width" Value="180"/>
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="Width" Value="225"/>
                         <Setter Property="Margin" Value="0,4,0,6"/>
                         <Setter Property="BorderThickness" Value="0,0,0,1"/>
                         <Setter Property="Background" Value="{x:Null}"/>
                         <Setter Property="BorderBrush" Value="Black"/>
                     </Style>
                     <Style TargetType="PasswordBox">
-                        <Setter Property="Height" Value="20"/>
-                        <!-- Zvětšeno o 25 % -->
-                        <Setter Property="Width" Value="180"/>
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="Width" Value="225"/>
                         <Setter Property="Margin" Value="0,4,0,6"/>
                         <Setter Property="BorderThickness" Value="0,0,0,1"/>
                         <Setter Property="Background" Value="{x:Null}"/>
                         <Setter Property="BorderBrush" Value="Black"/>
                     </Style>
                     <Style TargetType="Button">
-                        <Setter Property="Width" Value="125"/>
-                        <!-- Zvětšeno o 25 % -->
-                        <Setter Property="Margin" Value="0 15 0 0"/>
-                        <Setter Property="FontSize" Value="20"/>
-                        <!-- Zvětšeno o 25 % -->
+                        <Setter Property="Width" Value="150"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="FontSize" Value="25"/>
                     </Style>
                 </StackPanel.Resources>
+
 
                 <TextBlock Text="Login"/>
                 <Label Content="Username:"/>
@@ -119,8 +113,25 @@
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
-                
-                <TextBlock Text="Continue without logging in" FontSize="12" HorizontalAlignment="Center" Margin="0 10 0 0"/>
+
+
+                <Button Content="Continue without logging in" Width="162" Height="40" Margin="0 10 0 0" Click="registerButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Content="Register" Width="125" Height="40" Margin="0 10 0 0" Click="registerButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
             </StackPanel>
             <Image Margin="0,166,410,0" Source="/assets/dentist.png" Stretch="Fill"/>
@@ -129,6 +140,6 @@
 
         </Grid>
     </Border>
-    
-    
+
+
 </Window>

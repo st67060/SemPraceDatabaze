@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v6.0": {
       "Aplikace/1.0.0": {
         "dependencies": {
-          "Oracle.ManagedDataAccess.Core": "3.21.120"
+          "Oracle.ManagedDataAccess.Core": "3.21.120",
+          "SixLabors.ImageSharp": "3.0.2"
         },
         "runtime": {
           "Aplikace.dll": {}
@@ -25,6 +26,14 @@
           "lib/netstandard2.1/Oracle.ManagedDataAccess.dll": {
             "assemblyVersion": "3.1.21.1",
             "fileVersion": "3.1.21.1"
+          }
+        }
+      },
+      "SixLabors.ImageSharp/3.0.2": {
+        "runtime": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.2.0"
           }
         }
       },
@@ -140,6 +149,13 @@
       "sha512": "sha512-RrSu5ZlhIqpV7mFauPfc2AkCsuWXA2cWCNXOBW+Wt7R8g6wqonWIWZN3iyhwr4mZMRrClJB/SRMtQzQMHuZPmg==",
       "path": "oracle.manageddataaccess.core/3.21.120",
       "hashPath": "oracle.manageddataaccess.core.3.21.120.nupkg.sha512"
+    },
+    "SixLabors.ImageSharp/3.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PlwUHnLZ67G1i0xXDYQJYbFiJsvXiEFWtKdV0QvY9j+dFasYbl+vWXXY42/asTsNjchsH5BLuoRzlf8Fa8lzpg==",
+      "path": "sixlabors.imagesharp/3.0.2",
+      "hashPath": "sixlabors.imagesharp.3.0.2.nupkg.sha512"
     },
     "System.Configuration.ConfigurationManager/6.0.0": {
       "type": "package",

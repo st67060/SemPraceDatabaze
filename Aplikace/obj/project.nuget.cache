@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "UU1mgG3qKrHZwG3CIMmq6OlsdzRFj4iLI8AqBD1gGvtmUrbnOu1BqCWrN1/KQjr6KdHyH/RaVDa+lh9RXKG5rQ==",
+  "dgSpecHash": "x6E8H+orpqyEoxSDzhq/b7vJE38yKncMiN8c4v38JiVEFv/1d0ZwLwqzxMKMdlspw6STsjE+uEG0F/PhisT45g==",
   "success": true,
   "projectFilePath": "C:\\Users\\laibl\\OneDrive\\Dokumenty\\Sem_Prace_Databaze\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\laibl\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\laibl\\.nuget\\packages\\oracle.manageddataaccess.core\\3.21.120\\oracle.manageddataaccess.core.3.21.120.nupkg.sha512",
+    "C:\\Users\\laibl\\.nuget\\packages\\sixlabors.imagesharp\\3.0.2\\sixlabors.imagesharp.3.0.2.nupkg.sha512",
     "C:\\Users\\laibl\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.0\\system.configuration.configurationmanager.6.0.0.nupkg.sha512",
     "C:\\Users\\laibl\\.nuget\\packages\\system.diagnostics.performancecounter\\6.0.1\\system.diagnostics.performancecounter.6.0.1.nupkg.sha512",
     "C:\\Users\\laibl\\.nuget\\packages\\system.directoryservices\\6.0.1\\system.directoryservices.6.0.1.nupkg.sha512",

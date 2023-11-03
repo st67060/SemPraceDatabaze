@@ -57,5 +57,12 @@ namespace Aplikace
             MessageBox.Show("Neplatné udaje");
 
         }
+
+        private void registerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Register register = new Register();
+            register.Show();
+            Close();
+        }
     }
 }

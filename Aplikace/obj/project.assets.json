@@ -38,6 +38,22 @@
           "lib/netstandard2.1/Oracle.ManagedDataAccess.dll": {}
         }
       },
+      "SixLabors.ImageSharp/3.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/SixLabors.ImageSharp.props": {}
+        }
+      },
       "System.Configuration.ConfigurationManager/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -301,6 +317,22 @@
         "oracle.manageddataaccess.core.3.21.120.nupkg.sha512",
         "oracle.manageddataaccess.core.nuspec",
         "readme.txt"
+      ]
+    },
+    "SixLabors.ImageSharp/3.0.2": {
+      "sha512": "PlwUHnLZ67G1i0xXDYQJYbFiJsvXiEFWtKdV0QvY9j+dFasYbl+vWXXY42/asTsNjchsH5BLuoRzlf8Fa8lzpg==",
+      "type": "package",
+      "path": "sixlabors.imagesharp/3.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "build/SixLabors.ImageSharp.props",
+        "lib/net6.0/SixLabors.ImageSharp.dll",
+        "lib/net6.0/SixLabors.ImageSharp.xml",
+        "sixlabors.imagesharp.128.png",
+        "sixlabors.imagesharp.3.0.2.nupkg.sha512",
+        "sixlabors.imagesharp.nuspec"
       ]
     },
     "System.Configuration.ConfigurationManager/6.0.0": {
@@ -579,7 +611,8 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "Oracle.ManagedDataAccess.Core >= 3.21.120"
+      "Oracle.ManagedDataAccess.Core >= 3.21.120",
+      "SixLabors.ImageSharp >= 3.0.2"
     ]
   },
   "packageFolders": {
@@ -630,6 +663,10 @@
           "Oracle.ManagedDataAccess.Core": {
             "target": "Package",
             "version": "[3.21.120, )"
+          },
+          "SixLabors.ImageSharp": {
+            "target": "Package",
+            "version": "[3.0.2, )"
           }
         },
         "imports": [
