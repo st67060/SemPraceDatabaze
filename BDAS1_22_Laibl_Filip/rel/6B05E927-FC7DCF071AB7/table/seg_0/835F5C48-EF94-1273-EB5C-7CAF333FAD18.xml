@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="835F5C48-EF94-1273-EB5C-7CAF333FAD18" name="UZIVATEL">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:21:57 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<ordsAlias>table_19</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="6EE542F1-1ABB-D088-1DF3-7410D8E83460">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:24:00 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ZAMESTNANEC_id" id="2EC9FBA5-D764-F51C-6829-0166C7F2C857">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:24:00 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9AE58A69-6977-AFB6-B174-6303DD28FA5F" referredColumn="621C55C0-4FE6-17A4-482D-A825BADC1DDE"/>
+</associations>
+</Column>
+<Column name="heslo" id="9BDE5D76-9854-E756-E743-3824649566E0">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:24:55 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>128</dataTypeSize>
+<ownDataTypeParameters>128,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="jmeno" id="0DE10597-4638-8564-23B1-A70CE7B31E8B">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:34:22 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>64</dataTypeSize>
+<ownDataTypeParameters>64,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="04E60A33-33D9-BAA9-2211-15AA92B38CDB" name="UZIVATEL_PK">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:24:00 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6EE542F1-1ABB-D088-1DF3-7410D8E83460"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9EA6C48D-6BB4-654B-4A7F-2C796D22C03D" name="UZIVATEL__IDX">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 16:08:37 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>A512EEDA-E6E7-D6A4-D2CF-4489EC0A6016</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="2EC9FBA5-D764-F51C-6829-0166C7F2C857"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="68BCE87A-D327-5499-61C5-586B868C34A2" name="UZIVATEL_ZAMESTNANEC_FK">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:27:06 UTC</createdTime>
+<generatorID>B9D6C684-46EA-83E4-7A21-A6476EDDF36A</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2EC9FBA5-D764-F51C-6829-0166C7F2C857"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

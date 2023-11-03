@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="91864AE3-EC24-E3D2-9795-44C2914A27DB" containerWithKeyObject="8BA62EFB-B06C-3766-6E9C-A180C8DFEA25" localFKIndex="87CD186B-A414-AD23-9084-FC039F855208" name="Relation_33_ZDRAVOTNI_KARTA_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>0B564FA9-4525-DABE-2127-B4E2BCF2EB1D</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<referredTableLongName>ZDRAVOTNI_KARTA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>EE735FEE-83C1-0116-A4B1-E5B953094487</referredTableID>
+<keyObject>08BB0268-B9E3-3BED-FB98-F2EA2BF819F5</keyObject>
+<referredKeyID>08BB0268-B9E3-3BED-FB98-F2EA2BF819F5</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

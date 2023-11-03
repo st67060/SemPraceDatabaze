@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="03651C98-0694-BCB4-523D-582B73100086" name="ANAMNEZY">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:36:27 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributeInherType>All atributes</attributeInherType>
+<generateDiscrimColumn>true</generateDiscrimColumn>
+<discriminatorAttributeID>D825C87B-5BA5-B04E-4E49-F1E8EB7626EF</discriminatorAttributeID>
+<discriminatorColumnName>nemoc</discriminatorColumnName>
+<completeSubtypes>true</completeSubtypes>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="722A2CDF-057B-334A-0560-40A13150ED00">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:37:24 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nemoc" id="D825C87B-5BA5-B04E-4E49-F1E8EB7626EF">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:37:43 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>64</dataTypeSize>
+<ownDataTypeParameters>64,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="AC959FE1-75F7-215C-60C1-29C028ED83A6" name="ANAMNEZY_PK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:37:41 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>722A2CDF-057B-334A-0560-40A13150ED00</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

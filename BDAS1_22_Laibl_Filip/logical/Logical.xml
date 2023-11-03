@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="D747D1AF-62F0-836C-A8D1-B51CCF684C75" mainViewID="1CB90410-E288-DF8F-5E39-5ABE00BC37FF">
+<createdBy>Fila</createdBy>
+<createdTime>2022-10-04 11:45:55 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>

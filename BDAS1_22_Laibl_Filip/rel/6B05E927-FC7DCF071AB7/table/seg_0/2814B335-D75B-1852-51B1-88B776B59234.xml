@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="2814B335-D75B-1852-51B1-88B776B59234" name="REZERVACE_ZAKROK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="REZERVACE_id" id="03603DB1-ADB6-E649-43EA-E6F9648F4947">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B685166C-03CD-6999-9EC0-49D8C6DBD290" referredColumn="812C18FF-67DA-60E5-E850-27FB1D4C26A0"/>
+</associations>
+</Column>
+<Column name="ZAKROK_id" id="E8F4A572-E2C9-045C-D481-7F74B14137A3">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="540CDED3-93F5-9B7F-C10E-E9B9AEBD0846" referredColumn="73F6DD5D-ECEB-E512-EB56-20E7229F1556"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="42E628FD-3249-C957-BC85-88B5BE71898D" name="REZERVACE_ZAKROK_PK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="03603DB1-ADB6-E649-43EA-E6F9648F4947"/>
+<colUsage columnID="E8F4A572-E2C9-045C-D481-7F74B14137A3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9EDAF4C3-7464-AABB-8F5E-BD4DA2C80B47" name="REZERVACE_ZAKROK_REZERVACE_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<generatorID>7A2FC4B6-5F51-159D-3E5A-B40803E76576</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="03603DB1-ADB6-E649-43EA-E6F9648F4947"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="392FA23C-BEBA-EDE0-90EE-85BFFCF23E76" name="REZERVACE_ZAKROK_ZAKROK_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<generatorID>7A2FC4B6-5F51-159D-3E5A-B40803E76576</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E8F4A572-E2C9-045C-D481-7F74B14137A3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

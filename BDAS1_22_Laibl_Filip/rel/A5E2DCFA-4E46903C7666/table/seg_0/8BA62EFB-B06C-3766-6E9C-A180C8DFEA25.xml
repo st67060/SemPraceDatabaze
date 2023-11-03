@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="8BA62EFB-B06C-3766-6E9C-A180C8DFEA25" name="Relation_33">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ALERGIE_id" id="200B5526-07C1-1390-947B-6D5EB6805B81">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B7E71DE6-91D9-74AE-3390-CABE0C50EA7D" referredColumn="C40A053C-0EA4-F386-BCD4-0FD894DFBFBB"/>
+</associations>
+</Column>
+<Column name="ZDRAVOTNI_KARTA_id" id="2BAB02AE-0125-DA1B-1B1A-2C0D6044570B">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="91864AE3-EC24-E3D2-9795-44C2914A27DB" referredColumn="F5846D13-6705-7146-F4D1-B471568A77F7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="579CDF1E-A1B7-3445-22D5-5C3ED2A1FBED" name="Relation_33_PK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="200B5526-07C1-1390-947B-6D5EB6805B81"/>
+<colUsage columnID="2BAB02AE-0125-DA1B-1B1A-2C0D6044570B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3EE26B3B-EFB8-A3DA-7352-864B6D6FFA09" name="Relation_33_ALERGIE_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>0B564FA9-4525-DABE-2127-B4E2BCF2EB1D</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="200B5526-07C1-1390-947B-6D5EB6805B81"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="87CD186B-A414-AD23-9084-FC039F855208" name="Relation_33_ZDRAVOTNI_KARTA_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>0B564FA9-4525-DABE-2127-B4E2BCF2EB1D</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2BAB02AE-0125-DA1B-1B1A-2C0D6044570B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

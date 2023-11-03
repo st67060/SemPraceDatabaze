@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="model" id="055B30F7-AC31-853A-CF10-11D12E512277" version="3.5">
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="BDAS1_22_Laibl_Filip" id="055B30F7-AC31-853A-CF10-11D12E512277" version="3.5">
 <createdBy>Fila</createdBy>
 <createdTime>2022-10-04 11:45:55 UTC</createdTime>
 <ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>

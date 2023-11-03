@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="PACIENT PRAC NESCHPONOST FK" directorySegmentName="seg_0" id="837F3E91-8AA9-E2BC-88D9-8EADC32BE974">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-03 11:05:11 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<sourcePk>465C01EF-EBBA-7FC8-86E1-D37F43B4E119</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>je přidělena</nameOnSource>
+<nameOnTarget>má</nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>948491FA-63FA-BC6D-7F46-54B67D5485C7</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>B9B527A6-C089-00DC-95F3-8EA01245C723</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

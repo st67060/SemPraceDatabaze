@@ -1,0 +1,122 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="718805A7-F35B-21B1-00B0-E1E0ACD69918" name="LEKARSKY_PREDPIS">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>8A404FBB-C08C-1F90-774C-EB0066E77AB4</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="49CFAFCE-A5E8-5645-F558-42CACC56CB42">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>BE55EA53-CC70-894C-1DCD-638F48D120C9</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nazev_leku" id="A7C4D697-B6F6-1EBA-9228-36C5B5E31AE9">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>6AC7D11E-E0C6-6354-60C3-BE34105B9D60</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="doplatek" id="207A13BA-B94B-965D-2A6F-E71895A1FF34">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>A0639375-7D7C-2445-C8D8-EB41C640F0BE</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ZAMESTNANEC_id" id="3F9D04AB-53C0-8A03-95BC-8602B0E6CC3D">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>5E9E1D24-50E6-9869-2AE8-D75DFD1F0EFA</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="22CE7110-3AF2-23E0-6791-B7A5668C38A6" referredColumn="7E215C08-047B-4454-6CD8-0B50C98BFD1C"/>
+</associations>
+</Column>
+<Column name="PACIENT_id" id="FB9F9B25-5E7C-7EA5-EF9D-9F086F38831F">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>39E09B10-8B76-51F6-82D8-4A691A490E02</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B7C68FE1-4BBA-E471-63D1-8D9D65856428" referredColumn="2FE8AA98-6483-C0EE-5AAE-FD4942FB326F"/>
+</associations>
+</Column>
+<Column name="datum" id="D626A50C-CD37-953D-8000-564F6A4243E9">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>858A0054-DB2F-F4C6-D609-614B9044A1F9</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C5FF5F46-3455-38F7-B559-EA44D7DA7B73" name="LEKARSKY_PREDPIS_PK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>8461B41C-6C36-0410-9794-E52DB3A92D41</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="49CFAFCE-A5E8-5645-F558-42CACC56CB42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6960A604-6162-E17C-B4F0-33C5D34E5CDB" name="LEKARSKY_PREDPIS_PACIENT_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>B9268C07-66B0-ACA0-FB9E-2357FFEB03E6</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FB9F9B25-5E7C-7EA5-EF9D-9F086F38831F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E3EFCADC-6CDF-D5A2-C3EA-9D894FA554A6" name="LEKARSKY_PREDPIS_ZAMESTNANEC_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>FB5A65B7-D2D4-E7F5-72A9-F472437CC989</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3F9D04AB-53C0-8A03-95BC-8602B0E6CC3D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

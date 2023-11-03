@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="7FCD2541-7078-C614-2F9C-2922D87E158C" containerWithKeyObject="EE735FEE-83C1-0116-A4B1-E5B953094487" localFKIndex="13E1F828-7A38-F6D2-55BF-2D7C5CA87205" name="ZDRAVOTNI_KARTA_RODINNA_ANAMNEZA_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:08:25 UTC</createdTime>
+<generatorID>31BDD2D2-65AD-0BC8-C5E2-4D6C45C39782</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<referredTableLongName>RODINNA_ANAMNEZA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>798CFE71-738D-9FD9-7CEA-6B5715E52BAE</referredTableID>
+<keyObject>E8D3540E-BC9C-1322-601F-618FBD887844</keyObject>
+<referredKeyID>E8D3540E-BC9C-1322-601F-618FBD887844</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

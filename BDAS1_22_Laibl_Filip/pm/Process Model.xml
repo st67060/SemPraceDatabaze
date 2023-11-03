@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<ProcessModel class="oracle.dbtools.crest.model.design.process.ProcessModel" name="Process Model" id="396B36B7-5192-238B-A58F-3222AABE1A6E">
+<createdBy>Fila</createdBy>
+<createdTime>2022-10-04 11:45:55 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</ProcessModel>

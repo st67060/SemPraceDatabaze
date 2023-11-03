@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="UZIVATEL_ZAMESTNANEC_FK" directorySegmentName="seg_0" id="A512EEDA-E6E7-D6A4-D2CF-4489EC0A6016">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:47:28 UTC</createdTime>
+<generatorID>9AE58A69-6977-AFB6-B174-6303DD28FA5F</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<sourcePk>B9D6C684-46EA-83E4-7A21-A6476EDDF36A</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>je</nameOnSource>
+<nameOnTarget>je</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>292BAAFB-F509-9F56-1182-547E388C40AD</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>BDC73EC0-92CF-A78B-B168-BDC7CFEC370A</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="7FA95868-8A0A-46EE-27BE-A48F16874166" containerWithKeyObject="104B05D1-F2ED-18A4-C3BA-432481C167E2" localFKIndex="E8F81431-E5AF-BB5F-6FC3-E5A54998D277" name="LEKARSKY_PREDPIS_PACIENT_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<generatorID>B9268C07-66B0-ACA0-FB9E-2357FFEB03E6</generatorID>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<referredTableLongName>PACIENT</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>62DA33BB-9F16-C2B7-898C-029EF6695F47</referredTableID>
+<keyObject>5F5AE3EE-2B7B-8C61-B8D7-0113FCCCAB6F</keyObject>
+<referredKeyID>5F5AE3EE-2B7B-8C61-B8D7-0113FCCCAB6F</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

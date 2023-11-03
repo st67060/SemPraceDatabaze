@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="PRAC NESCHPONOST ZAMESTNANEC FK" directorySegmentName="seg_0" id="839028E7-87F5-89BE-C107-F1F9F98919EB">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-15 10:07:21 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<sourcePk>B9D6C684-46EA-83E4-7A21-A6476EDDF36A</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>předepsal</nameOnSource>
+<nameOnTarget>je předepsána</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>292BAAFB-F509-9F56-1182-547E388C40AD</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>948491FA-63FA-BC6D-7F46-54B67D5485C7</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

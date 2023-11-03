@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="ZAMESTNANEC ROLE FK" directorySegmentName="seg_0" id="0A88309E-DB2B-CCF6-D956-BE42A3CD3804">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-03 11:15:49 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<sourcePk>1D4A95B2-919C-2760-E3A8-62D151771F79</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>má</nameOnSource>
+<nameOnTarget>má</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>FBFB18FE-1B66-4E1F-5449-05B6D6330B40</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>292BAAFB-F509-9F56-1182-547E388C40AD</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

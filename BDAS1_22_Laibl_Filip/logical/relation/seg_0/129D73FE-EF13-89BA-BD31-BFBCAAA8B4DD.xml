@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="REZERVACE ZAMESTNANEC FK" directorySegmentName="seg_0" id="129D73FE-EF13-89BA-BD31-BFBCAAA8B4DD">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-03 11:13:37 UTC</createdTime>
+<ownerDesignName>BDAS1_22_Laibl_Filip</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<sourcePk>F46DFE87-B675-2B07-A104-62B5AE6094BC</sourcePk>
+<targetPk>B9D6C684-46EA-83E4-7A21-A6476EDDF36A</targetPk>
+<identifying>false</identifying>
+<nameOnSource>má</nameOnSource>
+<nameOnTarget>objednává</nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>38173772-57CA-6A94-5051-42D894024AD1</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>292BAAFB-F509-9F56-1182-547E388C40AD</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
