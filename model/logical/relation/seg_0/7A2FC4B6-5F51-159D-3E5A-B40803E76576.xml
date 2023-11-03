@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="REZERVACE_ZAKROK" directorySegmentName="seg_0" id="7A2FC4B6-5F51-159D-3E5A-B40803E76576">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-03 11:12:41 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<sourcePk>F46DFE87-B675-2B07-A104-62B5AE6094BC</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>obsahuje</nameOnSource>
+<nameOnTarget>je přidělen</nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>38173772-57CA-6A94-5051-42D894024AD1</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>F8233F64-3C2E-A2FD-33D1-F5488B39D6B0</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

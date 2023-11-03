@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="137D7975-4AFC-5869-8565-F37071B6B0A4" containerWithKeyObject="058C3C55-A081-A206-E228-85DE9A211097" localFKIndex="FFBC6001-9F3E-560F-A185-FCD35FF53B4A" name="ZDRAV_KARTA_ZAKROK_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:23 UTC</createdTime>
+<generatorID>824070AC-22B2-DCAF-F47D-68795A10868B</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<referredTableLongName>ZAKROK</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>0185BF0B-A5B5-CE25-6D23-5153F7F36B6F</referredTableID>
+<keyObject>9E412B22-47FC-0C2D-D01C-C09127E19ECA</keyObject>
+<referredKeyID>9E412B22-47FC-0C2D-D01C-C09127E19ECA</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

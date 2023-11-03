@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="LEKARSKY PREDPIS PACIENT FK" directorySegmentName="seg_0" id="B9268C07-66B0-ACA0-FB9E-2357FFEB03E6">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-03 11:06:36 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<targetPk>D1EAB50D-E4E5-CB12-65BE-CE40E5771C71</targetPk>
+<identifying>false</identifying>
+<nameOnSource>je přidělen</nameOnSource>
+<nameOnTarget>dostává</nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>8A404FBB-C08C-1F90-774C-EB0066E77AB4</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>B9B527A6-C089-00DC-95F3-8EA01245C723</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

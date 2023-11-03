@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="7A5BC780-7396-A594-7104-3BFFDE682811" containerWithKeyObject="369C2D62-74D4-B1C0-B947-8C7829CEBEAF" localFKIndex="3E19FCFD-8D01-511B-EB6C-37D189D37B35" name="NAVSTEVY_PACIENT_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<generatorID>3367DCD0-BDFD-228C-CA99-80C794F66C4E</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<referredTableLongName>PACIENT</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>62DA33BB-9F16-C2B7-898C-029EF6695F47</referredTableID>
+<keyObject>5F5AE3EE-2B7B-8C61-B8D7-0113FCCCAB6F</keyObject>
+<referredKeyID>5F5AE3EE-2B7B-8C61-B8D7-0113FCCCAB6F</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

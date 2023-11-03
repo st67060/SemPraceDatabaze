@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="CEF386C7-86D0-19C8-404A-73327064FB32" containerWithKeyObject="CFB15394-CE3D-C9C7-1C83-7516D89E8032" localFKIndex="84307364-1F8A-81B8-EC26-E407E67AB5ED" name="ZDRAV_KARTA_ALERGIE_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:22 UTC</createdTime>
+<generatorID>0B564FA9-4525-DABE-2127-B4E2BCF2EB1D</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<referredTableLongName>ALERGIE</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>F4637EB7-9C92-F8F8-990E-04F5C261B428</referredTableID>
+<keyObject>6D9D75E2-1413-324D-D0AF-59212058D1F9</keyObject>
+<referredKeyID>6D9D75E2-1413-324D-D0AF-59212058D1F9</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="9AE58A69-6977-AFB6-B174-6303DD28FA5F" containerWithKeyObject="835F5C48-EF94-1273-EB5C-7CAF333FAD18" localFKIndex="68BCE87A-D327-5499-61C5-586B868C34A2" name="UZIVATEL_ZAMESTNANEC_FK">
+<createdBy>laibl</createdBy>
+<createdTime>2023-11-01 15:27:06 UTC</createdTime>
+<generatorID>B9D6C684-46EA-83E4-7A21-A6476EDDF36A</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<referredTableLongName>ZAMESTNANEC</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>28589E7B-DDAA-0A22-9113-5B9D44F41D9B</referredTableID>
+<keyObject>217BE5CD-7AFF-147F-60CA-BE14FF310144</keyObject>
+<referredKeyID>217BE5CD-7AFF-147F-60CA-BE14FF310144</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="PACIENT ADRESY FK" directorySegmentName="seg_0" id="8587BE4F-9936-E7EE-E813-EC0BDCBEDB0B">
+<createdBy>Fila</createdBy>
+<createdTime>2022-11-03 11:04:32 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="6B05E927-D9A4-33BF-854C-FC7DCF071AB7" value="true"/>
+</engineerTo>
+<sourcePk>57A646D1-FA48-6091-202D-3AEBD6CF4696</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>je obýváná</nameOnSource>
+<nameOnTarget>bydlí na </nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>1C6BA428-FA91-FF6D-A2BB-4FA4A9C64C41</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>B9B527A6-C089-00DC-95F3-8EA01245C723</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

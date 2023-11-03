@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="058C3C55-A081-A206-E228-85DE9A211097" name="ZDRAV_KARTA_ZAKROK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:23 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ZDRAVOTNI_KARTA_id" id="E8618615-A3E7-410E-2DBD-FE2A51D610FA">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:23 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="48B83908-ED4A-DF16-651E-BC448A1D1539" referredColumn="D56EF240-ABDC-0C23-96B8-D716AF257A27"/>
+</associations>
+</Column>
+<Column name="ZAKROK_id" id="4E88CB20-2955-C432-5A8D-F3B987CBF316">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:23 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="137D7975-4AFC-5869-8565-F37071B6B0A4" referredColumn="73F6DD5D-ECEB-E512-EB56-20E7229F1556"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2B9DDEBC-488E-776B-DDAE-BE9FBA0FF36B" name="ZDRAV_KARTA_ZAKROK_PK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:23 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E8618615-A3E7-410E-2DBD-FE2A51D610FA"/>
+<colUsage columnID="4E88CB20-2955-C432-5A8D-F3B987CBF316"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7CF6A138-F758-B813-04DA-EE1EC134B8CD" name="ZAKROK_ZDRAV_KARTA_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:23 UTC</createdTime>
+<generatorID>824070AC-22B2-DCAF-F47D-68795A10868B</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E8618615-A3E7-410E-2DBD-FE2A51D610FA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FFBC6001-9F3E-560F-A185-FCD35FF53B4A" name="ZDRAV_KARTA_ZAKROK_FK">
+<createdBy>Fila</createdBy>
+<createdTime>2022-12-10 12:39:23 UTC</createdTime>
+<generatorID>824070AC-22B2-DCAF-F47D-68795A10868B</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4E88CB20-2955-C432-5A8D-F3B987CBF316"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
