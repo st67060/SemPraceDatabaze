@@ -15,19 +15,19 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="18"/>
+           
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
                         <Border Name="Border" Background="Transparent">
                             <ContentPresenter x:Name="ContentSite"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        ContentSource="Header"
-        Margin="15,10"/>
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      ContentSource="Header"
+                                      Margin="15,10"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-
                                 <Setter TargetName="Border" Property="Background">
                                     <Setter.Value>
                                         <SolidColorBrush Color="white" Opacity="0.3"/>
@@ -35,15 +35,14 @@
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
-                                
                                 <Setter TargetName="Border" Property="Background" Value="Transparent"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
-
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
 
 
@@ -60,24 +59,24 @@
 
         <Grid Background="Transparent">
 
-            <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,400,0" FontSize="18" Foreground="#333333" FontWeight="Bold" Opacity="0.6">
+            <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="18" Foreground="#333333" FontWeight="Bold" Opacity="0.6">
                 <Run Text="Logged in: " />
-<Run Text="{Binding Name}" />  
+<Run Text="{Binding Name}" />
             </TextBlock>
-            <TabControl Name="MainTabControl" Background="Transparent" TabStripPlacement="Left" BorderThickness="0,0,0,0" VerticalAlignment="Center" Height="600" >
-                <TabItem  Style="{StaticResource ModernTabItemStyle}">
-                    <!-- Obsah pro záložku 1 -->
+            <TabControl Name="mainTabControl" Background="Transparent" TabStripPlacement="Left" BorderThickness="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,40,0,0">
+                <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}" Margin="0,0,0,0">
+                   
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/home.png" Width="48" Height="48" Margin="0 0 5 0" />
-                           
+
                         </StackPanel>
                     </TabItem.Header>
-
+                    <!-- Obsah pro záložku 1 -->
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="350" Height="400">
                         <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="List of Employees"/>
                         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
-                            
+
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
                                 <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" Width="*" />
@@ -86,16 +85,16 @@
                         </DataGrid>
                     </StackPanel>
                 </TabItem>
-                <TabItem  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="calendarTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/calendar.png" Width="48" Height="48" Margin="0 0 5 0" />
-                           
+
                         </StackPanel>
                     </TabItem.Header>
                     <!-- Obsah pro záložku 2 -->
                 </TabItem>
-                <TabItem  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="listTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/list.png" Width="48" Height="48" Margin="0 0 5 0" />
@@ -104,7 +103,7 @@
                     </TabItem.Header>
                     <!-- Obsah pro záložku 3 -->
                 </TabItem>
-                <TabItem  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="chatTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/chat.png" Width="48" Height="48" Margin="0 0 5 0" />
@@ -113,7 +112,7 @@
                     </TabItem.Header>
                     <!-- Obsah pro záložku 4 -->
                 </TabItem>
-                <TabItem  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="settingsTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/settings.png" Width="48" Height="48" Margin="0 0 5 0" />

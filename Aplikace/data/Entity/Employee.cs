@@ -12,7 +12,7 @@ namespace Aplikace.data.Entity
         private string surname;
         private DateTime hireDate;
         private byte[] photo;
-        private Role role; // Přidán parametr Role
+        private Role role;
 
         public int Id
         {
@@ -80,6 +80,7 @@ namespace Aplikace.data.Entity
             HireDate = hireDate;
             Role = role;
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

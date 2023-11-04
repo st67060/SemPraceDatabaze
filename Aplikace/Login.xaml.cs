@@ -66,5 +66,12 @@ namespace Aplikace
             register.Show();
             Close();
         }
+
+        private void loginWithoutAcount_Click(object sender, RoutedEventArgs e)
+        {
+            Main main = new Main();
+            main.Show();
+            Close();
+        }
     }
 }

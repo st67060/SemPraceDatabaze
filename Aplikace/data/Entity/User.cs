@@ -41,15 +41,14 @@ namespace Aplikace.data.Entity
             }
         }
 
-        public Employee Employee
+        public Employee? Employee
         {
             get { return employee; }
             set
             {
                 if (employee != value)
                 {
-                    if (value == null)
-                        throw new ArgumentNullException("Employee cannot be null");
+                    
                     employee = value;
                     OnPropertyChanged(nameof(Employee));
                 }
@@ -60,17 +59,20 @@ namespace Aplikace.data.Entity
 
         public User(int id, string name, string password, Employee employee)
         {
-            if (name == null)
-                throw new ArgumentNullException("Name cannot be null");
-            if (password == null)
-                throw new ArgumentNullException("Password cannot be null");
-            if (employee == null)
-                throw new ArgumentNullException("Employee cannot be null");
 
             Id = id;
             Name = name;
             Password = password;
             Employee = employee;
+        }
+        public User(string name)
+        {
+    
+          
+            Id = 0;
+            Name = name;
+            Password = String.Empty;
+            Employee = null;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

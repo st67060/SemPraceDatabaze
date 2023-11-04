@@ -115,7 +115,7 @@
                 </Button>
 
 
-                <Button Content="Continue without logging in" Width="162" Height="40" Margin="0 10 0 0" Click="registerButton_Click">
+                <Button Content="Continue without logging in" Width="162" Height="40" Margin="0 10 0 0" Click="loginWithoutAcount_Click">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Background" Value="Transparent"/>

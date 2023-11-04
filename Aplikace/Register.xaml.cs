@@ -10,6 +10,11 @@ using System.Windows.Media.Imaging;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using Size = SixLabors.ImageSharp.Size;
 using Image = SixLabors.ImageSharp.Image;
+using Aplikace.data.Enum;
+using System;
+using System.Windows.Media;
+using Aplikace.data;
+using Aplikace.data.Entity;
 
 namespace Aplikace
 {
@@ -26,11 +31,43 @@ namespace Aplikace
 
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Close(); 
+            Close();
         }
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
+            string name = FirstNameTextBox.Text;
+            string surname = LastNameTextBox.Text;
+            string userName = UsernameTextBox.Text;
+            string password = PasswordBox.Password;
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Všechna pole musí být vyplněna.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return; 
+            }
+
+            Employee employee;
+            int id = 0;
+            DateTime hireDate = DateTime.Today;
+            byte[] photo = null;
+
+            Role role = Role.Employee;
+
+            if (photo == null)
+            {
+                employee = new Employee(id, name, surname, hireDate, role);
+            }
+            else
+            {
+                employee = new Employee(id, name, surname, hireDate, photo, role);
+            }
+
+            User user = new User(id, userName, password, employee);
+
+            DataAccess dataAccess = new DataAccess();
+            dataAccess.InsertEmployee(employee);
+            dataAccess.InsertUser(user);
 
         }
 
