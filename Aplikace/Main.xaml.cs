@@ -1,6 +1,7 @@
 ﻿using Aplikace.data.Entity;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,19 +22,23 @@ namespace Aplikace
     public partial class Main : Window
     {
         private User user;
+        private ObservableCollection<Employee> employees;
         public Main(User user)
         {
+            employees = new ObservableCollection<Employee>();
             this.user = user;
             InitializeComponent();
             DataContext = user;
             SetAccessToData(user);
-
+            //employees.Add(user.Employee);
+            //employeeDataGrid.ItemsSource = employees;
         }
         public Main()
         {
             
             User temp = new User("Quest");
             this.user = temp;
+            DataContext = user;
             InitializeComponent();
             SetAccessForQuest();
         }

@@ -43,7 +43,9 @@ namespace Aplikace
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Všechna pole musí být vyplněna.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                errorBorder.Visibility = Visibility.Visible;
+                errorMessage.Text = "Invalid input, please fill all fields";
+                MessageBox.Show("Input Error","Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return; 
             }
 
@@ -52,22 +54,17 @@ namespace Aplikace
             DateTime hireDate = DateTime.Today;
             byte[] photo = null;
 
-            Role role = Role.Employee;
-
-            if (photo == null)
-            {
-                employee = new Employee(id, name, surname, hireDate, role);
-            }
-            else
-            {
-                employee = new Employee(id, name, surname, hireDate, photo, role);
-            }
-
+            Role role = Role.Employee;           
+            employee = new Employee(id, name, surname, hireDate, photo, role);           
             User user = new User(id, userName, password, employee);
 
             DataAccess dataAccess = new DataAccess();
-            dataAccess.InsertEmployee(employee);
-            dataAccess.InsertUser(user);
+            dataAccess.CreateAcount(employee, user);
+            MainWindow login = new MainWindow();
+            login.UsernameTextBox.Text = userName;
+            login.PasswordBox.Password = password;
+            login.Show();
+            Close();
 
         }
 

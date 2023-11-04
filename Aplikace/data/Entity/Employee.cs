@@ -56,9 +56,7 @@ namespace Aplikace.data.Entity
                 throw new ArgumentNullException(nameof(name));
             if (surname == null)
                 throw new ArgumentNullException(nameof(surname));
-            if (photo == null)
-                throw new ArgumentNullException(nameof(photo));
-
+        
             Id = id;
             Name = name;
             Surname = surname;

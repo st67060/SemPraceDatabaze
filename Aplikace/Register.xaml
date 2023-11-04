@@ -17,7 +17,7 @@
         </Border.Background>
 
         <Grid>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="278" Height="392" Margin="0,0,170,0" >
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="278" Height="423" Margin="76,0,0,0" >
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="FontSize" Value="30"/>
@@ -139,6 +139,10 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <Border x:Name="errorBorder" BorderBrush="#780000" BorderThickness="1" CornerRadius="5" Visibility="Hidden" Height="30">
+                    <TextBlock x:Name="errorMessage" Foreground="#780000"  TextWrapping="Wrap" HorizontalAlignment="Center" Text="error"
+                               VerticalAlignment="Center" FontSize="15"/>
+                </Border>
             </StackPanel>
             <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="225" Height="160" Margin="350,150,0,0">
                 <Button Content="Select Profile Picture" Width="190" Height="30" Click="SelectProfilePicture_Click">

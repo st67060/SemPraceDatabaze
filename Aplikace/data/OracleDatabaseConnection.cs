@@ -13,7 +13,7 @@ namespace Aplikace.Data
     public class OracleDatabaseConnection : IDisposable
     {
         private readonly string connectionString;
-        private OracleConnection connection;
+        public OracleConnection connection;
 
         public OracleDatabaseConnection()
         {

@@ -56,7 +56,8 @@ namespace Aplikace
                 }
             }
 
-            MessageBox.Show("Neplatné udaje");
+            errorBorder.Visibility = Visibility.Visible;
+            errorMessage.Text = "Invalid Username or Password";
 
         }
 
@@ -72,6 +73,18 @@ namespace Aplikace
             Main main = new Main();
             main.Show();
             Close();
+        }
+
+        
+
+        private void UsernameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            errorBorder.Visibility = Visibility.Hidden;
+        }
+
+        private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            errorBorder.Visibility = Visibility.Hidden;
         }
     }
 }
