@@ -15,6 +15,10 @@ using System;
 using System.Windows.Media;
 using Aplikace.data;
 using Aplikace.data.Entity;
+using static System.Net.Mime.MediaTypeNames;
+using System.DirectoryServices.ActiveDirectory;
+using System.Net.NetworkInformation;
+using System.Windows.Controls.Primitives;
 
 namespace Aplikace
 {
@@ -53,7 +57,7 @@ namespace Aplikace
             int id = 0;
             DateTime hireDate = DateTime.Today;
             byte[] photo = null;
-
+            photo = ConvertImageSourceToByteArray(ProfileImage.Source);
             Role role = Role.Employee;           
             employee = new Employee(id, name, surname, hireDate, photo, role);           
             User user = new User(id, userName, password, employee);
@@ -80,13 +84,19 @@ namespace Aplikace
                 {
                     using (Image<Rgba32> rgba32Image = Image.Load<Rgba32>(stream))
                     {
+                        // Určete cílový poměr stran
+                        int targetWidth = 90;
+                        int targetHeight = 90;
+
+                        // Oříznutí obrázku na požadovaný poměr stran
                         rgba32Image.Mutate(x => x
                             .Resize(new ResizeOptions
                             {
-                                Size = new Size(90, 90),
-                                Mode = SixLabors.ImageSharp.Processing.ResizeMode.Max
+                                Size = new Size(targetWidth, targetHeight),
+                                Mode = SixLabors.ImageSharp.Processing.ResizeMode.Crop
                             }));
 
+                       
                         using (MemoryStream memoryStream = new MemoryStream())
                         {
                             rgba32Image.SaveAsPng(memoryStream);
@@ -104,6 +114,24 @@ namespace Aplikace
                 }
             }
         }
+
+        public byte[] ConvertImageSourceToByteArray(ImageSource imageSource)
+        {
+            if (imageSource is BitmapSource bitmapSource)
+            {
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    encoder.Save(stream);
+                    return stream.ToArray();
+                }
+            }
+
+            return null;
+        }
+     
 
 
         private void loginButton_Click(object sender, RoutedEventArgs e)

@@ -1,24 +1,12 @@
 ﻿using Aplikace.data.Entity;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Aplikace
 {
-    /// <summary>
-    /// Interakční logika pro Main.xaml
-    /// </summary>
     public partial class Main : Window
     {
         private User user;
@@ -30,6 +18,7 @@ namespace Aplikace
             InitializeComponent();
             DataContext = user;
             SetAccessToData(user);
+            userImage.Source = SetProfileImage(user);
             //employees.Add(user.Employee);
             //employeeDataGrid.ItemsSource = employees;
         }
@@ -89,6 +78,14 @@ namespace Aplikace
             listTabItem.Visibility = Visibility.Hidden;
 
 
+        }
+        private BitmapImage SetProfileImage(User user)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.StreamSource = new MemoryStream(user.Employee.Photo);
+            bitmapImage.EndInit();
+            return bitmapImage;
         }
     }
 }

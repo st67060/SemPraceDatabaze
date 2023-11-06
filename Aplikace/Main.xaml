@@ -84,7 +84,49 @@
             <Run Text="{Binding Name}" />
             </TextBlock>
             <TabControl Name="mainTabControl"  Background="AliceBlue" TabStripPlacement="Left" BorderThickness="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,60,0,0" Opacity="0.7" Width="900">
-                <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}" Margin="0,-2,0,0">
+                <TabItem x:Name="UserTabItem"  Style="{StaticResource ModernTabItemStyle}" Margin="0,-2,0,0">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/assets/user.png" Width="48" Height="48" Margin="0,0,0,0" />
+
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="327">
+                        <StackPanel.Resources>
+                            <Style TargetType="Label">
+                                <Setter Property="Foreground" Value="#007ACC" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="FontSize" Value="24" />
+                                <Setter Property="Margin" Value="0 5" />
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#333" />
+                                <Setter Property="FontSize" Value="20" />
+                                <Setter Property="Margin" Value="10 0" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                               
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image x:Name="userImage" Width="90" Height="90"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                            <Label Content="Username:" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                            <Label Content="First Name:" />
+                            <TextBlock Text="{Binding Employee.Name}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                            <Label Content="Last Name:" />
+                            <TextBlock Text="{Binding Employee.Surname}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                </TabItem>
+                <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}" >
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
@@ -111,6 +153,15 @@
                         </StackPanel>
                     </StackPanel>
 
+                </TabItem>
+                <TabItem x:Name="PatientTabItem"  Style="{StaticResource ModernTabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/assets/medicalCard.png" Width="48" Height="48" Margin="0 0 5 0" />
+
+                        </StackPanel>
+                    </TabItem.Header>
+                    <!-- Obsah pro záložku  -->
                 </TabItem>
                 <TabItem x:Name="calendarTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>
@@ -148,6 +199,7 @@
                     </TabItem.Header>
                     <!-- Obsah pro záložku 5 -->
                 </TabItem>
+                
             </TabControl>
             <Image x:Name="closeButton" Margin="868,5,5,568" Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Height="27" Width="27"/>
             <Label Content="Dentist information system" HorizontalAlignment="Left" VerticalAlignment="Top" Height="58" Width="487" FontSize="36" FontWeight="Bold" Margin="15,2,0,0">

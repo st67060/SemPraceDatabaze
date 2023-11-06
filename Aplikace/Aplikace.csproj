@@ -16,7 +16,9 @@
     <None Remove="assets\home.png" />
     <None Remove="assets\list.png" />
     <None Remove="assets\lockLogin.png" />
+    <None Remove="assets\medicalCard.png" />
     <None Remove="assets\settings.png" />
+    <None Remove="assets\user.png" />
     <None Remove="assets\userLogin.png" />
     <None Remove="assets\username.png" />
   </ItemGroup>
@@ -35,7 +37,9 @@
     <Resource Include="assets\home.png" />
     <Resource Include="assets\list.png" />
     <Resource Include="assets\lockLogin.png" />
+    <Resource Include="assets\medicalCard.png" />
     <Resource Include="assets\settings.png" />
+    <Resource Include="assets\user.png" />
     <Resource Include="assets\userLogin.png" />
     <Resource Include="assets\username.png" />
   </ItemGroup>
