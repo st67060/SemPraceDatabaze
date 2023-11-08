@@ -167,7 +167,7 @@ namespace Aplikace.data
                 }
             }
         }
-        public int GetLastEmployeeId()
+        private int GetLastEmployeeId()
         {
             int lastEmployeeId = -1;
 
@@ -179,7 +179,6 @@ namespace Aplikace.data
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Parametr pro výstupní ID
                     cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
 
                     cmd.ExecuteNonQuery();
@@ -198,6 +197,54 @@ namespace Aplikace.data
             return lastEmployeeId;
         }
 
+        public List<Address> GetAddresses()
+        {
+            List<Address> addresses = new List<Address>();
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string query = "SELECT * FROM adresa";
+                var dataTable = connection.ExecuteQuery(query);
+                foreach (DataRow row in dataTable.Rows)
+                {
+
+                    int id = Convert.ToInt32(row["id"]);
+                    string city = row["mesto"].ToString();
+                    int postalCode = Convert.ToInt32(row["psc"]);
+                    int streetNumber = Convert.ToInt32(row["cislo_popisne"]);
+                    string country = row["stat"].ToString();
+                    string street = row["ulice"].ToString();
+                    var address = new Address(id, city, postalCode, streetNumber, country,street);
+
+                    addresses.Add(address);
+                }
+            }
+            return addresses;
+        }
+        public  List<Procedure> GetProcedures()
+        {
+            List<Procedure> Procedures = new List<Procedure>();
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string query = "SELECT * FROM zakrok";
+                var dataTable = connection.ExecuteQuery(query);
+                foreach (DataRow row in dataTable.Rows)
+                {
+
+                    int id = Convert.ToInt32(row["id"]);
+                    string name = row["nazev"].ToString();
+                    decimal price = Convert.ToDecimal(row["cena"]);
+                    bool coveredByInsurance = Convert.ToBoolean(row["hradi_pojistovna"]);
+                    string procedureSteps = row["postup"].ToString();
+                    
+                    var procedure = new Procedure(id,name,price,coveredByInsurance,procedureSteps  );
+
+                    Procedures.Add(procedure);
+                }
+            }
+            return Procedures;
+        }
     }
 
 

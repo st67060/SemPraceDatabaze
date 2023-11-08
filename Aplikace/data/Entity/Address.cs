@@ -12,8 +12,8 @@ namespace Aplikace.data.Entity
     {
         private int id;
         private string city;
-        private string postalCode;
-        private string streetNumber;
+        private int postalCode;
+        private int streetNumber;
         private string country;
         private string street;
 
@@ -29,13 +29,13 @@ namespace Aplikace.data.Entity
             set { SetProperty(ref city, value); }
         }
 
-        public string PostalCode
+        public int PostalCode
         {
             get { return postalCode; }
             set { SetProperty(ref postalCode, value); }
         }
 
-        public string StreetNumber
+        public int StreetNumber
         {
             get { return streetNumber; }
             set { SetProperty(ref streetNumber, value); }
@@ -53,7 +53,7 @@ namespace Aplikace.data.Entity
             set { SetProperty(ref street, value); }
         }
 
-        public Address(int id, string city, string postalCode, string streetNumber, string country, string street)
+        public Address(int id, string city, int postalCode, int streetNumber, string country, string street)
         {
             Id = id;
             City = city;

@@ -1,4 +1,7 @@
-﻿using Aplikace.data.Entity;
+﻿using Aplikace.data;
+using Aplikace.data.Entity;
+using Aplikace.data.Enum;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -10,10 +13,10 @@ namespace Aplikace
     public partial class Main : Window
     {
         private User user;
-        private ObservableCollection<Employee> employees;
+        private DataList data;
         public Main(User user)
         {
-            employees = new ObservableCollection<Employee>();
+            data = new DataList();
             this.user = user;
             InitializeComponent();
             DataContext = user;
@@ -45,7 +48,7 @@ namespace Aplikace
             listTabItem.IsEnabled = false;
             listTabItem.Visibility = Visibility.Hidden;
 
-            if (user.Employee.Role == data.Enum.Role.Admin)
+            if (user.Employee.Role == Role.Admin)
             {
 
                 chatTabItem.IsEnabled = true;
@@ -56,7 +59,7 @@ namespace Aplikace
                 listTabItem.Visibility = Visibility.Visible;
 
             }
-            else if (user.Employee.Role == data.Enum.Role.Doctor || user.Employee.Role == data.Enum.Role.Nurse)
+            else if (user.Employee.Role == Role.Doctor || user.Employee.Role == Role.Nurse)
             {
                 chatTabItem.IsEnabled = true;
                 chatTabItem.Visibility = Visibility.Visible;
