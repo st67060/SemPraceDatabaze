@@ -10,23 +10,30 @@
     <Window.Resources>
 
         <Style TargetType="TabItem" x:Key="ModernTabItemStyle">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="AliceBlue"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="Padding" Value="15,10,0,0"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            
+            
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
-                        <Border Name="Border" Background="Transparent" CornerRadius="15,0,0,15" BorderBrush="AliceBlue" BorderThickness="1">
+                        <Border Name="Border" Background="Transparent" CornerRadius="10" BorderBrush="AliceBlue" BorderThickness="0">
                             <ContentPresenter x:Name="ContentSite"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       ContentSource="Header"
-                                      Margin="12,7"/>
+                                      Margin="25,10"/>
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="3" Opacity="0.2"/>
+                            </Border.Effect>
                         </Border>
+                        
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="Border" Property="Background">
@@ -76,55 +83,70 @@
                 <GradientStop Offset="1" Color="#0096c7" />
             </LinearGradientBrush>
         </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="3" Opacity="0.2"/>
+        </Border.Effect>
 
         <Grid >
 
-            <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="675,566,0,0" FontSize="18" Foreground="#333333" FontWeight="Bold" Opacity="0.6">
-                <Run Text="Logged in: " />
-            <Run Text="{Binding Name}" />
-            </TextBlock>
-            <TabControl Name="mainTabControl"  Background="AliceBlue" TabStripPlacement="Left" BorderThickness="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,60,0,0" Opacity="0.7" Width="900">
-                <TabItem x:Name="UserTabItem"  Style="{StaticResource ModernTabItemStyle}" Margin="0,-2,0,0">
+            
+            
+                 <TabControl Name="mainTabControl"   TabStripPlacement="Left" BorderThickness="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Opacity="0.7" Margin="10,10,10,10">
+                <TabControl.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="#bde0fe" />
+                        <GradientStop Offset="0.5" Color="#a2d2ff" />
+                        <GradientStop Offset="1" Color="#0096c7" />
+                    </LinearGradientBrush>
+                </TabControl.Background>
+                <TabItem x:Name="UserTabItem"  Style="{StaticResource ModernTabItemStyle}" Margin="0,0,0,0">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/user.png" Width="48" Height="48" Margin="0,0,0,0" />
 
                         </StackPanel>
                     </TabItem.Header>
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="327">
-                        <StackPanel.Resources>
-                            <Style TargetType="Label">
-                                <Setter Property="Foreground" Value="#007ACC" />
-                                <Setter Property="FontWeight" Value="Bold" />
-                                <Setter Property="FontSize" Value="24" />
-                                <Setter Property="Margin" Value="0 5" />
-                            </Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="#333" />
-                                <Setter Property="FontSize" Value="20" />
-                                <Setter Property="Margin" Value="10 0" />
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                               
-                            </Style>
-                        </StackPanel.Resources>
+                    <Border Background=" white" BorderBrush=" white" Width="480" Height="325" CornerRadius="20">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="3" Opacity="0.2"/>
+                        </Border.Effect>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="325" Background="Transparent" >
+                            <StackPanel.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground" Value="#333" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="FontSize" Value="24" />
+                                    <Setter Property="Margin" Value="20 5 " />
+                                </Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#333" />
+                                    <Setter Property="FontSize" Value="20" />
+                                    <Setter Property="Margin" Value="10 0" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Image x:Name="userImage" Width="90" Height="90"  />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                            <Label Content="Username:" />
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                            <Label Content="First Name:" />
-                            <TextBlock Text="{Binding Employee.Name}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                            <Label Content="Last Name:" />
-                            <TextBlock Text="{Binding Employee.Surname}" />
-                        </StackPanel>
-                    </StackPanel>
+                                </Style>
+                            </StackPanel.Resources>
 
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                <Image x:Name="userImage" Width="90" Height="90"  />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                <Label Content="Username:" />
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                <Label Content="First Name:" />
+                                <TextBlock Text="{Binding Employee.Name}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                <Label Content="Last Name:" />
+                                <TextBlock Text="{Binding Employee.Surname}" />
+                            </StackPanel>
+                        </StackPanel>
+
+
+                    </Border>
+                   
                 </TabItem>
                 <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}" >
 
@@ -199,17 +221,36 @@
                     </TabItem.Header>
                     <!-- Obsah pro záložku 5 -->
                 </TabItem>
-                
+                    
+               
             </TabControl>
+
+            <Button x:Name="logoutButton" Width="100" Height="50" Content="Log Out" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10" Foreground="#333" BorderThickness="0" FontSize="15" Click="logoutButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="white" />
+                                <Setter Property="Opacity" Value="0.5" />
+                                <!-- Barva pozadí při hover -->
+                                <Setter Property="Foreground" Value="#333" />
+                                <!-- Barva textu při hover -->
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+
             <Image x:Name="closeButton" Margin="868,5,5,568" Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Height="27" Width="27"/>
-            <Label Content="Dentist information system" HorizontalAlignment="Left" VerticalAlignment="Top" Height="58" Width="487" FontSize="36" FontWeight="Bold" Margin="15,2,0,0">
-                <Label.Foreground>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF333333" Offset="0.315"/>
-                        <GradientStop Color="#FF696868" Offset="1"/>
-                    </LinearGradientBrush>
-                </Label.Foreground>
-            </Label>
         </Grid>
     </Border>
 </Window>
