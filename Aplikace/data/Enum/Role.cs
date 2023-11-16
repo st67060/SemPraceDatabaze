@@ -11,6 +11,7 @@ namespace Aplikace.data.Enum
         Admin =1,
         Doctor =2,
         Nurse =3,
-        Employee =4
+        Employee =4,
+        Quest =5
     }
 }

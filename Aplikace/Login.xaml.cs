@@ -70,7 +70,9 @@ namespace Aplikace
 
         private void loginWithoutAcount_Click(object sender, RoutedEventArgs e)
         {
-            Main main = new Main();
+           Employee employee = new Employee(0,"","",DateTime.Now, data.Enum.Role.Quest);
+            User user = new User(0, "", "", employee);
+            Main main = new Main(user);
             main.Show();
             Close();
         }

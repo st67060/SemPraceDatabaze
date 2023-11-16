@@ -300,6 +300,10 @@ namespace Aplikace.data
             }
             return Procedures;
         }
+        private void InsertProcedure(Procedure procedure) {
+        
+        
+        }
     }
     //TODO načtení ostatních tabulek a uložení do listů. 
 

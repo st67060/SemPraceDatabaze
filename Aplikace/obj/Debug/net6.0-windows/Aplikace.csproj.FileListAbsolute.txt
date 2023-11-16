@@ -70,3 +70,39 @@ C:\Users\ROG STRIX\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplika
 C:\Users\ROG STRIX\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.pdb
 C:\Users\ROG STRIX\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.genruntimeconfig.cache
 C:\Users\ROG STRIX\OneDrive\Dokumenty\Sem_Prace_Databaze\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\ref\Aplikace.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.exe
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.deps.json
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.runtimeconfig.json
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\Aplikace.pdb
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\Oracle.ManagedDataAccess.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\SixLabors.ImageSharp.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\System.Diagnostics.PerformanceCounter.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\System.DirectoryServices.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\System.DirectoryServices.Protocols.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Diagnostics.PerformanceCounter.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.DirectoryServices.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\runtimes\linux\lib\net6.0\System.DirectoryServices.Protocols.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\runtimes\osx\lib\net6.0\System.DirectoryServices.Protocols.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.DirectoryServices.Protocols.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.csproj.AssemblyReference.cache
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Login.g.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Main.g.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Register.g.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace_MarkupCompile.cache
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace_MarkupCompile.lref
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Login.baml
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Main.baml
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Register.baml
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.g.resources
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.AssemblyInfoInputs.cache
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.AssemblyInfo.cs
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.csproj.CoreCompileInputs.cache
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.csproj.CopyComplete
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\refint\Aplikace.dll
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.pdb
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.genruntimeconfig.cache
+C:\Users\laibl\OneDrive\Dokumenty\Sem_Prace_Databaze\Aplikace\obj\Debug\net6.0-windows\ref\Aplikace.dll
