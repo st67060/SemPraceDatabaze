@@ -4,6 +4,7 @@ using Aplikace.data.Enum;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -14,14 +15,17 @@ namespace Aplikace
     {
         private User user;
         private DataList data;
+        private DataAccess access;
         public Main(User user)
         {
             data = new DataList();
+            access = new DataAccess();
             this.user = user;
             InitializeComponent();
             DataContext = user;
             SetAccessToData(user);
             userImage.Source = SetProfileImage(user);
+            LoadListOfEmployees();
             //employees.Add(user.Employee);
             //employeeDataGrid.ItemsSource = employees;
         }
@@ -96,6 +100,18 @@ namespace Aplikace
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();
+        }
+        private void LoadListOfEmployees() {
+            ObservableCollection<Employee> doctorsAndNurses = new ObservableCollection<Employee>();
+            foreach (Employee emp in access.GetEmployees()) {
+                if ((int)emp.Role == 2 || (int)emp.Role == 3) {
+                doctorsAndNurses.Add(emp);
+                }
+            
+            }
+            data.Employees = doctorsAndNurses;              
+            employeeDataGrid.ItemsSource = data.Employees;
+        
         }
     }
 }

@@ -24,6 +24,14 @@ namespace Aplikace.data
         {
             databaseConnection = new OracleDatabaseConnection();
         }
+
+        public void CreateAcount(Employee employee, User user)
+        {
+            InsertEmployee(employee);
+            InsertUser(user);
+        }
+
+        // načte všechny uzivatele z db a uloží je do listu
         public List<User> GetUsers()
         {
             List<User> users = new List<User>();
@@ -46,7 +54,60 @@ namespace Aplikace.data
             }
             return users;
         }
-        
+        // načte všechny zaměstnance z db a uloží je do listu
+        public List<Employee> GetEmployees()
+        {
+            List<Employee> employees = new List<Employee>();
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string query = "SELECT * FROM zamestnanec";
+                var dataTable = connection.ExecuteQuery(query);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    int id = Convert.ToInt32(row["id"]);
+                    string name = row["jmeno"].ToString();
+                    string surname = row["prijmeni"].ToString();
+                    DateTime hireDate = Convert.ToDateTime(row["nastup"]);
+                    int roleId = Convert.ToInt32(row["role_id"]);
+                    byte[] photo = null;
+
+                    if (!row.IsNull("fotka"))
+                    {
+                        photo = (byte[])row["fotka"];
+                    }
+
+
+
+                    Role role;
+                    switch (roleId)
+                    {
+                        case 1:
+                            role = Role.Admin;
+                            break;
+                        case 2:
+                            role = Role.Doctor;
+                            break;
+                        case 3:
+                            role = Role.Nurse;
+                            break;
+                        case 4:
+                            role = Role.Employee;
+                            break;
+                        default:
+                            role = Role.Employee;
+                            break;
+                    }
+
+
+
+                    var employee = new Employee(id, name, surname, hireDate, photo, role);
+                    employees.Add(employee);
+                }
+            }
+            return employees;
+        }
+        // nacte zamestnance na zaklade jeho id
         private Employee GetEmployeeById(int employeeId, OracleDatabaseConnection connection)
         {
             string employeeQuery = "SELECT * FROM zamestnanec WHERE id = :employeeId";
@@ -100,10 +161,7 @@ namespace Aplikace.data
 
             return null;
         }
-        public void CreateAcount(Employee employee, User user) {
-            InsertEmployee(employee);
-            InsertUser(user);
-        }
+       // vloží zaměstnance a uživatele do db
         private void InsertEmployee(Employee employee)
         {
             string formattedDate = employee.HireDate.ToString("yyyy-MM-dd");
@@ -140,10 +198,6 @@ namespace Aplikace.data
                 }
             }
         }
-
-
-
-
         private void InsertUser(User user)
         {
             string insertProcedure = "InsertUser";
@@ -221,6 +275,7 @@ namespace Aplikace.data
             }
             return addresses;
         }
+        //načte z db zákroky a uloží je do listu
         public  List<Procedure> GetProcedures()
         {
             List<Procedure> Procedures = new List<Procedure>();
@@ -238,7 +293,7 @@ namespace Aplikace.data
                     bool coveredByInsurance = Convert.ToBoolean(row["hradi_pojistovna"]);
                     string procedureSteps = row["postup"].ToString();
                     
-                    var procedure = new Procedure(id,name,price,coveredByInsurance,procedureSteps  );
+                    var procedure = new Procedure(id,name,price,coveredByInsurance,procedureSteps);
 
                     Procedures.Add(procedure);
                 }
@@ -246,6 +301,7 @@ namespace Aplikace.data
             return Procedures;
         }
     }
+    //TODO načtení ostatních tabulek a uložení do listů. 
 
 
 }

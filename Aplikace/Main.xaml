@@ -17,8 +17,8 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="Margin" Value="0,0,0,0"/>
-            
-            
+
+
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -33,7 +33,7 @@
                                 <DropShadowEffect ShadowDepth="3" Opacity="0.2"/>
                             </Border.Effect>
                         </Border>
-                        
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="Border" Property="Background">
@@ -58,7 +58,28 @@
             <Setter Property="Padding" Value="10" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DataGridHeaderStylePatient" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#007ACC" />
+            <Setter Property="Opacity" Value="0.9" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="11" />
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -89,9 +110,9 @@
 
         <Grid >
 
-            
-            
-                 <TabControl Name="mainTabControl"   TabStripPlacement="Left" BorderThickness="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Opacity="0.7" Margin="10,10,10,10">
+
+
+            <TabControl Name="mainTabControl"   TabStripPlacement="Left" BorderThickness="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Opacity="0.7" Margin="10,10,10,10">
                 <TabControl.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Offset="0" Color="#bde0fe" />
@@ -146,7 +167,7 @@
 
 
                     </Border>
-                   
+
                 </TabItem>
                 <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}" >
 
@@ -159,19 +180,26 @@
 
                     <!-- Obsah pro záložku 1 -->
                     <StackPanel>
-         
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="347" Height="449" Margin="50,58,0,0">
 
-                            <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="List of Employees"/>
-                            <DataGrid x:Name="employeeDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow">
+                        <StackPanel HorizontalAlignment="Left" Width="620" Height="481" Margin="50,58,0,0">
+
+                            <Label HorizontalAlignment="Center" Content="List of Employees" Width="190"/>
+                            <DataGrid x:Name="employeeDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" Width="466" BorderThickness="0" Height="400">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}" />
                                     <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}" />
                                     <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}" />
+                                    <DataGridTemplateColumn Header="Photo" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding Photo}" Width="90" Height="90" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            
+
                         </StackPanel>
                     </StackPanel>
 
@@ -183,7 +211,44 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <!-- Obsah pro záložku  -->
+                    <Grid HorizontalAlignment="Left" Width="766" Margin="0,34,0,15" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="280"/>
+                            <ColumnDefinition Width="280"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label HorizontalAlignment="Center" Content="List of Patients" Width="190"/>
+                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,130,40">
+                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="487" Width="420" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding FirstName}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Surrname" Binding="{Binding LastName}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="SSN" Binding="{Binding SocialSecurityNumber}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Birth" Binding="{Binding DateOfBirth}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="168,0,-206,40">
+                            <DataGrid x:Name="healthCardtDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow"  BorderThickness="0" Height="488" Width="319" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Smokes" Binding="{Binding smokes}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Pregnancy" Binding="{Binding pregnancy}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Alcohol" Binding="{Binding alcohol}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Sport" Binding="{Binding sport}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Fillings" Binding="{Binding fillings}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+
+
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+
+                    </Grid>
                 </TabItem>
                 <TabItem x:Name="calendarTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>
@@ -221,8 +286,8 @@
                     </TabItem.Header>
                     <!-- Obsah pro záložku 5 -->
                 </TabItem>
-                    
-               
+
+
             </TabControl>
 
             <Button x:Name="logoutButton" Width="100" Height="50" Content="Log Out" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10" Foreground="#333" BorderThickness="0" FontSize="15" Click="logoutButton_Click">
