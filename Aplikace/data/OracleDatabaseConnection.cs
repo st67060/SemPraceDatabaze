@@ -78,6 +78,20 @@ namespace Aplikace.Data
                 }
             }
         }
+        public void ExecuteNonQuery(string query, OracleParameter[] parameters = null)
+        {
+            OpenConnection();
+
+            using (var command = new OracleCommand(query, connection))
+            {
+                if (parameters != null)
+                {
+                    command.Parameters.AddRange(parameters);
+                }
+
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }
 

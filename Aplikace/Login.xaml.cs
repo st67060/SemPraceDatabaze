@@ -44,6 +44,7 @@ namespace Aplikace
             string enteredPassword = PasswordBox.Password;
             DataAccess dataAccess = new DataAccess();
             List<User> users = dataAccess.GetUsers();
+            List<Patient> pat = dataAccess.GetAllPatients();
 
             foreach (User user in users)
             {

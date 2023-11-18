@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,6 +57,22 @@ namespace Aplikace.data.Enum
             var fieldInfo = enumType.GetField(insuranceCompany.ToString());
             var attribute = (EnumInfoAttribute)fieldInfo.GetCustomAttributes(typeof(EnumInfoAttribute), false)[0];
             return attribute.Id;
+        }
+        public static InsuranceCompany GetInsuranceCompanyById(int id)
+        {
+            foreach (InsuranceCompany company in InsuranceCompany.GetValues(typeof(InsuranceCompany)))
+            {
+                
+                FieldInfo fieldInfo = company.GetType().GetField(company.ToString());
+                EnumInfoAttribute attribute = fieldInfo.GetCustomAttributes(typeof(EnumInfoAttribute), false).FirstOrDefault() as EnumInfoAttribute;
+
+                if (attribute != null && attribute.Id == id)
+                {
+                    return company;
+                }
+            }
+
+            throw new ArgumentException("Invalid Insurance Company ID");
         }
     }
 }

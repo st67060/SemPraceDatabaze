@@ -116,7 +116,7 @@ namespace Aplikace.data
 
             if (employeeDataTable.Rows.Count > 0)
             {
-                
+
                 var employeeRow = employeeDataTable.Rows[0];
                 int id = Convert.ToInt32(employeeRow["id"]);
                 string name = employeeRow["jmeno"].ToString();
@@ -151,17 +151,17 @@ namespace Aplikace.data
                         role = Role.Employee;
                         break;
                 }
-                
-                
-      
-                var employee = new Employee(id, name, surname, hireDate,photo, role);
+
+
+
+                var employee = new Employee(id, name, surname, hireDate, photo, role);
 
                 return employee;
             }
 
             return null;
         }
-       // vloží zaměstnance a uživatele do db
+        // vloží zaměstnance a uživatele do db
         private void InsertEmployee(Employee employee)
         {
             string formattedDate = employee.HireDate.ToString("yyyy-MM-dd");
@@ -185,7 +185,7 @@ namespace Aplikace.data
                     {
                         OracleBlob photoBlob = new OracleBlob(databaseConnection.connection);
 
-                       photoBlob.Write(employee.Photo, 0, employee.Photo.Length);
+                        photoBlob.Write(employee.Photo, 0, employee.Photo.Length);
 
                         cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = photoBlob;
                     }
@@ -213,9 +213,9 @@ namespace Aplikace.data
                     cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Value = employeeId;
                     cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(user.Password);
                     cmd.Parameters.Add("p_username", OracleDbType.Varchar2).Value = user.Name;
-                    
-                    
-                    
+
+
+
 
                     cmd.ExecuteNonQuery();
                 }
@@ -268,7 +268,7 @@ namespace Aplikace.data
                     int streetNumber = Convert.ToInt32(row["cislo_popisne"]);
                     string country = row["stat"].ToString();
                     string street = row["ulice"].ToString();
-                    var address = new Address(id, city, postalCode, streetNumber, country,street);
+                    var address = new Address(id, city, postalCode, streetNumber, country, street);
 
                     addresses.Add(address);
                 }
@@ -276,7 +276,7 @@ namespace Aplikace.data
             return addresses;
         }
         //načte z db zákroky a uloží je do listu
-        public  List<Procedure> GetProcedures()
+        public List<Procedure> GetProcedures()
         {
             List<Procedure> Procedures = new List<Procedure>();
             using (var connection = new OracleDatabaseConnection())
@@ -292,20 +292,81 @@ namespace Aplikace.data
                     decimal price = Convert.ToDecimal(row["cena"]);
                     bool coveredByInsurance = Convert.ToBoolean(row["hradi_pojistovna"]);
                     string procedureSteps = row["postup"].ToString();
-                    
-                    var procedure = new Procedure(id,name,price,coveredByInsurance,procedureSteps);
+
+                    var procedure = new Procedure(id, name, price, coveredByInsurance, procedureSteps);
 
                     Procedures.Add(procedure);
                 }
             }
             return Procedures;
         }
-        private void InsertProcedure(Procedure procedure) {
-        
-        
+        private void InsertProcedure(Procedure procedure)
+        {
+
+
         }
+
+        //TODO načtení ostatních tabulek a uložení do listů. 
+        public List<Patient> GetAllPatients()
+        {
+            List<Patient> patients = new List<Patient>();
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string query = "SELECT p.ID, p.JMENO, p.PRIJMENI, p.RODNE_CISLO, p.POHLAVI, p.NAROZENI, p.TELEFON, p.EMAIL, p.ADRESY_ID, p.POJISTOVNY_ID FROM ST67060.PACIENT p";
+                var dataTable = connection.ExecuteQuery(query);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    
+                    int id = Convert.ToInt32(row["ID"]);
+                    string firstName = row["JMENO"].ToString();
+                    string lastName = row["PRIJMENI"].ToString();
+                    string socialSecurityNumber = row["RODNE_CISLO"].ToString();
+                    string gender = row["POHLAVI"].ToString();
+                    DateTime dateOfBirth = Convert.ToDateTime(row["NAROZENI"]);
+                    string phone = row["TELEFON"].ToString();
+                    string email = row["EMAIL"].ToString();
+
+                    
+                    Address address = GetAddressById(Convert.ToInt32(row["ADRESY_ID"]));
+                    InsuranceCompany insuranceCompany = InsuranceCompanyExtensions.GetInsuranceCompanyById(Convert.ToInt32(row["POJISTOVNY_ID"]));
+
+                    
+                    var patient = new Patient(id, firstName, lastName, socialSecurityNumber, gender, dateOfBirth, phone, email, address, insuranceCompany);
+                    patients.Add(patient);
+                }
+            }
+            return patients;
+        }
+        public Address GetAddressById(int id)
+        {
+            using (var connection = new OracleDatabaseConnection())
+            {
+                Address address = null;
+                connection.OpenConnection();
+
+                string query = $"SELECT ID, MESTO, PSC, CISLO_POPISNE, STAT, ULICE FROM ST67060.ADRESA WHERE ID = {id}";
+                var dataTable = connection.ExecuteQuery(query);
+
+                if (dataTable.Rows.Count > 0)
+                {
+                    DataRow row = dataTable.Rows[0];
+                    address = new Address(
+                        Convert.ToInt32(row["ID"]),
+                        row["MESTO"].ToString(),
+                        Convert.ToInt32(row["PSC"]),
+                        Convert.ToInt32(row["CISLO_POPISNE"]),
+                        row["STAT"].ToString(),
+                        row["ULICE"].ToString()
+                    );
+                }
+
+                connection.CloseConnection();
+                return address;
+            }
+        }
+        
+
     }
-    //TODO načtení ostatních tabulek a uložení do listů. 
-
-
 }
