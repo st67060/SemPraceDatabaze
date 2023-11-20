@@ -43,19 +43,17 @@ namespace Aplikace
             string enteredName = UsernameTextBox.Text;
             string enteredPassword = PasswordBox.Password;
             DataAccess dataAccess = new DataAccess();
-            List<User> users = dataAccess.GetUsers();
-            List<Patient> pat = dataAccess.GetAllPatients();
-
-            foreach (User user in users)
-            {
-                if (user.Name == enteredName && user.Password == enteredPassword)
-                {
-                    Main main = new Main(user);
+            //List<User> users = dataAccess.GetUsers();
+            //List<Patient> pat = dataAccess.GetAllPatients();
+            
+            
+                
+                    Main main = new Main(dataAccess.GetUserWithEmployee(enteredName, enteredPassword));
                     main.Show();
                     Close();
-                    return;
-                }
-            }
+                 
+                
+            
 
             errorBorder.Visibility = Visibility.Visible;
             errorMessage.Text = "Invalid Username or Password";

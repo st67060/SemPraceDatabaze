@@ -27,8 +27,7 @@ namespace Aplikace.data
 
         public void CreateAcount(Employee employee, User user)
         {
-            InsertEmployee(employee);
-            InsertUser(user);
+            InsertEmployeeUser(employee, user);
         }
 
         // načte všechny uzivatele z db a uloží je do listu
@@ -161,11 +160,177 @@ namespace Aplikace.data
 
             return null;
         }
-        // vloží zaměstnance a uživatele do db
-        private void InsertEmployee(Employee employee)
+        public User GetUserWithEmployee(string username, string password)
         {
-            string formattedDate = employee.HireDate.ToString("yyyy-MM-dd");
-            string insertProcedure = "InsertEmployee";
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string procedureName = "GetEmployeeAndUser";
+
+                using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Vstupní parametry
+                    cmd.Parameters.Add("p_username", OracleDbType.Varchar2).Value = username;
+                    cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(password);
+
+                    // Výstupní parametry
+                    cmd.Parameters.Add("v_user_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_employee_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_employee_name", OracleDbType.Varchar2, 64).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_employee_surname", OracleDbType.Varchar2, 64).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_employee_hire_date", OracleDbType.Date).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_employee_role_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_employee_photo", OracleDbType.Blob).Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (OracleException ex)
+                    {
+                        // Zde můžete ošetřit specifickou chybu ORA-01403
+                        if (ex.Number == 1403)
+                        {
+                            return null; // Pokud nenalezen žádný uživatel, vrátíme null
+                        }
+                        else
+                        {
+                            throw; // Pokud je to jiná chyba, vrátíme ji dál
+                        }
+                    }
+
+                    int userId = Convert.ToInt32(cmd.Parameters["v_user_id"].Value);
+
+                    
+                        int employeeId = Convert.ToInt32(cmd.Parameters["v_employee_id"].Value);
+                        string employeeName = cmd.Parameters["v_employee_name"].Value.ToString();
+                        string employeeSurname = cmd.Parameters["v_employee_surname"].Value.ToString();
+                        DateTime hireDate = Convert.ToDateTime(cmd.Parameters["v_employee_hire_date"].Value);
+                        int roleId = Convert.ToInt32(cmd.Parameters["v_employee_role_id"].Value);
+                        byte[] photo = (byte[])cmd.Parameters["v_employee_photo"].Value;
+
+                        Role role;
+                        switch (roleId)
+                        {
+                            case 1:
+                                role = Role.Admin;
+                                break;
+                            case 2:
+                                role = Role.Doctor;
+                                break;
+                            case 3:
+                                role = Role.Nurse;
+                                break;
+                            case 4:
+                                role = Role.Employee;
+                                break;
+                            default:
+                                role = Role.Employee;
+                                break;
+                        }
+
+                        Employee employee = new Employee(employeeId, employeeName, employeeSurname, hireDate, photo, role);
+                        return new User(userId, username, password, employee);
+                   
+                }
+            }
+        }
+
+
+        // vloží zaměstnance a uživatele do db
+        //private void InsertEmployee(Employee employee)
+        //{
+        //    string formattedDate = employee.HireDate.ToString("yyyy-MM-dd");
+        //    string insertProcedure = "InsertEmployee";
+
+        //    using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+        //    {
+        //        databaseConnection.OpenConnection();
+
+        //        using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+
+
+        //            cmd.Parameters.Add("p_name", OracleDbType.Varchar2).Value = employee.Name;
+        //            cmd.Parameters.Add("p_surname", OracleDbType.Varchar2).Value = employee.Surname;
+        //            cmd.Parameters.Add("p_hire_date", OracleDbType.Date).Value = employee.HireDate;
+        //            cmd.Parameters.Add("p_role_id", OracleDbType.Int32).Value = (int)employee.Role;
+
+        //            if (employee.Photo != null)
+        //            {
+        //                OracleBlob photoBlob = new OracleBlob(databaseConnection.connection);
+
+        //                photoBlob.Write(employee.Photo, 0, employee.Photo.Length);
+
+        //                cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = photoBlob;
+        //            }
+        //            else
+        //            {
+        //                cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = DBNull.Value;
+        //            }
+
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
+        //private void InsertUser(User user)
+        //{
+        //    string insertProcedure = "InsertUser";
+
+        //    using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+        //    {
+        //        int employeeId = GetLastEmployeeId();
+        //        databaseConnection.OpenConnection();
+
+        //        using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Value = employeeId;
+        //            cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(user.Password);
+        //            cmd.Parameters.Add("p_username", OracleDbType.Varchar2).Value = user.Name;
+
+
+
+
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
+        //private int GetLastEmployeeId()
+        //{
+        //    int lastEmployeeId = -1;
+
+        //    using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+        //    {
+        //        databaseConnection.OpenConnection();
+
+        //        using (OracleCommand cmd = new OracleCommand("GetLastEmployeeId", databaseConnection.connection))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+
+        //            cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
+
+        //            cmd.ExecuteNonQuery();
+
+        //            if (cmd.Parameters["p_employee_id"].Value != DBNull.Value)
+        //            {
+        //                int parsedId;
+        //                if (int.TryParse(cmd.Parameters["p_employee_id"].Value.ToString(), out parsedId))
+        //                {
+        //                    lastEmployeeId = parsedId;
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return lastEmployeeId;
+        //}
+        private void InsertEmployeeUser(Employee employee, User user)
+        {
+            string insertProcedure = "Register";
 
             using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
             {
@@ -174,82 +339,33 @@ namespace Aplikace.data
                 using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
 
                     cmd.Parameters.Add("p_name", OracleDbType.Varchar2).Value = employee.Name;
                     cmd.Parameters.Add("p_surname", OracleDbType.Varchar2).Value = employee.Surname;
-                    cmd.Parameters.Add("p_hire_date", OracleDbType.Date).Value = employee.HireDate;
+                    cmd.Parameters.Add("p_nastup", OracleDbType.Date).Value = employee.HireDate;
                     cmd.Parameters.Add("p_role_id", OracleDbType.Int32).Value = (int)employee.Role;
 
+                    // Convert byte[] to OracleBlob
+                    OracleBlob photoBlob = new OracleBlob(databaseConnection.connection);
                     if (employee.Photo != null)
                     {
-                        OracleBlob photoBlob = new OracleBlob(databaseConnection.connection);
-
                         photoBlob.Write(employee.Photo, 0, employee.Photo.Length);
-
-                        cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = photoBlob;
                     }
                     else
                     {
-                        cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = DBNull.Value;
+                        // If no photo, set to NULL
+                        cmd.Parameters["p_photo"].Value = DBNull.Value;
                     }
+                    cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = photoBlob;
 
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-        private void InsertUser(User user)
-        {
-            string insertProcedure = "InsertUser";
-
-            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-            {
-                int employeeId = GetLastEmployeeId();
-                databaseConnection.OpenConnection();
-
-                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Value = employeeId;
-                    cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(user.Password);
                     cmd.Parameters.Add("p_username", OracleDbType.Varchar2).Value = user.Name;
-
-
-
+                    cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(user.Password);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        private int GetLastEmployeeId()
-        {
-            int lastEmployeeId = -1;
 
-            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-            {
-                databaseConnection.OpenConnection();
-
-                using (OracleCommand cmd = new OracleCommand("GetLastEmployeeId", databaseConnection.connection))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-                    cmd.ExecuteNonQuery();
-
-                    if (cmd.Parameters["p_employee_id"].Value != DBNull.Value)
-                    {
-                        int parsedId;
-                        if (int.TryParse(cmd.Parameters["p_employee_id"].Value.ToString(), out parsedId))
-                        {
-                            lastEmployeeId = parsedId;
-                        }
-                    }
-                }
-            }
-
-            return lastEmployeeId;
-        }
 
         public List<Address> GetAddresses()
         {
