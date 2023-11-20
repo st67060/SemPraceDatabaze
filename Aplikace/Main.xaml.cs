@@ -11,19 +11,23 @@ using System.Windows.Media.Imaging;
 
 namespace Aplikace
 {
+    
     public partial class Main : Window
-    {
+    {       
         private User user;
         private DataList data;
         private DataAccess access;
+        private Patient patient;
         public Main(User user)
         {
             data = new DataList();
             access = new DataAccess();
             this.user = user;
             InitializeComponent();
+            MouseLeftButtonDown += (s, e) => DragMove();
             DataContext = user;
             SetAccessToData(user);
+            LoadListOfPatients();
             
             LoadListOfEmployees();
             //employees.Add(user.Employee);
@@ -115,6 +119,19 @@ namespace Aplikace
             data.Employees = doctorsAndNurses;              
             employeeDataGrid.ItemsSource = data.Employees;
         
+        }
+        private void LoadListOfPatients() {
+        data.Patients = new ObservableCollection<Patient>(access.GetAllPatients());
+        patientDataGrid.ItemsSource = data.Patients;
+
+            
+        }
+
+
+        private void patientDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            patient = (Patient)patientDataGrid.SelectedItem;
+            addressDataStackPanel.DataContext = patient;
         }
     }
 }

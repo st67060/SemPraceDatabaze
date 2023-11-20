@@ -63,12 +63,23 @@ namespace Aplikace
             User user = new User(id, userName, password, employee);
 
             DataAccess dataAccess = new DataAccess();
-            dataAccess.CreateAcount(employee, user);
-            MainWindow login = new MainWindow();
-            login.UsernameTextBox.Text = userName;
-            login.PasswordBox.Password = password;
-            login.Show();
-            Close();
+            bool created = dataAccess.CreateAcount(employee, user);
+            if (created)
+            {
+                MainWindow login = new MainWindow();
+                login.UsernameTextBox.Text = userName;
+                login.PasswordBox.Password = password;
+                login.Show();
+                Close();
+            }
+            else {
+                errorBorder.Visibility = Visibility.Visible;
+                errorMessage.Text = "this usermane already exists" +
+                    "";
+                MessageBox.Show("Input Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
 
         }
 

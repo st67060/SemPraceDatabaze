@@ -25,9 +25,9 @@ namespace Aplikace.data
             databaseConnection = new OracleDatabaseConnection();
         }
 
-        public void CreateAcount(Employee employee, User user)
+        public bool CreateAcount(Employee employee, User user)
         {
-            InsertEmployeeUser(employee, user);
+            return InsertEmployeeUser(employee, user);
         }
 
         // načte všechny uzivatele z db a uloží je do listu
@@ -160,6 +160,7 @@ namespace Aplikace.data
 
             return null;
         }
+        // login -> kontrola jmena a hesla, vraceni uzivatele s zamestnancem
         public User GetUserWithEmployee(string username, string password)
         {
             using (var connection = new OracleDatabaseConnection())
@@ -170,165 +171,74 @@ namespace Aplikace.data
                 using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
+                    string uss = username;
+                    string pass = Security.Encrypt(password);
                     // Vstupní parametry
                     cmd.Parameters.Add("p_username", OracleDbType.Varchar2).Value = username;
-                    cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(password);
 
                     // Výstupní parametry
                     cmd.Parameters.Add("v_user_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("v_employee_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("v_employee_name", OracleDbType.Varchar2, 64).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_employee_name", OracleDbType.Varchar2, 32).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("v_employee_surname", OracleDbType.Varchar2, 64).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("v_employee_hire_date", OracleDbType.Date).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("v_employee_role_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("v_employee_photo", OracleDbType.Blob).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_password", OracleDbType.Varchar2, 128).Direction = ParameterDirection.Output;
 
-                    try
+                    cmd.ExecuteNonQuery();
+
+
+                    int userId = Convert.ToInt32(cmd.Parameters["v_user_id"].Value.ToString());
+                    int employeeId = Convert.ToInt32(cmd.Parameters["v_employee_id"].Value.ToString());
+                    string employeeName = cmd.Parameters["v_employee_name"].Value.ToString();
+                    string employeeSurname = cmd.Parameters["v_employee_surname"].Value.ToString();
+                    DateTime hireDate = Convert.ToDateTime(cmd.Parameters["v_employee_hire_date"].Value.ToString());
+                    int roleId = Convert.ToInt32(cmd.Parameters["v_employee_role_id"].Value.ToString());
+                    byte[] photo = null;
+                    OracleBlob blob = (OracleBlob)cmd.Parameters["v_employee_photo"].Value;
+
+                    if (blob != null && blob.Length > 0)
                     {
-                        cmd.ExecuteNonQuery();
+                        photo = new byte[blob.Length];
+                        blob.Read(photo, 0, (int)blob.Length);
                     }
-                    catch (OracleException ex)
+                    string dbPassword = cmd.Parameters["v_password"].Value.ToString();
+
+                    Role role;
+                    switch (roleId)
                     {
-                        // Zde můžete ošetřit specifickou chybu ORA-01403
-                        if (ex.Number == 1403)
-                        {
-                            return null; // Pokud nenalezen žádný uživatel, vrátíme null
-                        }
-                        else
-                        {
-                            throw; // Pokud je to jiná chyba, vrátíme ji dál
-                        }
+                        case 1:
+                            role = Role.Admin;
+                            break;
+                        case 2:
+                            role = Role.Doctor;
+                            break;
+                        case 3:
+                            role = Role.Nurse;
+                            break;
+                        case 4:
+                            role = Role.Employee;
+                            break;
+                        default:
+                            role = Role.Employee;
+                            break;
                     }
-
-                    int userId = Convert.ToInt32(cmd.Parameters["v_user_id"].Value);
-
-                    
-                        int employeeId = Convert.ToInt32(cmd.Parameters["v_employee_id"].Value);
-                        string employeeName = cmd.Parameters["v_employee_name"].Value.ToString();
-                        string employeeSurname = cmd.Parameters["v_employee_surname"].Value.ToString();
-                        DateTime hireDate = Convert.ToDateTime(cmd.Parameters["v_employee_hire_date"].Value);
-                        int roleId = Convert.ToInt32(cmd.Parameters["v_employee_role_id"].Value);
-                        byte[] photo = (byte[])cmd.Parameters["v_employee_photo"].Value;
-
-                        Role role;
-                        switch (roleId)
-                        {
-                            case 1:
-                                role = Role.Admin;
-                                break;
-                            case 2:
-                                role = Role.Doctor;
-                                break;
-                            case 3:
-                                role = Role.Nurse;
-                                break;
-                            case 4:
-                                role = Role.Employee;
-                                break;
-                            default:
-                                role = Role.Employee;
-                                break;
-                        }
-
+                    if (Security.Decrypt(dbPassword) == password)
+                    {
                         Employee employee = new Employee(employeeId, employeeName, employeeSurname, hireDate, photo, role);
                         return new User(userId, username, password, employee);
-                   
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
                 }
             }
         }
-
-
-        // vloží zaměstnance a uživatele do db
-        //private void InsertEmployee(Employee employee)
-        //{
-        //    string formattedDate = employee.HireDate.ToString("yyyy-MM-dd");
-        //    string insertProcedure = "InsertEmployee";
-
-        //    using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-        //    {
-        //        databaseConnection.OpenConnection();
-
-        //        using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
-        //        {
-        //            cmd.CommandType = CommandType.StoredProcedure;
-
-
-        //            cmd.Parameters.Add("p_name", OracleDbType.Varchar2).Value = employee.Name;
-        //            cmd.Parameters.Add("p_surname", OracleDbType.Varchar2).Value = employee.Surname;
-        //            cmd.Parameters.Add("p_hire_date", OracleDbType.Date).Value = employee.HireDate;
-        //            cmd.Parameters.Add("p_role_id", OracleDbType.Int32).Value = (int)employee.Role;
-
-        //            if (employee.Photo != null)
-        //            {
-        //                OracleBlob photoBlob = new OracleBlob(databaseConnection.connection);
-
-        //                photoBlob.Write(employee.Photo, 0, employee.Photo.Length);
-
-        //                cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = photoBlob;
-        //            }
-        //            else
-        //            {
-        //                cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = DBNull.Value;
-        //            }
-
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-        //private void InsertUser(User user)
-        //{
-        //    string insertProcedure = "InsertUser";
-
-        //    using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-        //    {
-        //        int employeeId = GetLastEmployeeId();
-        //        databaseConnection.OpenConnection();
-
-        //        using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
-        //        {
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Value = employeeId;
-        //            cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(user.Password);
-        //            cmd.Parameters.Add("p_username", OracleDbType.Varchar2).Value = user.Name;
-
-
-
-
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-        //private int GetLastEmployeeId()
-        //{
-        //    int lastEmployeeId = -1;
-
-        //    using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-        //    {
-        //        databaseConnection.OpenConnection();
-
-        //        using (OracleCommand cmd = new OracleCommand("GetLastEmployeeId", databaseConnection.connection))
-        //        {
-        //            cmd.CommandType = CommandType.StoredProcedure;
-
-        //            cmd.Parameters.Add("p_employee_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
-
-        //            cmd.ExecuteNonQuery();
-
-        //            if (cmd.Parameters["p_employee_id"].Value != DBNull.Value)
-        //            {
-        //                int parsedId;
-        //                if (int.TryParse(cmd.Parameters["p_employee_id"].Value.ToString(), out parsedId))
-        //                {
-        //                    lastEmployeeId = parsedId;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return lastEmployeeId;
-        //}
-        private void InsertEmployeeUser(Employee employee, User user)
+        // registrace -> zapsani zamestnance a uzivatele do db, kontrola duplicit
+        private bool InsertEmployeeUser(Employee employee, User user)
         {
             string insertProcedure = "Register";
 
@@ -350,18 +260,28 @@ namespace Aplikace.data
                     if (employee.Photo != null)
                     {
                         photoBlob.Write(employee.Photo, 0, employee.Photo.Length);
+                        cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = photoBlob;
                     }
                     else
                     {
-                        // If no photo, set to NULL
-                        cmd.Parameters["p_photo"].Value = DBNull.Value;
+                        cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = DBNull.Value;
                     }
-                    cmd.Parameters.Add("p_photo", OracleDbType.Blob).Value = photoBlob;
+
 
                     cmd.Parameters.Add("p_username", OracleDbType.Varchar2).Value = user.Name;
                     cmd.Parameters.Add("p_password", OracleDbType.Varchar2).Value = Security.Encrypt(user.Password);
 
-                    cmd.ExecuteNonQuery();
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+
+                    }
+                    catch (OracleException ex)
+                    {
+                        return false;
+                    }
+                    return true;
+
                 }
             }
         }
@@ -429,12 +349,12 @@ namespace Aplikace.data
             using (var connection = new OracleDatabaseConnection())
             {
                 connection.OpenConnection();
-                string query = "SELECT p.ID, p.JMENO, p.PRIJMENI, p.RODNE_CISLO, p.POHLAVI, p.NAROZENI, p.TELEFON, p.EMAIL, p.ADRESY_ID, p.POJISTOVNY_ID FROM ST67060.PACIENT p";
+                string query = "SELECT p.ID, p.JMENO, p.PRIJMENI, p.RODNE_CISLO, p.POHLAVI, p.NAROZENI, p.TELEFON, p.EMAIL, p.ADRESY_ID, p.POJISTOVNY_ID FROM ST67060.PACIENT p"; // nestaci napsat jen SELECT * FROM PACIENT ?
                 var dataTable = connection.ExecuteQuery(query);
 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    
+
                     int id = Convert.ToInt32(row["ID"]);
                     string firstName = row["JMENO"].ToString();
                     string lastName = row["PRIJMENI"].ToString();
@@ -444,13 +364,14 @@ namespace Aplikace.data
                     string phone = row["TELEFON"].ToString();
                     string email = row["EMAIL"].ToString();
 
-                    
+
                     Address address = GetAddressById(Convert.ToInt32(row["ADRESY_ID"]));
                     InsuranceCompany insuranceCompany = InsuranceCompanyExtensions.GetInsuranceCompanyById(Convert.ToInt32(row["POJISTOVNY_ID"]));
 
-                    
+
                     var patient = new Patient(id, firstName, lastName, socialSecurityNumber, gender, dateOfBirth, phone, email, address, insuranceCompany);
                     patients.Add(patient);
+                    // jeste je potřeba nacist zdravotni kartu a priradit ji pacientovi
                 }
             }
             return patients;
@@ -482,7 +403,17 @@ namespace Aplikace.data
                 return address;
             }
         }
-        
+        // metody pro prevadeni databazovych bool na boolean v c#
+        private char ConvertBoolToDbChar(bool value)
+        {
+            return value ? 'Y' : 'N';
+        }
+
+        private bool ConvertDbCharToBool(char value)
+        {
+            return value == 'Y';
+        }
+        // 
 
     }
 }

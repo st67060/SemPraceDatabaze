@@ -43,20 +43,17 @@ namespace Aplikace
             string enteredName = UsernameTextBox.Text;
             string enteredPassword = PasswordBox.Password;
             DataAccess dataAccess = new DataAccess();
-            //List<User> users = dataAccess.GetUsers();
-            //List<Patient> pat = dataAccess.GetAllPatients();
-            
-            
-                
-                    Main main = new Main(dataAccess.GetUserWithEmployee(enteredName, enteredPassword));
-                    main.Show();
-                    Close();
-                 
-                
-            
-
-            errorBorder.Visibility = Visibility.Visible;
-            errorMessage.Text = "Invalid Username or Password";
+            User user = dataAccess.GetUserWithEmployee(enteredName, enteredPassword);
+            if (user != null)
+            {
+                Main main = new Main(user);
+                main.Show();
+                Close();
+            }
+            else {
+                errorBorder.Visibility = Visibility.Visible;
+                errorMessage.Text = "Invalid Username or Password";
+            }
 
         }
 
@@ -69,14 +66,14 @@ namespace Aplikace
 
         private void loginWithoutAcount_Click(object sender, RoutedEventArgs e)
         {
-           Employee employee = new Employee(0,"","",DateTime.Now, data.Enum.Role.Quest);
+            Employee employee = new Employee(0, "", "", DateTime.Now, data.Enum.Role.Quest);
             User user = new User(0, "", "", employee);
             Main main = new Main(user);
             main.Show();
             Close();
         }
 
-        
+
 
         private void UsernameTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
