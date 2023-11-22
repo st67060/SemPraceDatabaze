@@ -24,17 +24,23 @@ namespace Aplikace.data
         {
             databaseConnection = new OracleDatabaseConnection();
         }
+        public List<Log> GetAllLogs()
+        {
+            return GetLogs();
 
+        }
         public bool CreateAcount(Employee employee, User user)
         {
             return InsertEmployeeUser(employee, user);
         }
-        public User LoginAcount(string username, string password) {
-           return GetUserWithEmployee(username, password);
+        public User LoginAcount(string username, string password)
+        {
+            return GetUserWithEmployee(username, password);
         }
-        public List<User> GetAllUsers() {
-            return GetUsers();      
-        } 
+        public List<User> GetAllUsers()
+        {
+            return GetUsers();
+        }
 
         // načte všechny uzivatele z db a uloží je do listu
         //public List<User> GetUsers()
@@ -483,6 +489,42 @@ namespace Aplikace.data
             return value == 'Y';
         }
         // 
+        private List<Log> GetLogs()
+        {
+            List<Log> logs = new List<Log>();
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string query = "SELECT * FROM LOG_ZMEN";
+                var dataTable = connection.ExecuteQuery(query);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    ChangeType changeType = ChangeType.Insert;
+                    int id = Convert.ToInt32(row["ID"]);
+                    string tableName = row["NAZEV_TABULKY"].ToString();
+                    string s_changeType = row["TYP_ZMENY"].ToString();
+                    DateTime changeTime = Convert.ToDateTime(row["CAS_ZMENY"]);
+                    switch (s_changeType)
+                    {
+                        case "INSERT":
+                            changeType = ChangeType.Insert;
+                            break;
+                        case "UPDATE":
+                            changeType = ChangeType.Update;
+                            break;
+                        case "DELETE":
+                            changeType = ChangeType.Delete;
+                            break;
+                        default: break;
+                    }
 
+                    var Log = new Log(id, tableName, changeType, changeTime);
+
+                    logs.Add(Log);
+                }
+            }
+            return logs;
+
+        }
     }
 }

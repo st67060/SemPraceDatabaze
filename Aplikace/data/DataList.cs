@@ -20,6 +20,8 @@ namespace Aplikace.data
         public ObservableCollection<Visit> Visits { get; set; }
         public ObservableCollection<WorkDisability> WorkDisabilities { get; set; }
 
+        public ObservableCollection<Log> Logs { get; set; }
+
         public DataList()
         {
             Addresses = new ObservableCollection<Address>();
@@ -31,6 +33,7 @@ namespace Aplikace.data
             Users = new ObservableCollection<User>();
             Visits = new ObservableCollection<Visit>();
             WorkDisabilities = new ObservableCollection<WorkDisability>();
+            Logs = new ObservableCollection<Log>();
         }
     }
 }

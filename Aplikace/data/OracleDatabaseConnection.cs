@@ -92,6 +92,13 @@ namespace Aplikace.Data
                 command.ExecuteNonQuery();
             }
         }
+        public OracleDependency CreateDependency(string query)
+        {
+            OpenConnection();
+
+            var dependency = new OracleDependency(new OracleCommand(query, connection));
+            return dependency;
+        }
     }
 }
 

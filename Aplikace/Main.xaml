@@ -77,9 +77,10 @@
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="5" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="FontSize" Value="10" />
+            <Setter Property="Margin" Value="2,0,0,0" />
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -217,17 +218,24 @@
                             <ColumnDefinition Width="280"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label HorizontalAlignment="Left" Content="List of Patients" Width="190" Grid.ColumnSpan="2" Margin="163,0,0,0"/>
+                        <Label HorizontalAlignment="Left" Content="Choose patient to see more details " Width="303" Grid.ColumnSpan="2" Margin="111,0,0,492" FontSize="14" Foreground="#FF312E2E"/>
+                        <Label HorizontalAlignment="Left" Content="List of Patients " Width="190" Grid.ColumnSpan="2" Margin="154,-26,0,522"/>
                         <StackPanel x:Name="stackPanelPatients" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,87,27">
-                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="456" SelectionChanged="patientDataGrid_SelectionChanged" >
+                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="478" SelectionChanged="patientDataGrid_SelectionChanged" >
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="FontSize" Value="11" />
+                                        
+                                    </Style>
+                                </DataGrid.CellStyle>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Name" Binding="{Binding FirstName}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Surrname" Binding="{Binding LastName}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="SSN" Binding="{Binding SocialSecurityNumber}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Birth" Binding="{Binding DateOfBirth}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding FirstName}" Width="50" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Surrname" Binding="{Binding LastName}" Width="55" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="SSN" Binding="{Binding SocialSecurityNumber}" Width="70" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="40" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Birth" Binding="{Binding DateOfBirth}" Width="60" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="82" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="130" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
 
 
                                 </DataGrid.Columns>
@@ -314,15 +322,15 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid HorizontalAlignment="Left" Width="766" Margin="0,46,0,15" >
+                    <Grid HorizontalAlignment="Center" Width="770" Margin="0,46,0,15" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="280"/>
                             <ColumnDefinition Width="280"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label HorizontalAlignment="Left" Content="Choose non Admin User to Emulate" Width="320" Grid.ColumnSpan="2" Margin="71,-10,0,10"/>
-                        <StackPanel x:Name="f" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,87,27">
-                            <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="471" SelectionChanged="usersDataGrid_SelectionChanged" >
+                        <Label HorizontalAlignment="Left" Content="Choose non Admin User to Emulate" Width="320" Grid.ColumnSpan="2" Margin="36,-10,0,10"/>
+                        <StackPanel x:Name="f" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,169,27">
+                            <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="374" SelectionChanged="usersDataGrid_SelectionChanged" >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="User Id" Binding="{Binding Id}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Username" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
@@ -331,8 +339,8 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
-                        <StackPanel x:Name="r" Grid.Column="1" Margin="198,-26,-206,29"  VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <Button x:Name="emulateUserButton" Content="Emulate User" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="10" Width="174" Height="38" Click="emulateUserButton_Click" Visibility="Collapsed">
+                        <StackPanel x:Name="r" Grid.Column="1" Margin="130,-26,-206,29"  VerticalAlignment="Top" HorizontalAlignment="Center">
+                            <Button x:Name="emulateUserButton" Content="Emulate User" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="10,70,10,10" Width="174" Height="38" Click="emulateUserButton_Click" Visibility="Visible">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
@@ -341,7 +349,20 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-
+                            <Label HorizontalAlignment="Center" Content="Logs" Width="56" Grid.ColumnSpan="2" />
+                            <DataGrid x:Name="logsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" 
+                                      SelectionChanged="usersDataGrid_SelectionChanged" Height="361" >
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="FontSize" Value="10" />
+                                    </Style>
+                                </DataGrid.CellStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="TableName" Binding="{Binding TableName}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="ChangeType" Binding="{Binding ChangeType}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="ChangeTime" Binding="{Binding ChangeTime}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
 
 
                         </StackPanel>

@@ -30,6 +30,7 @@ namespace Aplikace
             LoadListOfPatients();
             LoadListOfUsers();
             LoadListOfEmployees();
+            LoadListOfLogs();
             //employees.Add(user.Employee);
             //employeeDataGrid.ItemsSource = employees;
         }
@@ -129,6 +130,14 @@ namespace Aplikace
         data.Users = new ObservableCollection<User>(access.GetAllUsers());
             usersDataGrid.ItemsSource = data.Users;
         }
+        private void LoadListOfLogs() {
+
+            
+        data.Logs = new ObservableCollection<Log>(access.GetAllLogs());
+            logsDataGrid.DataContext = data.Logs[0];
+            logsDataGrid.ItemsSource = data.Logs;
+
+        }
 
 
         private void patientDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -157,13 +166,13 @@ namespace Aplikace
                     emulateUserButton.Visibility = Visibility.Visible;
                 }
                 else {
-                    emulateUserButton.Visibility = Visibility.Collapsed;
+                    emulateUserButton.Visibility = Visibility.Hidden;
                 }
 
 
             }
             else {
-                emulateUserButton.Visibility = Visibility.Collapsed;
+                emulateUserButton.Visibility = Visibility.Hidden;
             }
 
         }
