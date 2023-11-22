@@ -314,7 +314,39 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <!-- Obsah pro záložku 5 -->
+                    <Grid HorizontalAlignment="Left" Width="766" Margin="0,46,0,15" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="280"/>
+                            <ColumnDefinition Width="280"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label HorizontalAlignment="Left" Content="Choose non Admin User to Emulate" Width="320" Grid.ColumnSpan="2" Margin="71,-10,0,10"/>
+                        <StackPanel x:Name="f" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,87,27">
+                            <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="471" SelectionChanged="usersDataGrid_SelectionChanged" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="User Id" Binding="{Binding Id}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Username" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee.Surname}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                        <StackPanel x:Name="r" Grid.Column="1" Margin="198,-26,-206,29"  VerticalAlignment="Top" HorizontalAlignment="Center">
+                            <Button x:Name="emulateUserButton" Content="Emulate User" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="10" Width="174" Height="38" Click="emulateUserButton_Click" Visibility="Collapsed">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+
+
+                        </StackPanel>
+
+                    </Grid>
                 </TabItem>
 
 

@@ -29,30 +29,36 @@ namespace Aplikace.data
         {
             return InsertEmployeeUser(employee, user);
         }
+        public User LoginAcount(string username, string password) {
+           return GetUserWithEmployee(username, password);
+        }
+        public List<User> GetAllUsers() {
+            return GetUsers();      
+        } 
 
         // načte všechny uzivatele z db a uloží je do listu
-        public List<User> GetUsers()
-        {
-            List<User> users = new List<User>();
-            using (var connection = new OracleDatabaseConnection())
-            {
-                connection.OpenConnection();
-                string query = "SELECT * FROM uzivatel";
-                var dataTable = connection.ExecuteQuery(query);
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    int zamestnanecId = Convert.ToInt32(row["zamestnanec_id"]);
-                    Employee emplyee = GetEmployeeById(zamestnanecId, connection);
-                    int id = Convert.ToInt32(row["id"]);
-                    string name = row["jmeno"].ToString();
-                    string password = Security.Decrypt(row["heslo"].ToString());
-                    var user = new User(id, name, password, emplyee);
+        //public List<User> GetUsers()
+        //{
+        //    List<User> users = new List<User>();
+        //    using (var connection = new OracleDatabaseConnection())
+        //    {
+        //        connection.OpenConnection();
+        //        string query = "SELECT * FROM uzivatel";
+        //        var dataTable = connection.ExecuteQuery(query);
+        //        foreach (DataRow row in dataTable.Rows)
+        //        {
+        //            int zamestnanecId = Convert.ToInt32(row["zamestnanec_id"]);
+        //            Employee emplyee = GetEmployeeById(zamestnanecId, connection);
+        //            int id = Convert.ToInt32(row["id"]);
+        //            string name = row["jmeno"].ToString();
+        //            string password = Security.Decrypt(row["heslo"].ToString());
+        //            var user = new User(id, name, password, emplyee);
 
-                    users.Add(user);
-                }
-            }
-            return users;
-        }
+        //            users.Add(user);
+        //        }
+        //    }
+        //    return users;
+        //}
         // načte všechny zaměstnance z db a uloží je do listu
         public List<Employee> GetEmployees()
         {
@@ -237,6 +243,70 @@ namespace Aplikace.data
                 }
             }
         }
+        private List<User> GetUsers()
+        {
+            List<User> userList = new List<User>();
+
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string procedureName = "GetAllUsers";
+
+                using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Výstupní parametr pro kurzor
+                    cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int userId = Convert.ToInt32(reader["USER_ID"]);
+                            string username = reader["USERNAME"].ToString();
+                            int employeeId = Convert.ToInt32(reader["EMPLOYEE_ID"]);
+                            string employeeName = reader["EMPLOYEE_NAME"].ToString();
+                            string employeeSurname = reader["EMPLOYEE_SURNAME"].ToString();
+                            DateTime hireDate = Convert.ToDateTime(reader["EMPLOYEE_HIRE_DATE"]);
+                            int roleId = Convert.ToInt32(reader["EMPLOYEE_ROLE_ID"]);
+                            byte[] photo = reader["EMPLOYEE_PHOTO"] as byte[];
+                            string password = reader["PASSWORD"].ToString();
+                            password = Security.Decrypt(password);
+                            Role role;
+                            switch (roleId)
+                            {
+                                case 1:
+                                    role = Role.Admin;
+                                    break;
+                                case 2:
+                                    role = Role.Doctor;
+                                    break;
+                                case 3:
+                                    role = Role.Nurse;
+                                    break;
+                                case 4:
+                                    role = Role.Employee;
+                                    break;
+                                default:
+                                    role = Role.Employee;
+                                    break;
+                            }
+
+                            // Vytvoření a přidání User objektu do seznamu
+                            Employee employee = new Employee(employeeId, employeeName, employeeSurname, hireDate, photo, role);
+                            User user = new User(userId, username, password, employee);
+                            userList.Add(user);
+                        }
+                    }
+                }
+            }
+
+            return userList;
+        }
+
+
+
         // registrace -> zapsani zamestnance a uzivatele do db, kontrola duplicit
         private bool InsertEmployeeUser(Employee employee, User user)
         {
@@ -255,7 +325,6 @@ namespace Aplikace.data
                     cmd.Parameters.Add("p_nastup", OracleDbType.Date).Value = employee.HireDate;
                     cmd.Parameters.Add("p_role_id", OracleDbType.Int32).Value = (int)employee.Role;
 
-                    // Convert byte[] to OracleBlob
                     OracleBlob photoBlob = new OracleBlob(databaseConnection.connection);
                     if (employee.Photo != null)
                     {

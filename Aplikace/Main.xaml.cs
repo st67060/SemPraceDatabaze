@@ -28,7 +28,7 @@ namespace Aplikace
             DataContext = user;
             SetAccessToData(user);
             LoadListOfPatients();
-            
+            LoadListOfUsers();
             LoadListOfEmployees();
             //employees.Add(user.Employee);
             //employeeDataGrid.ItemsSource = employees;
@@ -123,8 +123,11 @@ namespace Aplikace
         private void LoadListOfPatients() {
         data.Patients = new ObservableCollection<Patient>(access.GetAllPatients());
         patientDataGrid.ItemsSource = data.Patients;
-
-            
+           
+        }
+        private void LoadListOfUsers() {
+        data.Users = new ObservableCollection<User>(access.GetAllUsers());
+            usersDataGrid.ItemsSource = data.Users;
         }
 
 
@@ -132,6 +135,37 @@ namespace Aplikace
         {
             patient = (Patient)patientDataGrid.SelectedItem;
             addressDataStackPanel.DataContext = patient;
+        }
+
+        private void emulateUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (usersDataGrid.SelectedIndex > 0) {
+                User emulatedUser = usersDataGrid.SelectedItem as User;
+                Main emulatedMain = new Main(emulatedUser);
+                emulatedMain.Show();
+            }
+            
+        }
+
+        private void usersDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (usersDataGrid.SelectedIndex > 0)
+            {
+                User temp = usersDataGrid.SelectedItem as User;
+                if (temp.Employee.Role != Role.Admin)
+                {
+                    emulateUserButton.Visibility = Visibility.Visible;
+                }
+                else {
+                    emulateUserButton.Visibility = Visibility.Collapsed;
+                }
+
+
+            }
+            else {
+                emulateUserButton.Visibility = Visibility.Collapsed;
+            }
+
         }
     }
 }
