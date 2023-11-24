@@ -1,5 +1,6 @@
 ﻿using Aplikace.data;
 using Aplikace.data.Entity;
+using Aplikace.dialog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,6 +67,8 @@ namespace Aplikace
 
         private void loginWithoutAcount_Click(object sender, RoutedEventArgs e)
         {
+
+
             Employee employee = new Employee(0, "", "", DateTime.Now, data.Enum.Role.Quest);
             User user = new User(0, "", "", employee);
             Main main = new Main(user);

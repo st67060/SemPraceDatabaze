@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HDuxD6kg7PwBjGG56EJVw4NICRlRh6AW8N68YtklO28pxBu0PWXdiXCA9K7JoPI+Dor/xyrRybcsTgqYij7xfQ==",
+  "dgSpecHash": "GSrYGEYQHheWfbizo7j9S+4kYm1mdgGViymEsKGJ5wWbzZVqJgm/S8SB9SKg+LYhKurCe7g7FoFdTa2GPyKVag==",
   "success": true,
-  "projectFilePath": "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj",
+  "projectFilePath": "C:\\Users\\laibl\\source\\repos\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\laibl\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\laibl\\.nuget\\packages\\oracle.manageddataaccess.core\\3.21.120\\oracle.manageddataaccess.core.3.21.120.nupkg.sha512",
