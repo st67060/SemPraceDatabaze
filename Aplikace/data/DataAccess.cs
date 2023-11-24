@@ -41,31 +41,12 @@ namespace Aplikace.data
         {
             return GetUsers();
         }
+        public bool InsertPatient(Patient patient, Address address, HealthCard healthCard)
+        {
+            return InsertPatientWithDetails(patient, healthCard, address);
+        }
 
-        // načte všechny uzivatele z db a uloží je do listu
-        //public List<User> GetUsers()
-        //{
-        //    List<User> users = new List<User>();
-        //    using (var connection = new OracleDatabaseConnection())
-        //    {
-        //        connection.OpenConnection();
-        //        string query = "SELECT * FROM uzivatel";
-        //        var dataTable = connection.ExecuteQuery(query);
-        //        foreach (DataRow row in dataTable.Rows)
-        //        {
-        //            int zamestnanecId = Convert.ToInt32(row["zamestnanec_id"]);
-        //            Employee emplyee = GetEmployeeById(zamestnanecId, connection);
-        //            int id = Convert.ToInt32(row["id"]);
-        //            string name = row["jmeno"].ToString();
-        //            string password = Security.Decrypt(row["heslo"].ToString());
-        //            var user = new User(id, name, password, emplyee);
 
-        //            users.Add(user);
-        //        }
-        //    }
-        //    return users;
-        //}
-        // načte všechny zaměstnance z db a uloží je do listu
         public List<Employee> GetEmployees()
         {
             List<Employee> employees = new List<Employee>();
@@ -118,60 +99,8 @@ namespace Aplikace.data
             }
             return employees;
         }
-        // nacte zamestnance na zaklade jeho id
-        private Employee GetEmployeeById(int employeeId, OracleDatabaseConnection connection)
-        {
-            string employeeQuery = "SELECT * FROM zamestnanec WHERE id = :employeeId";
-            var parameter = new OracleParameter("employeeId", employeeId);
-            var employeeDataTable = connection.ExecuteQuery(employeeQuery, new[] { parameter });
-
-            if (employeeDataTable.Rows.Count > 0)
-            {
-
-                var employeeRow = employeeDataTable.Rows[0];
-                int id = Convert.ToInt32(employeeRow["id"]);
-                string name = employeeRow["jmeno"].ToString();
-                string surname = employeeRow["prijmeni"].ToString();
-                DateTime hireDate = Convert.ToDateTime(employeeRow["nastup"]);
-                int roleId = Convert.ToInt32(employeeRow["role_id"]);
-                byte[] photo = null;
-
-                if (!employeeRow.IsNull("fotka"))
-                {
-                    photo = (byte[])employeeRow["fotka"];
-                }
 
 
-
-                Role role;
-                switch (roleId)
-                {
-                    case 1:
-                        role = Role.Admin;
-                        break;
-                    case 2:
-                        role = Role.Doctor;
-                        break;
-                    case 3:
-                        role = Role.Nurse;
-                        break;
-                    case 4:
-                        role = Role.Employee;
-                        break;
-                    default:
-                        role = Role.Employee;
-                        break;
-                }
-
-
-
-                var employee = new Employee(id, name, surname, hireDate, photo, role);
-
-                return employee;
-            }
-
-            return null;
-        }
         // login -> kontrola jmena a hesla, vraceni uzivatele s zamestnancem
         public User GetUserWithEmployee(string username, string password)
         {
@@ -361,6 +290,58 @@ namespace Aplikace.data
             }
         }
 
+        // zapsání Pacient, adresy a zdravotní karty do databáze
+        private bool InsertPatientWithDetails(Patient patient, HealthCard healthCard, Address address)
+        {
+            string insertProcedure = "InsertPatientWithDetails";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters
+                    cmd.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = patient.FirstName;
+                    cmd.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = patient.LastName;
+                    cmd.Parameters.Add("p_rodne_cislo", OracleDbType.Decimal).Value = patient.SocialSecurityNumber;
+                    cmd.Parameters.Add("p_pohlavi", OracleDbType.Varchar2).Value = patient.Gender;
+                    cmd.Parameters.Add("p_narozeni", OracleDbType.Date).Value = patient.DateOfBirth;
+                    cmd.Parameters.Add("p_telefon", OracleDbType.Decimal).Value = patient.Phone;
+                    cmd.Parameters.Add("p_email", OracleDbType.Varchar2).Value = patient.Email;
+
+                    cmd.Parameters.Add("p_kouri", OracleDbType.Char).Value = healthCard.Smokes;
+                    cmd.Parameters.Add("p_tehotenstvi", OracleDbType.Char).Value = healthCard.Pregnancy;
+                    cmd.Parameters.Add("p_alkohol", OracleDbType.Char).Value = healthCard.Alcohol;
+                    cmd.Parameters.Add("p_sport", OracleDbType.Varchar2).Value = healthCard.Sport;
+                    cmd.Parameters.Add("p_plomby", OracleDbType.Decimal).Value = healthCard.Fillings;
+                    cmd.Parameters.Add("p_anamnezy_id", OracleDbType.Decimal).Value = (int)healthCard.Anamnesis;
+
+                    cmd.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = address.City;
+                    cmd.Parameters.Add("p_psc", OracleDbType.Decimal).Value = address.PostalCode;
+                    cmd.Parameters.Add("p_cislo_popisne", OracleDbType.Decimal).Value = address.StreetNumber;
+                    cmd.Parameters.Add("p_stat", OracleDbType.Varchar2).Value = address.Country;
+                    cmd.Parameters.Add("p_ulice", OracleDbType.Varchar2).Value = address.Street;
+                    cmd.Parameters.Add("p_pojistovny_id", OracleDbType.Decimal).Value = (int)patient.InsuranceCompany;
+
+                    // Execute the procedure
+                    //try
+                    //{
+                        cmd.ExecuteNonQuery();
+                    //}
+                    //catch (OracleException ex)
+                    //{
+                    //    // Handle exception if needed
+                    //    return false;
+                    //}
+
+                    return true;
+                }
+            }
+        }
+
 
         public List<Address> GetAddresses()
         {
@@ -411,82 +392,81 @@ namespace Aplikace.data
             }
             return Procedures;
         }
-        private void InsertProcedure(Procedure procedure)
-        {
+        
 
-
-        }
-
-        //TODO načtení ostatních tabulek a uložení do listů. 
+      
         public List<Patient> GetAllPatients()
         {
             List<Patient> patients = new List<Patient>();
+
             using (var connection = new OracleDatabaseConnection())
             {
                 connection.OpenConnection();
-                string query = "SELECT p.ID, p.JMENO, p.PRIJMENI, p.RODNE_CISLO, p.POHLAVI, p.NAROZENI, p.TELEFON, p.EMAIL, p.ADRESY_ID, p.POJISTOVNY_ID FROM ST67060.PACIENT p"; // nestaci napsat jen SELECT * FROM PACIENT ?
-                var dataTable = connection.ExecuteQuery(query);
+                string procedureName = "GetAllPatients";
 
-                foreach (DataRow row in dataTable.Rows)
+                using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    int id = Convert.ToInt32(row["ID"]);
-                    string firstName = row["JMENO"].ToString();
-                    string lastName = row["PRIJMENI"].ToString();
-                    string socialSecurityNumber = row["RODNE_CISLO"].ToString();
-                    string gender = row["POHLAVI"].ToString();
-                    DateTime dateOfBirth = Convert.ToDateTime(row["NAROZENI"]);
-                    string phone = row["TELEFON"].ToString();
-                    string email = row["EMAIL"].ToString();
+                    // Výstupní parametr pro kurzor
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
 
-
-                    Address address = GetAddressById(Convert.ToInt32(row["ADRESY_ID"]));
-                    InsuranceCompany insuranceCompany = InsuranceCompanyExtensions.GetInsuranceCompanyById(Convert.ToInt32(row["POJISTOVNY_ID"]));
+                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
 
 
-                    var patient = new Patient(id, firstName, lastName, socialSecurityNumber, gender, dateOfBirth, phone, email, address, insuranceCompany);
-                    patients.Add(patient);
-                    // jeste je potřeba nacist zdravotni kartu a priradit ji pacientovi
+                            int ID = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;
+                            string FirstName = reader["PATIENT_NAME"].ToString();
+                            string LastName = reader["PATIENT_SURNAME"].ToString();
+                            string IDNumber =  reader["PATIENT_ID_NUMBER"].ToString();
+                            string Gender = reader["GENDER"].ToString();
+                            DateTime BirthDate = reader["BIRTH_DATE"] != DBNull.Value ? Convert.ToDateTime(reader["BIRTH_DATE"]) : DateTime.MinValue;
+                            string Phone = reader["PHONE"].ToString();
+                            string Email = reader["EMAIL"].ToString();
+                            string City = reader["CITY"].ToString();
+                            string Street = reader["STREET"].ToString();
+                            int StreetNumber = reader["STREET_NUMBER"] != DBNull.Value ? Convert.ToInt32(reader["STREET_NUMBER"]) : 0;
+                            int ZipCode = reader["ZIP_CODE"] != DBNull.Value ? Convert.ToInt32(reader["ZIP_CODE"]) : 0;
+                            string Country = reader["COUNTRY"].ToString();
+                            string InsuranceName = reader["INSURANCE_NAME"].ToString();
+                            int HealthCardID = reader["HEALTH_CARD_ID"] != DBNull.Value ? Convert.ToInt32(reader["HEALTH_CARD_ID"]) : 0;
+                            int AddressID = reader["ADDRESS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ADDRESS_ID"]) : 0;
+                            int InsuranceID = reader["INSURANCE_ID"] != DBNull.Value ? Convert.ToInt32(reader["INSURANCE_ID"]) : 0;
+                            bool Smokes =  ConvertDbCharToBool(reader["SMOKES"].ToString());
+                            bool Pregnancy = ConvertDbCharToBool(reader["PREGNANCY"].ToString());
+                            bool Alcohol = ConvertDbCharToBool(reader["ALCOHOL"].ToString());
+                            string Sport = reader["SPORT"].ToString();
+                            int Fillings = reader["FILLINGS"] != DBNull.Value ? Convert.ToInt32(reader["FILLINGS"]) : 0;
+                            int anamnesisID = reader["ANAMNESIS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ANAMNESIS_ID"]) : 0;
+                            Anamnesis an = (Anamnesis)anamnesisID;
+                            InsuranceCompany company = (InsuranceCompany)InsuranceID;
+
+                            Address address = new Address(AddressID, City, ZipCode, StreetNumber, Country, Street);
+                            HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, an);
+                            Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, company);
+                            patients.Add(patient);
+                        }
+                    }
                 }
             }
+
             return patients;
         }
-        public Address GetAddressById(int id)
-        {
-            using (var connection = new OracleDatabaseConnection())
-            {
-                Address address = null;
-                connection.OpenConnection();
 
-                string query = $"SELECT ID, MESTO, PSC, CISLO_POPISNE, STAT, ULICE FROM ST67060.ADRESA WHERE ID = {id}";
-                var dataTable = connection.ExecuteQuery(query);
-
-                if (dataTable.Rows.Count > 0)
-                {
-                    DataRow row = dataTable.Rows[0];
-                    address = new Address(
-                        Convert.ToInt32(row["ID"]),
-                        row["MESTO"].ToString(),
-                        Convert.ToInt32(row["PSC"]),
-                        Convert.ToInt32(row["CISLO_POPISNE"]),
-                        row["STAT"].ToString(),
-                        row["ULICE"].ToString()
-                    );
-                }
-
-                connection.CloseConnection();
-                return address;
-            }
-        }
+        
         // metody pro prevadeni databazovych bool na boolean v c#
-        private char ConvertBoolToDbChar(bool value)
+        private string ConvertBoolToDbChar(bool value)
         {
-            return value ? 'Y' : 'N';
+            return value ? "Y" : "N";
         }
 
-        private bool ConvertDbCharToBool(char value)
+        private bool ConvertDbCharToBool(string value)
         {
-            return value == 'Y';
+            return value == "Y";
         }
         // 
         private List<Log> GetLogs()

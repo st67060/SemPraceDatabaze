@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\App.xaml
-5-1157659402
+41079017843
 
-25-829674135
+24-1981407980
 198-1947793993
-dialog\Dialog.xaml;dialog\DialogAddress.xaml;Login.xaml;Main.xaml;Register.xaml;
+dialog\DialogPatientAdd.xaml;Login.xaml;Main.xaml;Register.xaml;
 
-True
+False
 

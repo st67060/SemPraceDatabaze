@@ -48,79 +48,80 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Patient -->
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10,5,10,32" Padding="10,0,10,0">
+                    <Border x:Name="borderPatient" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10,5,10,32" Padding="10,0,10,0">
                         <StackPanel>
                             <TextBlock Text="Patient" FontWeight="Bold" HorizontalAlignment="Center"/>
                             <TextBlock Text="First Name:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtFirstName" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Last Name:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtLastName" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Social Security Number:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtSocialSecurityNumber" Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Gender:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtGender" Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Date of Birth:" VerticalAlignment="Center"/>
-                            <DatePicker SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <DatePicker x:Name="dpDateOfBirth" SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Phone:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtPhone" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Email:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtEmail" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Insurance Company:" VerticalAlignment="Center"/>
-                            <ComboBox ItemsSource="{Binding InsuranceCompanies}" SelectedItem="{Binding SelectedInsuranceCompany}" Margin="5"/>
+                            <ComboBox x:Name="cmbInsuranceCompany" ItemsSource="{Binding InsuranceCompanies}" SelectedItem="{Binding SelectedInsuranceCompany}" Margin="5"/>
                         </StackPanel>
                     </Border>
 
                     <!-- Address -->
-                    <Border Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10,5,10,32" Padding="10,0,10,0">
+                    <Border x:Name="borderAddress" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10,5,10,32" Padding="10,0,10,0">
                         <StackPanel>
                             <TextBlock Text="Address" FontWeight="Bold" HorizontalAlignment="Center"/>
                             <TextBlock Text="City:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtCity" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Postal Code:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtPostalCode" Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Street Number:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding StreetNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtStreetNumber" Text="{Binding StreetNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Country:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtCountry" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Street:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtStreet" Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                         </StackPanel>
                     </Border>
 
                     <!-- Health Card -->
-                    <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10,5,10,32" Padding="10,0,10,0">
+                    <Border x:Name="borderHealthCard" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10,5,10,32" Padding="10,0,10,0">
                         <StackPanel>
                             <TextBlock Text="Health Card" FontWeight="Bold" HorizontalAlignment="Center"/>
                             <TextBlock Text="Smokes:" VerticalAlignment="Center"/>
-                            <CheckBox IsChecked="{Binding Smokes, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
+                            <CheckBox x:Name="chkSmokes" IsChecked="{Binding Smokes, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
 
                             <TextBlock Text="Pregnancy:" VerticalAlignment="Center"/>
-                            <CheckBox IsChecked="{Binding Pregnancy, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
+                            <CheckBox x:Name="chkPregnancy" IsChecked="{Binding Pregnancy, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
 
                             <TextBlock Text="Alcohol:" VerticalAlignment="Center"/>
-                            <CheckBox IsChecked="{Binding Alcohol, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
+                            <CheckBox x:Name="chkAlcohol" IsChecked="{Binding Alcohol, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
 
                             <TextBlock Text="Sport:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding Sport, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtSport" Text="{Binding Sport, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Fillings:" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding Fillings, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtFillings" Text="{Binding Fillings, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Anamnesis:" VerticalAlignment="Center"/>
-                            <ComboBox ItemsSource="{Binding AnamnesisList}" SelectedItem="{Binding SelectedAnamnesis}" Margin="5"/>
+                            <ComboBox x:Name="cmbAnamnesis" ItemsSource="{Binding AnamnesisList}" SelectedItem="{Binding SelectedAnamnesis}" Margin="5"/>
                         </StackPanel>
                     </Border>
+
                 </Grid>
             </Grid>
             <Grid>

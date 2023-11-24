@@ -1,6 +1,7 @@
 ﻿using Aplikace.data;
 using Aplikace.data.Entity;
 using Aplikace.data.Enum;
+using Aplikace.dialog;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -11,9 +12,9 @@ using System.Windows.Media.Imaging;
 
 namespace Aplikace
 {
-    
+
     public partial class Main : Window
-    {       
+    {
         private User user;
         private DataList data;
         private DataAccess access;
@@ -34,7 +35,7 @@ namespace Aplikace
             //employees.Add(user.Employee);
             //employeeDataGrid.ItemsSource = employees;
         }
-       
+
 
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -48,7 +49,7 @@ namespace Aplikace
             chatTabItem.Visibility = Visibility.Collapsed;
             settingsTabItem.Visibility = Visibility.Collapsed;
             listTabItem.Visibility = Visibility.Collapsed;
-            calendarTabItem.Visibility = Visibility.Collapsed;  
+            calendarTabItem.Visibility = Visibility.Collapsed;
 
             if (user.Employee.Role == Role.Admin)
             {
@@ -76,13 +77,14 @@ namespace Aplikace
                 userImage.Source = SetProfileImage(user);
                 UserTabItem.Visibility = Visibility.Visible;
                 chatTabItem.Visibility = Visibility.Visible;
-                
+
 
             }
 
 
         }
-        private void SetAccessForQuest() {
+        private void SetAccessForQuest()
+        {
             calendarTabItem.IsEnabled = false;
             calendarTabItem.Visibility = Visibility.Hidden;
             chatTabItem.IsEnabled = false;
@@ -109,31 +111,37 @@ namespace Aplikace
             mainWindow.Show();
             Close();
         }
-        private void LoadListOfEmployees() {
+        private void LoadListOfEmployees()
+        {
             ObservableCollection<Employee> doctorsAndNurses = new ObservableCollection<Employee>();
-            foreach (Employee emp in access.GetEmployees()) {
-                if ((int)emp.Role == 2 || (int)emp.Role == 3) {
-                doctorsAndNurses.Add(emp);
+            foreach (Employee emp in access.GetEmployees())
+            {
+                if ((int)emp.Role == 2 || (int)emp.Role == 3)
+                {
+                    doctorsAndNurses.Add(emp);
                 }
-            
+
             }
-            data.Employees = doctorsAndNurses;              
+            data.Employees = doctorsAndNurses;
             employeeDataGrid.ItemsSource = data.Employees;
-        
+
         }
-        private void LoadListOfPatients() {
-        data.Patients = new ObservableCollection<Patient>(access.GetAllPatients());
-        patientDataGrid.ItemsSource = data.Patients;
-           
+        private void LoadListOfPatients()
+        {
+            data.Patients = new ObservableCollection<Patient>(access.GetAllPatients());
+            patientDataGrid.ItemsSource = data.Patients;
+
         }
-        private void LoadListOfUsers() {
-        data.Users = new ObservableCollection<User>(access.GetAllUsers());
+        private void LoadListOfUsers()
+        {
+            data.Users = new ObservableCollection<User>(access.GetAllUsers());
             usersDataGrid.ItemsSource = data.Users;
         }
-        private void LoadListOfLogs() {
+        private void LoadListOfLogs()
+        {
 
-            
-        data.Logs = new ObservableCollection<Log>(access.GetAllLogs());
+
+            data.Logs = new ObservableCollection<Log>(access.GetAllLogs());
             logsDataGrid.DataContext = data.Logs[0];
             logsDataGrid.ItemsSource = data.Logs;
 
@@ -148,12 +156,13 @@ namespace Aplikace
 
         private void emulateUserButton_Click(object sender, RoutedEventArgs e)
         {
-            if (usersDataGrid.SelectedIndex > 0) {
+            if (usersDataGrid.SelectedIndex > 0)
+            {
                 User emulatedUser = usersDataGrid.SelectedItem as User;
                 Main emulatedMain = new Main(emulatedUser);
                 emulatedMain.Show();
             }
-            
+
         }
 
         private void usersDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -165,14 +174,34 @@ namespace Aplikace
                 {
                     emulateUserButton.Visibility = Visibility.Visible;
                 }
-                else {
+                else
+                {
                     emulateUserButton.Visibility = Visibility.Hidden;
                 }
 
 
             }
-            else {
+            else
+            {
                 emulateUserButton.Visibility = Visibility.Hidden;
+            }
+
+        }
+
+        private void addPatient_Click(object sender, RoutedEventArgs e)
+        {
+
+            DialogPatientAdd dialogPatientAdd = new DialogPatientAdd();
+            var result = dialogPatientAdd.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                
+                data.Patients.Add(dialogPatientAdd.Patient);
+            }
+            else
+            {
+
             }
 
         }

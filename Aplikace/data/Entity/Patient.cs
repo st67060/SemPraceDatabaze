@@ -6,7 +6,7 @@ namespace Aplikace.data.Entity
 {
     public class Patient : INotifyPropertyChanged
     {
-        public Patient(int id, string firstName, string lastName, string socialSecurityNumber, string gender, DateTime dateOfBirth, string phone, string email, Address address, InsuranceCompany insuranceCompany)
+        public Patient(int id, string firstName, string lastName, string socialSecurityNumber, string gender, DateTime dateOfBirth, string phone, string email, Address address, HealthCard healthCard, InsuranceCompany insuranceCompany)
         {
             Id = id;
             FirstName = firstName;
@@ -18,6 +18,7 @@ namespace Aplikace.data.Entity
             Email = email;
             Address = address;
             InsuranceCompany = insuranceCompany;
+            HealthCard = healthCard;
         }
 
         private int id;
@@ -30,7 +31,6 @@ namespace Aplikace.data.Entity
         private string email;
         private Address address;
         private InsuranceCompany insuranceCompany;
-        private WorkDisability? workDisability;
         private HealthCard healthCard;
 
         public int Id
@@ -163,11 +163,7 @@ namespace Aplikace.data.Entity
             }
         }
 
-        public WorkDisability WorkDisability
-        {
-            get { return workDisability; }
-            set { workDisability = value; }
-        }
+        
 
         public HealthCard HealthCard
         {

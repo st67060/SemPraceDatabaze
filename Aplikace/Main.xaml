@@ -220,8 +220,8 @@
 
                         <Label HorizontalAlignment="Left" Content="Choose patient to see more details " Width="303" Grid.ColumnSpan="2" Margin="111,0,0,492" FontSize="14" Foreground="#FF312E2E"/>
                         <Label HorizontalAlignment="Left" Content="List of Patients " Width="190" Grid.ColumnSpan="2" Margin="154,-26,0,522"/>
-                        <StackPanel x:Name="stackPanelPatients" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,87,27">
-                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="478" SelectionChanged="patientDataGrid_SelectionChanged" >
+                        <StackPanel x:Name="stackPanelPatients" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,87,69">
+                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="427" Width="478" SelectionChanged="patientDataGrid_SelectionChanged" >
                                 <DataGrid.CellStyle>
                                     <Style TargetType="DataGridCell">
                                         <Setter Property="FontSize" Value="11" />
@@ -241,6 +241,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
+                        <Button x:Name="addPatient" Margin="0,489,93,0" Content="Add new patient" Click="addPatient_Click"></Button>
                         <StackPanel x:Name="addressDataStackPanel" Grid.Column="1" Margin="198,-26,-206,29" >
                             <Label Content="HealthCard:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             <StackPanel Orientation="Horizontal" Margin="0,5">
