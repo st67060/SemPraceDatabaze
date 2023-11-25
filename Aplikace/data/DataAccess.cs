@@ -45,6 +45,10 @@ namespace Aplikace.data
         {
             return InsertPatientWithDetails(patient, healthCard, address);
         }
+        public bool DeletePatient(Patient patient) {
+        return DeletePatientWithDetails(patient);
+
+        }
 
 
         public List<Employee> GetEmployees()
@@ -126,8 +130,13 @@ namespace Aplikace.data
                     cmd.Parameters.Add("v_employee_role_id", OracleDbType.Int32).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("v_employee_photo", OracleDbType.Blob).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("v_password", OracleDbType.Varchar2, 128).Direction = ParameterDirection.Output;
-
-                    cmd.ExecuteNonQuery();
+                    try {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch {
+                        return null;
+                    }
+                    
 
 
                     int userId = Convert.ToInt32(cmd.Parameters["v_user_id"].Value.ToString());
@@ -303,44 +312,74 @@ namespace Aplikace.data
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Add parameters
                     cmd.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = patient.FirstName;
                     cmd.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = patient.LastName;
-                    cmd.Parameters.Add("p_rodne_cislo", OracleDbType.Decimal).Value = patient.SocialSecurityNumber;
+                    cmd.Parameters.Add("p_rodne_cislo", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.SocialSecurityNumber);
                     cmd.Parameters.Add("p_pohlavi", OracleDbType.Varchar2).Value = patient.Gender;
                     cmd.Parameters.Add("p_narozeni", OracleDbType.Date).Value = patient.DateOfBirth;
-                    cmd.Parameters.Add("p_telefon", OracleDbType.Decimal).Value = patient.Phone;
+                    cmd.Parameters.Add("p_telefon", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.Phone);
                     cmd.Parameters.Add("p_email", OracleDbType.Varchar2).Value = patient.Email;
-
-                    cmd.Parameters.Add("p_kouri", OracleDbType.Char).Value = healthCard.Smokes;
-                    cmd.Parameters.Add("p_tehotenstvi", OracleDbType.Char).Value = healthCard.Pregnancy;
-                    cmd.Parameters.Add("p_alkohol", OracleDbType.Char).Value = healthCard.Alcohol;
+                    cmd.Parameters.Add("p_pojistovny_id", OracleDbType.Decimal).Value = Convert.ToDecimal((int)patient.InsuranceCompany);
+                    cmd.Parameters.Add("p_kouri", OracleDbType.Char).Value = ConvertBoolToDbChar(healthCard.Smokes);
+                    cmd.Parameters.Add("p_tehotenstvi", OracleDbType.Char).Value = ConvertBoolToDbChar(healthCard.Pregnancy);
+                    cmd.Parameters.Add("p_alkohol", OracleDbType.Char).Value = ConvertBoolToDbChar(healthCard.Alcohol);
                     cmd.Parameters.Add("p_sport", OracleDbType.Varchar2).Value = healthCard.Sport;
-                    cmd.Parameters.Add("p_plomby", OracleDbType.Decimal).Value = healthCard.Fillings;
-                    cmd.Parameters.Add("p_anamnezy_id", OracleDbType.Decimal).Value = (int)healthCard.Anamnesis;
+                    cmd.Parameters.Add("p_plomby", OracleDbType.Decimal).Value = Convert.ToDecimal(healthCard.Fillings);
+                    cmd.Parameters.Add("p_anamnezy_id", OracleDbType.Decimal).Value = Convert.ToDecimal((int)healthCard.Anamnesis);
 
                     cmd.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = address.City;
-                    cmd.Parameters.Add("p_psc", OracleDbType.Decimal).Value = address.PostalCode;
-                    cmd.Parameters.Add("p_cislo_popisne", OracleDbType.Decimal).Value = address.StreetNumber;
+                    cmd.Parameters.Add("p_psc", OracleDbType.Decimal).Value = Convert.ToDecimal(address.PostalCode);
+                    cmd.Parameters.Add("p_cislo_popisne", OracleDbType.Decimal).Value = Convert.ToDecimal (address.StreetNumber);
                     cmd.Parameters.Add("p_stat", OracleDbType.Varchar2).Value = address.Country;
                     cmd.Parameters.Add("p_ulice", OracleDbType.Varchar2).Value = address.Street;
-                    cmd.Parameters.Add("p_pojistovny_id", OracleDbType.Decimal).Value = (int)patient.InsuranceCompany;
 
-                    // Execute the procedure
-                    //try
-                    //{
+
+                    
+                    try
+                    {
                         cmd.ExecuteNonQuery();
-                    //}
-                    //catch (OracleException ex)
-                    //{
-                    //    // Handle exception if needed
-                    //    return false;
-                    //}
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                    return false;
+                }
 
-                    return true;
+                
                 }
             }
         }
+        private bool DeletePatientWithDetails(Patient patient)
+        {
+            string deleteProcedure = "DELETE_PACIENT";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter paramId = new OracleParameter("p_pacient_id", OracleDbType.Decimal);
+                    paramId.Value = patient.Id; 
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
 
 
         public List<Address> GetAddresses()
@@ -422,10 +461,10 @@ namespace Aplikace.data
                             int ID = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;
                             string FirstName = reader["PATIENT_NAME"].ToString();
                             string LastName = reader["PATIENT_SURNAME"].ToString();
-                            string IDNumber =  reader["PATIENT_ID_NUMBER"].ToString();
+                            long IDNumber = reader["PATIENT_ID_NUMBER"] != DBNull.Value ? (long)Convert.ToDouble(reader["PATIENT_ID_NUMBER"]) : 0;
                             string Gender = reader["GENDER"].ToString();
                             DateTime BirthDate = reader["BIRTH_DATE"] != DBNull.Value ? Convert.ToDateTime(reader["BIRTH_DATE"]) : DateTime.MinValue;
-                            string Phone = reader["PHONE"].ToString();
+                            long Phone = reader["PHONE"] != DBNull.Value ? (long)Convert.ToDouble(reader["PHONE"]) : 0;
                             string Email = reader["EMAIL"].ToString();
                             string City = reader["CITY"].ToString();
                             string Street = reader["STREET"].ToString();
@@ -459,9 +498,9 @@ namespace Aplikace.data
 
         
         // metody pro prevadeni databazovych bool na boolean v c#
-        private string ConvertBoolToDbChar(bool value)
+        private char ConvertBoolToDbChar(bool value)
         {
-            return value ? "Y" : "N";
+            return value ? 'Y' : 'N';
         }
 
         private bool ConvertDbCharToBool(string value)

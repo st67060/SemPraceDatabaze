@@ -196,14 +196,49 @@ namespace Aplikace
 
             if (result.HasValue && result.Value)
             {
-                
-                data.Patients.Add(dialogPatientAdd.Patient);
+                // nacte pacienta do dat
             }
             else
             {
 
             }
 
+        }
+
+        private void deletePatient_Click(object sender, RoutedEventArgs e)
+        {
+            if(patientDataGrid.SelectedItem!=null)
+                
+            {
+                Patient patient = (Patient)patientDataGrid.SelectedItem;
+                if (access.DeletePatient(patient)) {
+                    data.Patients.Remove(patient);
+                }
+            }
+            
+        }
+
+        private void editPatient_Click(object sender, RoutedEventArgs e)
+        {
+            if (patientDataGrid.SelectedItem != null)
+
+            {
+                Patient patient = (Patient)patientDataGrid.SelectedItem;
+
+                DialogPatientAdd dialogPatientAdd = new DialogPatientAdd(patient);
+                var result = dialogPatientAdd.ShowDialog();
+
+                if (result.HasValue && result.Value)
+                {
+                    
+                   // nacte pacienta do dat
+                }
+                else
+                {
+
+                }
+            }
+            
         }
     }
 }

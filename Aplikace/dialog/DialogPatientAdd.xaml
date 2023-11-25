@@ -82,19 +82,19 @@
                         <StackPanel>
                             <TextBlock Text="Address" FontWeight="Bold" HorizontalAlignment="Center"/>
                             <TextBlock Text="City:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtCity" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtCity" Text="{Binding Address.City, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Postal Code:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtPostalCode" Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtPostalCode" Text="{Binding Address.PostalCode, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Street Number:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtStreetNumber" Text="{Binding StreetNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtStreetNumber" Text="{Binding Address.StreetNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Country:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtCountry" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtCountry" Text="{Binding Address.Country, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Street:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtStreet" Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtStreet" Text="{Binding Address.Street, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                         </StackPanel>
                     </Border>
 
@@ -103,22 +103,22 @@
                         <StackPanel>
                             <TextBlock Text="Health Card" FontWeight="Bold" HorizontalAlignment="Center"/>
                             <TextBlock Text="Smokes:" VerticalAlignment="Center"/>
-                            <CheckBox x:Name="chkSmokes" IsChecked="{Binding Smokes, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
+                            <CheckBox x:Name="chkSmokes" IsChecked="{Binding HealthCard.Smokes, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
 
                             <TextBlock Text="Pregnancy:" VerticalAlignment="Center"/>
-                            <CheckBox x:Name="chkPregnancy" IsChecked="{Binding Pregnancy, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
+                            <CheckBox x:Name="chkPregnancy" IsChecked="{Binding HealthCard.Pregnancy, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
 
                             <TextBlock Text="Alcohol:" VerticalAlignment="Center"/>
-                            <CheckBox x:Name="chkAlcohol" IsChecked="{Binding Alcohol, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
+                            <CheckBox x:Name="chkAlcohol" IsChecked="{Binding HealthCard.Alcohol, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Center"/>
 
                             <TextBlock Text="Sport:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtSport" Text="{Binding Sport, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtSport" Text="{Binding HealthCard.Sport, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Fillings:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtFillings" Text="{Binding Fillings, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtFillings" Text="{Binding HealthCard.Fillings, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Anamnesis:" VerticalAlignment="Center"/>
-                            <ComboBox x:Name="cmbAnamnesis" ItemsSource="{Binding AnamnesisList}" SelectedItem="{Binding SelectedAnamnesis}" Margin="5"/>
+                            <ComboBox x:Name="cmbAnamnesis" ItemsSource="{Binding HealthCard.AnamnesisList}" SelectedItem="{Binding SelectedAnamnesis}" Margin="5"/>
                         </StackPanel>
                     </Border>
 

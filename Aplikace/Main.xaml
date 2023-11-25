@@ -225,7 +225,7 @@
                                 <DataGrid.CellStyle>
                                     <Style TargetType="DataGridCell">
                                         <Setter Property="FontSize" Value="11" />
-                                        
+
                                     </Style>
                                 </DataGrid.CellStyle>
                                 <DataGrid.Columns>
@@ -242,7 +242,9 @@
                             </DataGrid>
                         </StackPanel>
                         <Button x:Name="addPatient" Margin="0,489,93,0" Content="Add new patient" Click="addPatient_Click"></Button>
-                        <StackPanel x:Name="addressDataStackPanel" Grid.Column="1" Margin="198,-26,-206,29" >
+                        <Button x:Name="deletePatient" Margin="196,489,177,0" Content="Delete patient"  Grid.ColumnSpan="2" Click="deletePatient_Click"></Button>
+                        <Button x:Name="editPatient" Margin="108,489,-15,0" Content="Edit patient" Grid.Column="1" Click="editPatient_Click" />
+                        <StackPanel x:Name="addressDataStackPanel" Grid.Column="1" Margin="198,-26,-206,23" >
                             <Label Content="HealthCard:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <Label Content="Smokes:" HorizontalAlignment="Left" VerticalAlignment="Center" />
