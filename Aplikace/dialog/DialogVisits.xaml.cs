@@ -15,13 +15,28 @@ using System.Windows.Shapes;
 namespace Aplikace.dialog
 {
     /// <summary>
-    /// Логика взаимодействия для DialogAlergie.xaml
+    /// Логика взаимодействия для DialogVisits.xaml
     /// </summary>
-    public partial class DialogAlergie : Window
+    public partial class DialogVisits : Window
     {
-        public DialogAlergie()
+        public DialogVisits()
         {
             InitializeComponent();
+        }
+
+        private void Modify_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddNew_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

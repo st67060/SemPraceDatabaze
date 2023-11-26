@@ -1,0 +1,55 @@
+﻿<Window x:Class="Aplikace.dialog.DialogVisits"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aplikace.dialog"
+        mc:Ignorable="d"
+        Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#bde0fe" />
+                <GradientStop Offset="0.5" Color="#a2d2ff" />
+                <GradientStop Offset="1" Color="#0096c7" />
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="284"/>
+                <ColumnDefinition Width="Auto" MinWidth="220"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Таблица для отображения атрибутов Visits -->
+            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding VisitsList}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Details" Binding="{Binding Details}" />
+                    <!-- Переименование Pacient_id в Patient и отображение имени и фамилии пациента -->
+                    <DataGridTextColumn Header="Patient" Binding="{Binding PatientFullName}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Формуляр для ввода атрибутов Visits -->
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock Text="Date:" Margin="0,0,0,5"/>
+                <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding SelectedVisit.Date, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Details:" Margin="0,0,0,5"/>
+                <TextBox Name="txtDetails" Width="200" Margin="0,0,0,10" Text="{Binding SelectedVisit.Details, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Patient:" Margin="0,0,0,5"/>
+                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding SelectedVisit.PatientId, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Кнопки для добавления, изменения и удаления записей -->
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                    <Button Content="Add New" Click="AddNew_Click" Margin="0,0,10,0"/>
+                    <Button Content="Modify" Click="Modify_Click" Margin="0,0,10,0"/>
+                    <Button Content="Delete" Click="Delete_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
+
+
