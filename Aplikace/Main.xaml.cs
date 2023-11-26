@@ -32,8 +32,8 @@ namespace Aplikace
             LoadListOfUsers();
             LoadListOfEmployees();
             LoadListOfLogs();
-            //employees.Add(user.Employee);
-            //employeeDataGrid.ItemsSource = employees;
+            LoadListOfRezervations();
+            
         }
 
 
@@ -147,6 +147,14 @@ namespace Aplikace
             logsDataGrid.ItemsSource = data.Logs;
 
         }
+        private void LoadListOfRezervations()
+        {
+            data.Reservations.Clear();
+            data.Reservations = new ObservableCollection<Reservation>(access.GetReservations());
+            dgReservations.ItemsSource = data.Reservations;
+            
+
+        }
 
 
         private void patientDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -258,6 +266,11 @@ namespace Aplikace
         private void AddProcedure_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void dgReservations_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            dgProcedures.ItemsSource = data.Reservations[dgReservations.SelectedIndex].Procedures;
         }
     }
 }

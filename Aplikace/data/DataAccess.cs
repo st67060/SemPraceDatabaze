@@ -56,6 +56,10 @@ namespace Aplikace.data
         {
             return UpdatePatientWithDetails(patient);
         }
+        public List<Reservation> GetReservations() {
+        
+        return GetAllReservations();
+        }
         public class ReservationProcedureLink
         {
             public int ReservationId { get; set; }
@@ -501,8 +505,8 @@ namespace Aplikace.data
                             Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
                             Employee employeeTemp = employeeList.FirstOrDefault(e => e.Id == employeeId);
 
-                            if (employeeTemp != null && patientTemp != null)
-                            {
+                            //if (employeeTemp != null && patientTemp != null)
+                            //{
                                 Reservation reservation = new Reservation(reservationId, reservationNotes, reservationDate, patientTemp, employeeTemp);
 
                               
@@ -512,7 +516,7 @@ namespace Aplikace.data
                                 reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
 
                                 reservationList.Add(reservation);
-                            }
+                            //}
 
                         }
                     }
@@ -531,7 +535,7 @@ namespace Aplikace.data
             {
                 databaseConnection.OpenConnection();
 
-                using (OracleCommand cmd = new OracleCommand("SELECT_ZAKROK", databaseConnection.connection))
+                using (OracleCommand cmd = new OracleCommand("SELECT_ZAKROKY", databaseConnection.connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 

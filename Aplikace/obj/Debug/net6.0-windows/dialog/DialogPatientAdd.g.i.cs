@@ -229,7 +229,7 @@ namespace Aplikace.dialog {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Aplikace;V1.0.0.0;component/dialog/dialogpatientadd.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Aplikace;component/dialog/dialogpatientadd.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\dialog\DialogPatientAdd.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
