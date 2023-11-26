@@ -5,6 +5,7 @@ using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Drawing.Text;
 using System.IO;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Xps;
 using System.Xml.Linq;
 
 namespace Aplikace.data
@@ -53,6 +55,17 @@ namespace Aplikace.data
         public bool UpdatePatient(Patient patient)
         {
             return UpdatePatientWithDetails(patient);
+        }
+        public class ReservationProcedureLink
+        {
+            public int ReservationId { get; set; }
+            public int ProcedureId { get; set; }
+
+            public ReservationProcedureLink(int reservationId, int procedureId)
+            {
+                ReservationId = reservationId;
+                ProcedureId = procedureId;
+            }
         }
 
         // ==============================================
@@ -123,7 +136,7 @@ namespace Aplikace.data
             using (var connection = new OracleDatabaseConnection())
             {
                 connection.OpenConnection();
-                string procedureName = "SELECT_ZAMESTNANEC_UZIVATEL";
+                string procedureName = "SELECT_ZAMESTNANCE_UZIVATELE";
 
                 using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
                 {
@@ -306,8 +319,11 @@ namespace Aplikace.data
 
                             Address address = new Address(AddressID, City, ZipCode, StreetNumber, Country, Street);
                             HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, an);
+                            //TODO vložit alergie do healthCard
+
                             Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, company);
-                            patients.Add(patient);
+                            
+                            
                         }
                     }
                 }
@@ -315,6 +331,7 @@ namespace Aplikace.data
 
             return patients;
         }
+
 
         // zapsání Pacient, adresy a zdravotní karty do databáze
         private bool InsertPatientWithDetails(Patient patient)
@@ -447,6 +464,151 @@ namespace Aplikace.data
                 }
             }
         }
+        // načte všechny rezervace se zákroky
+        private List<Reservation> GetAllReservations()
+        {
+            List<Reservation> reservationList = new List<Reservation>();
+            List<Patient> patientList = GetAllPatients();
+            List<Employee> employeeList = GetEmployees();
+            List<Procedure> procedureList = GetAllProcedures();
+            List<ReservationProcedureLink> reservationProcedureLinks = GetAllReservationProcedureLinks();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_REZERVACI", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    // Zpracování výsledků pomocí OracleDataReader
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int reservationId = reader.GetInt32(reader.GetOrdinal("RESERVATION_ID"));
+                            string reservationNotes = reader.GetOrdinal("NOTES").ToString();
+                            DateTime reservationDate = reader.GetDateTime(reader.GetOrdinal("RESERVATION_DATE"));
+                            int employeeId = reader.GetInt32(reader.GetOrdinal("EMPLOYEE_ID"));
+                            int patientId = reader.GetInt32(reader.GetOrdinal("PATIENT_ID"));
+
+                            Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
+                            Employee employeeTemp = employeeList.FirstOrDefault(e => e.Id == employeeId);
+
+                            if (employeeTemp != null && patientTemp != null)
+                            {
+                                Reservation reservation = new Reservation(reservationId, reservationNotes, reservationDate, patientTemp, employeeTemp);
+
+                              
+                                var linkedProcedures = reservationProcedureLinks.Where(link => link.ReservationId == reservationId)
+                                                                                 .Select(link => procedureList.FirstOrDefault(p => p.Id == link.ProcedureId))
+                                                                                 .ToList();
+                                reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
+
+                                reservationList.Add(reservation);
+                            }
+
+                        }
+                    }
+                }
+            }
+            
+            
+
+            return reservationList;
+        }
+        private List<Procedure> GetAllProcedures()
+        {
+            List<Procedure> procedureList = new List<Procedure>();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_ZAKROK", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    // Zpracování výsledků pomocí OracleDataReader
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int procedureId = reader.GetInt32(reader.GetOrdinal("ZAKROK_ID"));
+                            string procedureName = reader.GetOrdinal("ZAKROK_NAME").ToString();                            
+                            int procedureCost = reader.GetInt32(reader.GetOrdinal("ZAKROK_PRICE"));
+                            bool isPayed = ConvertDbCharToBool(reader.GetOrdinal("COVERED_BY_INSURANCE").ToString());
+                            string process = reader.GetOrdinal("PROCEDURE_DESCRIPTION").ToString();
+                            procedureList.Add(new Procedure(procedureId, procedureName, procedureCost, isPayed, process));
+                           
+
+                        }
+                    }
+                }
+            }
+
+
+            return procedureList;
+
+
+        }
+        private List<ReservationProcedureLink> GetAllReservationProcedureLinks()
+        {
+            List<ReservationProcedureLink> reservationProcedureList = new List<ReservationProcedureLink>();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_REZERVACI_ZAKROKY", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    // Zpracování výsledků pomocí OracleDataReader
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int reservatinId = reader.GetInt32(reader.GetOrdinal("RESERVATION_ID"));
+                            int procedureId = reader.GetInt32(reader.GetOrdinal("PROCEDURE_ID"));
+                            reservationProcedureList.Add(new ReservationProcedureLink(reservatinId, procedureId));
+
+
+                        }
+                    }
+                }
+            }
+
+
+            return reservationProcedureList;
+
+
+        }
+        //TODO private List<Alergy> getAllAlergies(){
+        //
+        //}
+
+        //TODO private List<AlergyHealthCard> getAllAlergiesHealthCard(){
+        //
+        //}
 
 
         // ==============================================

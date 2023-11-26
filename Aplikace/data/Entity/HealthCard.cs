@@ -14,7 +14,6 @@ namespace Aplikace.data.Entity
         private string sport;
         private int fillings;
         private Anamnesis anamnesis;
-        private ObservableCollection<Procedure> procedures;
         private ObservableCollection<Alergy> alergies;
 
         public HealthCard(int id, bool smokes, bool pregnancy, bool alcohol, string sport, int fillings, Anamnesis anamnesis)
@@ -26,7 +25,6 @@ namespace Aplikace.data.Entity
             Sport = sport;
             Fillings = fillings;
             Anamnesis = anamnesis;
-            Procedures = new ObservableCollection<Procedure>();
             Alergies = new ObservableCollection<Alergy>();
         }
 
@@ -121,18 +119,7 @@ namespace Aplikace.data.Entity
             }
         }
 
-        public ObservableCollection<Procedure> Procedures
-        {
-            get { return procedures; }
-            set
-            {
-                if (procedures != value)
-                {
-                    procedures = value;
-                    OnPropertyChanged(nameof(Procedures));
-                }
-            }
-        }
+      
 
         public ObservableCollection<Alergy> Alergies 
         {

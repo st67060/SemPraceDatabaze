@@ -18,7 +18,7 @@ namespace Aplikace.data
         public ObservableCollection<Reservation> Reservations { get; set; }
         public ObservableCollection<User> Users { get; set; }
         public ObservableCollection<Visit> Visits { get; set; }
-        public ObservableCollection<WorkDisability> WorkDisabilities { get; set; }
+        public ObservableCollection<Alergy> Alergies { get; set; }
 
         public ObservableCollection<Log> Logs { get; set; }
 
@@ -32,7 +32,7 @@ namespace Aplikace.data
             Reservations = new ObservableCollection<Reservation>();
             Users = new ObservableCollection<User>();
             Visits = new ObservableCollection<Visit>();
-            WorkDisabilities = new ObservableCollection<WorkDisability>();
+            Alergies = new ObservableCollection<Alergy>();
             Logs = new ObservableCollection<Log>();
         }
     }
