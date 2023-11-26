@@ -73,7 +73,7 @@
                             <TextBox x:Name="txtEmail" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Insurance Company:" VerticalAlignment="Center"/>
-                            <ComboBox x:Name="cmbInsuranceCompany" ItemsSource="{Binding InsuranceCompanies}" SelectedItem="{Binding SelectedInsuranceCompany}" Margin="5"/>
+                            <ComboBox x:Name="cmbInsuranceCompany" ItemsSource="{Binding InsuranceCompany}" SelectedItem="{Binding InsuranceCompany}" Margin="5"/>
                         </StackPanel>
                     </Border>
 
@@ -118,7 +118,7 @@
                             <TextBox x:Name="txtFillings" Text="{Binding HealthCard.Fillings, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Anamnesis:" VerticalAlignment="Center"/>
-                            <ComboBox x:Name="cmbAnamnesis" ItemsSource="{Binding HealthCard.AnamnesisList}" SelectedItem="{Binding SelectedAnamnesis}" Margin="5"/>
+                            <ComboBox x:Name="cmbAnamnesis" ItemsSource="{Binding HealthCard.AnamnesisList}" SelectedItem="{Binding HealthCard.Anamnesis}" Margin="5"/>
                         </StackPanel>
                     </Border>
 

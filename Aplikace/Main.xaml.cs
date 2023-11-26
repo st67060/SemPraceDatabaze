@@ -128,6 +128,7 @@ namespace Aplikace
         }
         private void LoadListOfPatients()
         {
+            data.Patients.Clear();
             data.Patients = new ObservableCollection<Patient>(access.GetAllPatients());
             patientDataGrid.ItemsSource = data.Patients;
 
@@ -150,8 +151,11 @@ namespace Aplikace
 
         private void patientDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            patient = (Patient)patientDataGrid.SelectedItem;
-            addressDataStackPanel.DataContext = patient;
+            if (patientDataGrid.SelectedItem != null) {
+                patient = (Patient)patientDataGrid.SelectedItem;
+                addressDataStackPanel.DataContext = patient;
+            }
+            
         }
 
         private void emulateUserButton_Click(object sender, RoutedEventArgs e)
@@ -196,7 +200,7 @@ namespace Aplikace
 
             if (result.HasValue && result.Value)
             {
-                // nacte pacienta do dat
+                LoadListOfPatients();
             }
             else
             {
@@ -230,8 +234,8 @@ namespace Aplikace
 
                 if (result.HasValue && result.Value)
                 {
-                    
-                   // nacte pacienta do dat
+
+                    LoadListOfPatients();
                 }
                 else
                 {
@@ -239,6 +243,21 @@ namespace Aplikace
                 }
             }
             
+        }
+
+        private void settingsTabItem_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        {
+            LoadListOfLogs();
+        }
+
+        private void AddReservation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddProcedure_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
