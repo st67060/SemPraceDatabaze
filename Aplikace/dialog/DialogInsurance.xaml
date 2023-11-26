@@ -43,7 +43,10 @@
                     <Button Content="Delete" Click="Delete_Click"/>
                 </StackPanel>
             </StackPanel>
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Height="27" Width="27" Grid.Column="1" Margin="284,5,-91,368" MouseLeftButtonDown="closeButton_MouseLeftButtonDown"  />
         </Grid>
+        
+
     </Border>
 </Window>
 

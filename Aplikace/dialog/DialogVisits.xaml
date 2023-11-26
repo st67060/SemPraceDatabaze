@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Aplikace.dialog"
         mc:Ignorable="d"
         Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
-    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0" MouseLeftButtonDown="closeButton_MouseLeftButtonDown">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                 <GradientStop Offset="0" Color="#bde0fe" />
@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Таблица для отображения атрибутов Visits -->
-            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding VisitsList}">
+            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding VisitsList}" SelectionChanged="dgVisits_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Details" Binding="{Binding Details}" />
@@ -33,13 +33,13 @@
             <!-- Формуляр для ввода атрибутов Visits -->
             <StackPanel Grid.Column="1" Margin="10">
                 <TextBlock Text="Date:" Margin="0,0,0,5"/>
-                <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding SelectedVisit.Date, UpdateSourceTrigger=PropertyChanged}"/>
+                <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Details:" Margin="0,0,0,5"/>
-                <TextBox Name="txtDetails" Width="200" Margin="0,0,0,10" Text="{Binding SelectedVisit.Details, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtDetails" Width="200" Margin="0,0,0,10" Text="{Binding Details, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Patient:" Margin="0,0,0,5"/>
-                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding SelectedVisit.PatientId, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding Patient.LastName, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!-- Кнопки для добавления, изменения и удаления записей -->
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
@@ -48,7 +48,9 @@
                     <Button Content="Delete" Click="Delete_Click"/>
                 </StackPanel>
             </StackPanel>
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Height="27" Width="27" Grid.Column="1" Margin="283,4,-90,369"/>
         </Grid>
+        
     </Border>
 </Window>
 

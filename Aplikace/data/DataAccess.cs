@@ -349,8 +349,8 @@ namespace Aplikace.data
                             {
                                 patient.HealthCard.Alergies.Add(alergy);
                             }
-                            
-                            
+
+
                             patients.Add(patient);
 
 
@@ -360,9 +360,9 @@ namespace Aplikace.data
             }
 
             return patients;
+
+
         }
-
-
         // zapsání Pacient, adresy a zdravotní karty do databáze
         private bool InsertPatientWithDetails(Patient patient)
         {
@@ -755,7 +755,11 @@ namespace Aplikace.data
             return allergyList;
         }
 
-
+        public List<Visit> GetAllVisits() {
+            List<Visit> visits = new List<Visit>();
+            //TODO nacist z db Visits
+            return visits;
+        }
 
 
         // ==============================================
