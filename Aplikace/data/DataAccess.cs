@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Xps;
 using System.Xml.Linq;
+using static Aplikace.data.DataAccess;
 
 namespace Aplikace.data
 {
@@ -56,9 +57,10 @@ namespace Aplikace.data
         {
             return UpdatePatientWithDetails(patient);
         }
-        public List<Reservation> GetReservations() {
-        
-        return GetAllReservations();
+        public List<Reservation> GetReservations()
+        {
+
+            return GetAllReservations();
         }
         public class ReservationProcedureLink
         {
@@ -70,6 +72,19 @@ namespace Aplikace.data
                 ReservationId = reservationId;
                 ProcedureId = procedureId;
             }
+
+        }
+        public class AlergyHealthCardLink
+        {
+            public int AlergyId { get; set; }
+            public int HealthCardId { get; set; }
+
+            public AlergyHealthCardLink(int alergyId, int alergyHealthCardId)
+            {
+                HealthCardId = alergyHealthCardId;
+                AlergyId = alergyId;
+            }
+
         }
 
         // ==============================================
@@ -274,6 +289,8 @@ namespace Aplikace.data
         public List<Patient> GetAllPatients()
         {
             List<Patient> patients = new List<Patient>();
+            List<Alergy> alergies = GetAllAllergies();
+            List<AlergyHealthCardLink> alergyHealthCardLinks = GetAllAlergyHealthCardLinks();
 
             using (var connection = new OracleDatabaseConnection())
             {
@@ -323,11 +340,20 @@ namespace Aplikace.data
 
                             Address address = new Address(AddressID, City, ZipCode, StreetNumber, Country, Street);
                             HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, an);
-                            //TODO vložit alergie do healthCard
-
                             Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, company);
+                            var linkedAlergies = alergyHealthCardLinks.Where(link => link.HealthCardId == HealthCardID)
+                                                    .Select(link => alergies.FirstOrDefault(a => a.Id == link.AlergyId))
+                                                    .ToList();
+                            patient.HealthCard.Alergies.Clear();
+                            foreach (var alergy in linkedAlergies)
+                            {
+                                patient.HealthCard.Alergies.Add(alergy);
+                            }
                             
                             
+                            patients.Add(patient);
+
+
                         }
                     }
                 }
@@ -469,6 +495,60 @@ namespace Aplikace.data
             }
         }
         // načte všechny rezervace se zákroky
+
+        private List<HealthCard> GetAllAlergiesHealthCard()
+        {
+            List<HealthCard> healthCardList = new List<HealthCard>();
+            List<Alergy> alergyList = GetAllAllergies();
+            List<AlergyHealthCardLink> allergyHealthCardLinks = GetAllAlergyHealthCardLinks();
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string procedureName = "SELECT_PACIENTI";
+
+                using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Výstupní parametr pro kurzor
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+
+                            int HealthCardID = reader["HEALTH_CARD_ID"] != DBNull.Value ? Convert.ToInt32(reader["HEALTH_CARD_ID"]) : 0;
+                            bool Smokes = ConvertDbCharToBool(reader["SMOKES"].ToString());
+                            bool Pregnancy = ConvertDbCharToBool(reader["PREGNANCY"].ToString());
+                            bool Alcohol = ConvertDbCharToBool(reader["ALCOHOL"].ToString());
+                            string Sport = reader["SPORT"].ToString();
+                            int Fillings = reader["FILLINGS"] != DBNull.Value ? Convert.ToInt32(reader["FILLINGS"]) : 0;
+                            int anamnesisID = reader["ANAMNESIS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ANAMNESIS_ID"]) : 0;
+                            Anamnesis an = (Anamnesis)anamnesisID;
+
+
+                            healthCardList.Add(new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, an));
+
+
+
+
+                        }
+                    }
+                }
+            }
+
+
+
+            return healthCardList;
+        }
+
+
+
+
         private List<Reservation> GetAllReservations()
         {
             List<Reservation> reservationList = new List<Reservation>();
@@ -505,25 +585,25 @@ namespace Aplikace.data
                             Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
                             Employee employeeTemp = employeeList.FirstOrDefault(e => e.Id == employeeId);
 
-                            //if (employeeTemp != null && patientTemp != null)
-                            //{
+                            if (employeeTemp != null && patientTemp != null)
+                            {
                                 Reservation reservation = new Reservation(reservationId, reservationNotes, reservationDate, patientTemp, employeeTemp);
 
-                              
-                                var linkedProcedures = reservationProcedureLinks.Where(link => link.ReservationId == reservationId)
-                                                                                 .Select(link => procedureList.FirstOrDefault(p => p.Id == link.ProcedureId))
-                                                                                 .ToList();
-                                reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
 
-                                reservationList.Add(reservation);
-                            //}
+                            var linkedProcedures = reservationProcedureLinks.Where(link => link.ReservationId == reservationId)
+                                                                             .Select(link => procedureList.FirstOrDefault(p => p.Id == link.ProcedureId))
+                                                                             .ToList();
+                            reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
+
+                            reservationList.Add(reservation);
+                            }
 
                         }
                     }
                 }
             }
-            
-            
+
+
 
             return reservationList;
         }
@@ -551,12 +631,12 @@ namespace Aplikace.data
                         while (reader.Read())
                         {
                             int procedureId = reader.GetInt32(reader.GetOrdinal("ZAKROK_ID"));
-                            string procedureName = reader.GetOrdinal("ZAKROK_NAME").ToString();                            
+                            string procedureName = reader.GetOrdinal("ZAKROK_NAME").ToString();
                             int procedureCost = reader.GetInt32(reader.GetOrdinal("ZAKROK_PRICE"));
                             bool isPayed = ConvertDbCharToBool(reader.GetOrdinal("COVERED_BY_INSURANCE").ToString());
                             string process = reader.GetOrdinal("PROCEDURE_DESCRIPTION").ToString();
                             procedureList.Add(new Procedure(procedureId, procedureName, procedureCost, isPayed, process));
-                           
+
 
                         }
                     }
@@ -606,13 +686,76 @@ namespace Aplikace.data
 
 
         }
-        //TODO private List<Alergy> getAllAlergies(){
-        //
-        //}
 
-        //TODO private List<AlergyHealthCard> getAllAlergiesHealthCard(){
-        //
-        //}
+        private List<AlergyHealthCardLink> GetAllAlergyHealthCardLinks()
+        {
+            List<AlergyHealthCardLink> allergyHealthCardList = new List<AlergyHealthCardLink>();
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_ALERGIE_ZDRAVOTNI_KARTA", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    // Zpracování výsledků pomocí OracleDataReader
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int alergyId = reader.GetInt32(reader.GetOrdinal("ALLERGY_ID"));
+                            int alergyHealthCardId = reader.GetInt32(reader.GetOrdinal("HEALTH_CARD_ID"));
+                            allergyHealthCardList.Add(new AlergyHealthCardLink(alergyId, alergyHealthCardId));
+
+
+                        }
+                    }
+                }
+            }
+
+
+            return allergyHealthCardList;
+        }
+        private List<Alergy> GetAllAllergies()
+        {
+            List<Alergy> allergyList = new List<Alergy>();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_ALERGIE", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int allergyId = reader.GetInt32(reader.GetOrdinal("ALLERGY_ID"));
+                            string allergyName = reader.GetString(reader.GetOrdinal("ALLERGY_NAME"));
+                            allergyList.Add(new Alergy(allergyId, allergyName));
+                        }
+                    }
+                }
+            }
+
+            return allergyList;
+        }
+
+
 
 
         // ==============================================
@@ -748,7 +891,7 @@ namespace Aplikace.data
         {
             return value == "Y";
         }
-       
+
 
 
     }

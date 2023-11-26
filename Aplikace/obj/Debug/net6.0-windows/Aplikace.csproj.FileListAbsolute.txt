@@ -216,3 +216,5 @@ C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\A
 C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\ref\Aplikace.dll
 C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogPatientAdd.g.cs
 C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogPatientAdd.baml
+C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogAddress.g.cs
+C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogAddress.baml

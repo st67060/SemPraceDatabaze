@@ -12,6 +12,12 @@ namespace Aplikace.data.Entity
         private int id;
         private string name;
 
+        public Alergy(int id, string name)
+        {
+            this.id = id;
+            this.name = name;
+
+        }
         public int Id
         {
             get { return id; }
