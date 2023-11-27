@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="Auto" MinWidth="220"/>
             </Grid.ColumnDefinitions>
 
-            <DataGrid Name="dgAlergie" AutoGenerateColumns="True" Margin="10" Grid.Column="0" ItemsSource="{Binding AlergieList}">
+            <DataGrid Name="dgAlergie" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding AlergieList}" SelectionChanged="dgAlergie_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                 </DataGrid.Columns>

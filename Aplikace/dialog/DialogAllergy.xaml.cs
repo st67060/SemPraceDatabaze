@@ -62,6 +62,11 @@ namespace Aplikace.dialog
         {
             this.Close();
         }
+
+        private void dgAlergie_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
 

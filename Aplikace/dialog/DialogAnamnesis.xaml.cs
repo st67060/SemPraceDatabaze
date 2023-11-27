@@ -1,46 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Aplikace.data;
+using Aplikace.data.Entity;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Aplikace.dialog
 {
-    /// <summary>
-    /// Логика взаимодействия для DialogAnamnesis.xaml
-    /// </summary>
     public partial class DialogAnamnesis : Window
     {
+        DataAccess access;
+        ObservableCollection<Anamnesis> anamnesises;
+
         public DialogAnamnesis()
         {
+            access = new DataAccess();
             InitializeComponent();
+            MouseLeftButtonDown += (s, e) => DragMove(); 
+            LoadAnamnesis();
         }
 
-        private void AddNew_Click(object sender, RoutedEventArgs e)
+        private void LoadAnamnesis()
         {
-
+            anamnesises = new ObservableCollection<Anamnesis>(access.GetAllAnamnesis());
+            dgAnamnesis.ItemsSource = anamnesises;
         }
 
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
+            if (dgAnamnesis.SelectedItem != null)
+            {
+                Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
+                Anamnesis anamnesis = new Anamnesis(selectedAnamnesis.Id, txtDisease.Text);
+                // access.UpdateAnamnesis(anamnesis);
+                LoadAnamnesis();
+            }
+        }
 
+        private void AddNew_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtDisease.Text))
+            {
+                Anamnesis anamnesis = new Anamnesis(0, txtDisease.Text); 
+                // access.InsertAnamnesis(anamnesis);
+                LoadAnamnesis();
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-
+            if (dgAnamnesis.SelectedItem != null)
+            {
+                Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
+                // access.DeleteAnamnesis(selectedAnamnesis);
+                LoadAnamnesis();
+            }
         }
+
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
+
+        private void dgAnamnesis_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgAnamnesis.SelectedItem != null)
+            {
+                Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
+                txtDisease.Text = selectedAnamnesis.Name;
+            }
+        }
     }
 }
+

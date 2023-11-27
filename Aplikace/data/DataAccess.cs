@@ -552,7 +552,7 @@ namespace Aplikace.data
 
 
 
-        private List<Reservation> GetAllReservations()
+        public List<Reservation> GetAllReservations()
         {
             List<Reservation> reservationList = new List<Reservation>();
             List<Patient> patientList = GetAllPatients();
@@ -610,7 +610,7 @@ namespace Aplikace.data
 
             return reservationList;
         }
-        private List<Procedure> GetAllProcedures()
+        public List<Procedure> GetAllProcedures()
         {
             List<Procedure> procedureList = new List<Procedure>();
 
@@ -651,7 +651,7 @@ namespace Aplikace.data
 
 
         }
-        private List<ReservationProcedureLink> GetAllReservationProcedureLinks()
+        public List<ReservationProcedureLink> GetAllReservationProcedureLinks()
         {
             List<ReservationProcedureLink> reservationProcedureList = new List<ReservationProcedureLink>();
 

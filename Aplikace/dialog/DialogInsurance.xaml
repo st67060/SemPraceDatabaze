@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Таблица для отображения атрибутов Insurance -->
-            <DataGrid Name="dgInsurance" AutoGenerateColumns="True" Margin="10" Grid.Column="0" ItemsSource="{Binding InsuranceList}">
+            <DataGrid Name="dgInsurance" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding InsuranceList}" SelectionChanged="dgInsurance_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Abbreviation" Binding="{Binding Abbreviation}" />

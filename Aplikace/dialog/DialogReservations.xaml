@@ -1,0 +1,63 @@
+﻿<Window x:Class="Aplikace.dialog.DialogReservations"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aplikace.dialog"
+        mc:Ignorable="d"
+        Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#bde0fe" />
+                <GradientStop Offset="0.5" Color="#a2d2ff" />
+                <GradientStop Offset="1" Color="#0096c7" />
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="284"/>
+                <ColumnDefinition Width="Auto" MinWidth="220"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Таблица для отображения атрибутов Reservations -->
+            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding ReservationsList}" SourceUpdated="dgReservations_SourceUpdated">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" />
+                    <!-- Переименование Pacient_id в Patient и отображение имени и фамилии пациента -->
+                    <DataGridTextColumn Header="Patient" Binding="{Binding PatientFullName}" />
+                    <!-- Переименование Zamestnanec_id в Employee и отображение имени и фамилии сотрудника -->
+                    <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeFullName}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Формуляр для ввода атрибутов Reservations -->
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock Text="Date:" Margin="0,0,0,5"/>
+                <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Notes:" Margin="0,0,0,5"/>
+                <TextBox Name="txtNotes" Width="200" Margin="0,0,0,10" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Patient:" Margin="0,0,0,5"/>
+                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding PatientId, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Employee:" Margin="0,0,0,5"/>
+                <ComboBox Name="cmbEmployee" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Zamestnanec_id" ItemsSource="{Binding EmployeesList}" SelectedValue="{Binding EmployeeId, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Кнопки для добавления, изменения и удаления записей -->
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                    <Button Content="Add New" Click="AddNew_Click" Margin="0,0,10,0"/>
+                    <Button Content="Modify" Click="Modify_Click" Margin="0,0,10,0"/>
+                    <Button Content="Delete" Click="Delete_Click"/>
+                </StackPanel>
+            </StackPanel>
+            <!-- Изображение для кнопки закрытия, как в DialogVisits.xaml -->
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="Border_MouseLeftButtonDown" Height="27" Width="27" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,-86,0"/>
+        </Grid>
+    </Border>
+</Window>
+
+
+

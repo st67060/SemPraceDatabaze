@@ -20,19 +20,19 @@
                 <ColumnDefinition Width="Auto" MinWidth="220"/>
             </Grid.ColumnDefinitions>
 
-            
-            <DataGrid Name="dgAnamnesis" AutoGenerateColumns="True" Margin="10" Grid.Column="0" ItemsSource="{Binding AnamnesisList}">
+
+            <DataGrid Name="dgAnamnesis" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding AnamnesisList}" SelectionChanged="dgAnamnesis_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Disease" Binding="{Binding Disease}" />
                 </DataGrid.Columns>
             </DataGrid>
 
-            
+
             <StackPanel Grid.Column="1" Margin="10">
                 <TextBlock Text="Disease:" Margin="0,0,0,5"/>
                 <TextBox Name="txtDisease" Width="200" Margin="0,0,0,10" Text="{Binding Disease, UpdateSourceTrigger=PropertyChanged}"/>
 
-                
+
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                     <Button Content="Add New" Click="AddNew_Click" Margin="0,0,10,0"/>
                     <Button Content="Modify" Click="Modify_Click" Margin="0,0,10,0"/>
@@ -43,4 +43,3 @@
         </Grid>
     </Border>
 </Window>
-

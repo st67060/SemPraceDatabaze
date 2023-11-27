@@ -66,6 +66,11 @@ namespace Aplikace.dialog
         {
             this.Close();
         }
+
+        private void dgInsurance_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
 
