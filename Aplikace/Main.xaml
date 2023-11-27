@@ -384,14 +384,14 @@
                     </TabItem.Header>
                     <!-- Obsah pro záložku 3 -->
                 </TabItem>
-                <TabItem x:Name="chatTabItem"  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="dataTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/chat.png" Width="48" Height="48" Margin="0 0 5 0" />
-
+                            <Image Source="/assets/database.png" Width="48" Height="48" Margin="0 0 5 0" />
+                            
                         </StackPanel>
                     </TabItem.Header>
-                    <!-- Obsah pro záložku 4 -->
+                    <Button x:Name="btnAdressDialog" Margin="0,34,670,487" Content="Addresses" Click="btnAdressDialog_Click"/>
                 </TabItem>
                 <TabItem x:Name="settingsTabItem"  Style="{StaticResource ModernTabItemStyle}" ContextMenuOpening="settingsTabItem_ContextMenuOpening">
                     <TabItem.Header>
@@ -410,7 +410,6 @@
                         <StackPanel x:Name="f" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,169,27">
                             <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="374" SelectionChanged="usersDataGrid_SelectionChanged" >
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="User Id" Binding="{Binding Id}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Username" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Employee" Binding="{Binding Employee.Surname}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />

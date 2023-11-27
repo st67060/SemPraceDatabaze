@@ -6,7 +6,7 @@ namespace Aplikace.data.Entity
 {
     public class Patient : INotifyPropertyChanged
     {
-        public Patient(int id, string firstName, string lastName, long socialSecurityNumber, string gender, DateTime dateOfBirth, long phone, string email, Address address, HealthCard healthCard, InsuranceCompany insuranceCompany)
+        public Patient(int id, string firstName, string lastName, long socialSecurityNumber, string gender, DateTime dateOfBirth, long phone, string email, Address address, HealthCard healthCard, Insurance insuranceCompany)
         {
             Id = id;
             FirstName = firstName;
@@ -30,7 +30,7 @@ namespace Aplikace.data.Entity
         private long phone;
         private string email;
         private Address address;
-        private InsuranceCompany insuranceCompany;
+        private Insurance insuranceCompany;
         private HealthCard healthCard;
 
         public int Id
@@ -150,7 +150,7 @@ namespace Aplikace.data.Entity
             }
         }
 
-        public InsuranceCompany InsuranceCompany
+        public Insurance InsuranceCompany
         {
             get { return insuranceCompany; }
             set

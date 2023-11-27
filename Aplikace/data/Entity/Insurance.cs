@@ -31,7 +31,7 @@ namespace Aplikace.data.Entity
                 if (id != value)
                 {
                     id = value;
-                    OnPropertyChanged(nameof(ID));
+                    OnPropertyChanged(nameof(Id));
                 }
             }
         }

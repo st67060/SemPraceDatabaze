@@ -68,22 +68,17 @@ namespace Aplikace.dialog
             }
         }
 
-        //private void dgAddress_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if (dgAddress.SelectedItem != null)
-        //    {
-        //        Address selectedAddress = (Address)dgAddress.SelectedItem;
-        //        txtCity.Text = selectedAddress.City;
-        //        txtPostalCode.Text = selectedAddress.PostalCode.ToString();
-        //        txtStreetNumber.Text = selectedAddress.StreetNumber.ToString();
-        //        txtCountry.Text = selectedAddress.Country;
-        //        txtStreet.Text = selectedAddress.Street;
-        //    }
-        //}
+
 
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
+        }
+
+        private void dgAddress_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            Address selectedAddress = (Address)dgAddress.SelectedItem;
+            DataContext = selectedAddress;
         }
     }
 }

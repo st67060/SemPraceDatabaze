@@ -234,3 +234,13 @@ C:\databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace_MarkupCompile.lref
 C:\databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.dll
 C:\databaze\Aplikace\obj\Debug\net6.0-windows\refint\Aplikace.dll
 C:\databaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.pdb
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogAllergy.g.cs
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogAnamnesis.g.cs
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogInsurance.g.cs
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogVisits.g.cs
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogAllergy.baml
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogAnamnesis.baml
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogInsurance.baml
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogVisits.baml
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace_Content.g.cs
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\bin\Debug\net6.0-windows\assets\database.png

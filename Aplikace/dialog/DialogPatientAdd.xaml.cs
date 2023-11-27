@@ -25,26 +25,29 @@ namespace Aplikace.dialog
         public Patient patient;
         public Address address;
         public HealthCard healthCard;
+        private DataAccess access;
         public DialogPatientAdd()
         {
+            access = new DataAccess();
             patient = null;
             address = null;
             healthCard = null;
             InitializeComponent();
-            cmbAnamnesis.ItemsSource = Enum.GetValues(typeof(Anamnesis));
-            cmbInsuranceCompany.ItemsSource = Enum.GetValues(typeof(InsuranceCompany));
+            cmbAnamnesis.ItemsSource = access.GetAllAnamnesis();
+            cmbInsuranceCompany.ItemsSource = access.GetAllInsurances();
 
         }
         public DialogPatientAdd(Patient patient)
 
         {
+            access = new DataAccess();
             this.patient = patient;
             address = patient.Address;
             healthCard = patient.HealthCard;
             DataContext = patient;
             InitializeComponent();
-            cmbAnamnesis.ItemsSource = Enum.GetValues(typeof(Anamnesis));
-            cmbInsuranceCompany.ItemsSource = Enum.GetValues(typeof(InsuranceCompany));
+            cmbAnamnesis.ItemsSource = access.GetAllAnamnesis();
+            cmbInsuranceCompany.ItemsSource = access.GetAllInsurances();
 
         }
 
@@ -60,7 +63,7 @@ namespace Aplikace.dialog
             {
                 address = new Address(address.Id, txtCity.Text, int.Parse(txtPostalCode.Text), int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
                 healthCard = new HealthCard(healthCard.Id, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
-                patient = new Patient(patient.Id, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (InsuranceCompany)cmbInsuranceCompany.SelectedItem);
+                patient = new Patient(patient.Id, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
                 DataAccess access = new DataAccess();
                 DialogResult = access.UpdatePatient(patient);
                 if (DialogResult == true)
@@ -73,7 +76,7 @@ namespace Aplikace.dialog
             {
                 address = new Address(0, txtCity.Text, int.Parse(txtPostalCode.Text), int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
                 healthCard = new HealthCard(0, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
-                patient = new Patient(0, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (InsuranceCompany)cmbInsuranceCompany.SelectedItem);
+                patient = new Patient(0, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
                 DataAccess access = new DataAccess();
                 DialogResult = access.InsertPatient(patient);
                 if (DialogResult == true)

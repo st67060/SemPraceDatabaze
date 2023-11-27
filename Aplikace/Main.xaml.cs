@@ -46,7 +46,7 @@ namespace Aplikace
             mainTabControl.SelectedItem = mainMenuTabItem;
             PatientTabItem.Visibility = Visibility.Collapsed;
             UserTabItem.Visibility = Visibility.Collapsed;
-            chatTabItem.Visibility = Visibility.Collapsed;
+            dataTabItem.Visibility = Visibility.Collapsed;
             settingsTabItem.Visibility = Visibility.Collapsed;
             listTabItem.Visibility = Visibility.Collapsed;
             calendarTabItem.Visibility = Visibility.Collapsed;
@@ -55,7 +55,7 @@ namespace Aplikace
             {
                 userImage.Source = SetProfileImage(user);
                 UserTabItem.Visibility = Visibility.Visible;
-                chatTabItem.Visibility = Visibility.Visible;
+                dataTabItem.Visibility = Visibility.Visible;
                 settingsTabItem.Visibility = Visibility.Visible;
                 listTabItem.Visibility = Visibility.Visible;
                 calendarTabItem.Visibility = Visibility.Visible;
@@ -66,7 +66,6 @@ namespace Aplikace
             {
                 userImage.Source = SetProfileImage(user);
                 UserTabItem.Visibility = Visibility.Visible;
-                chatTabItem.Visibility = Visibility.Visible;
                 listTabItem.Visibility = Visibility.Visible;
                 calendarTabItem.Visibility = Visibility.Visible;
                 PatientTabItem.Visibility = Visibility.Visible;
@@ -76,26 +75,13 @@ namespace Aplikace
             {
                 userImage.Source = SetProfileImage(user);
                 UserTabItem.Visibility = Visibility.Visible;
-                chatTabItem.Visibility = Visibility.Visible;
 
 
             }
 
 
         }
-        private void SetAccessForQuest()
-        {
-            calendarTabItem.IsEnabled = false;
-            calendarTabItem.Visibility = Visibility.Hidden;
-            chatTabItem.IsEnabled = false;
-            chatTabItem.Visibility = Visibility.Hidden;
-            settingsTabItem.IsEnabled = false;
-            settingsTabItem.Visibility = Visibility.Hidden;
-            listTabItem.IsEnabled = false;
-            listTabItem.Visibility = Visibility.Hidden;
 
-
-        }
         private BitmapImage SetProfileImage(User user)
         {
             BitmapImage bitmapImage = new BitmapImage();
@@ -271,6 +257,12 @@ namespace Aplikace
         private void dgReservations_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             dgProcedures.ItemsSource = data.Reservations[dgReservations.SelectedIndex].Procedures;
+        }
+
+        private void btnAdressDialog_Click(object sender, RoutedEventArgs e)
+        {
+            DialogAddress dialogAddress = new DialogAddress();
+            dialogAddress.ShowDialog();
         }
     }
 }

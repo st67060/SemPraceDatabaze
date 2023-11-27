@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aplikace.dialog"
         mc:Ignorable="d"
-        Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+        Height="400" Width="800" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
     <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -16,13 +16,13 @@
         </Border.Background>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="284"/>
+                <ColumnDefinition Width="Auto" MinWidth="500"/>
                 <ColumnDefinition Width="Auto" MinWidth="220"/>
             </Grid.ColumnDefinitions>
 
 
             <!-- Formulář pro zadání atributů Address -->
-            <DataGrid Name="dgAddress" AutoGenerateColumns="True" Margin="10" Grid.Column="0" ItemsSource="{Binding AddressList}">
+            <DataGrid Name="dgAddress" AutoGenerateColumns="False" Margin="10,10,10,10" Grid.Column="0" SelectionChanged="dgAddress_SelectionChanged_1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="City" Binding="{Binding City}" />
                     <DataGridTextColumn Header="Postal Code" Binding="{Binding PostalCode}" />
@@ -33,7 +33,7 @@
             </DataGrid>
 
             <!-- Formulář pro zadání atributů Address -->
-            <StackPanel Grid.Column="1" Margin="10">
+            <StackPanel x:Name="spForm" Grid.Column="1" Margin="10,4,10,16">
                 <TextBlock Text="City:" Margin="0,0,0,5"/>
                 <TextBox Name="txtCity" Width="200" Margin="0,0,0,10" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -56,7 +56,7 @@
                     <Button Content="Delete" Click="Delete_Click"/>
                 </StackPanel>
             </StackPanel>
-            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Height="27" Width="27" Grid.Column="1" Margin="264,4,-71,370"/>
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Grid.Column="1" Margin="263,4,-70,369"/>
         </Grid>
 
     </Border>

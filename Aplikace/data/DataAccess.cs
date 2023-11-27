@@ -291,6 +291,8 @@ namespace Aplikace.data
             List<Patient> patients = new List<Patient>();
             List<Alergy> alergies = GetAllAllergies();
             List<AlergyHealthCardLink> alergyHealthCardLinks = GetAllAlergyHealthCardLinks();
+            List<Anamnesis> anamneses = GetAllAnamnesis();
+            List<Insurance> insurances = GetAllInsurances();
 
             using (var connection = new OracleDatabaseConnection())
             {
@@ -334,13 +336,13 @@ namespace Aplikace.data
                             bool Alcohol = ConvertDbCharToBool(reader["ALCOHOL"].ToString());
                             string Sport = reader["SPORT"].ToString();
                             int Fillings = reader["FILLINGS"] != DBNull.Value ? Convert.ToInt32(reader["FILLINGS"]) : 0;
-                            int anamnesisID = reader["ANAMNESIS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ANAMNESIS_ID"]) : 0;
-                            Anamnesis an = (Anamnesis)anamnesisID;
-                            InsuranceCompany company = (InsuranceCompany)InsuranceID;
-                            
+                            string anamnesisName = reader["ANAMNESIS_NAME"].ToString();
+
+                            Insurance insurance = insurances.FirstOrDefault(insurance => insurance.Id == InsuranceID);
+                            Anamnesis anamnesis = anamneses.FirstOrDefault(anamnesis => anamnesis.Name == anamnesisName);
                             Address address = new Address(AddressID, City, ZipCode, StreetNumber, Country, Street);
-                            HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, an);
-                            Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, company);
+                            HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, anamnesis);
+                            Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, insurance);
                             var linkedAlergies = alergyHealthCardLinks.Where(link => link.HealthCardId == HealthCardID)
                                                     .Select(link => alergies.FirstOrDefault(a => a.Id == link.AlergyId))
                                                     .ToList();
@@ -383,13 +385,13 @@ namespace Aplikace.data
                     cmd.Parameters.Add("p_narozeni", OracleDbType.Date).Value = patient.DateOfBirth;
                     cmd.Parameters.Add("p_telefon", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.Phone);
                     cmd.Parameters.Add("p_email", OracleDbType.Varchar2).Value = patient.Email;
-                    cmd.Parameters.Add("p_pojistovny_id", OracleDbType.Decimal).Value = Convert.ToDecimal((int)patient.InsuranceCompany);
+                    cmd.Parameters.Add("p_pojistovny_id", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.InsuranceCompany.Id);
                     cmd.Parameters.Add("p_kouri", OracleDbType.Char).Value = ConvertBoolToDbChar(patient.HealthCard.Smokes);
                     cmd.Parameters.Add("p_tehotenstvi", OracleDbType.Char).Value = ConvertBoolToDbChar(patient.HealthCard.Pregnancy);
                     cmd.Parameters.Add("p_alkohol", OracleDbType.Char).Value = ConvertBoolToDbChar(patient.HealthCard.Alcohol);
                     cmd.Parameters.Add("p_sport", OracleDbType.Varchar2).Value = patient.HealthCard.Sport;
                     cmd.Parameters.Add("p_plomby", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.HealthCard.Fillings);
-                    cmd.Parameters.Add("p_anamnezy_id", OracleDbType.Decimal).Value = Convert.ToDecimal((int)patient.HealthCard.Anamnesis);
+                    cmd.Parameters.Add("p_anamnezy_id", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.HealthCard.Anamnesis.Id);
 
                     cmd.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = patient.Address.City;
                     cmd.Parameters.Add("p_psc", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.Address.PostalCode);
@@ -433,13 +435,13 @@ namespace Aplikace.data
                     cmd.Parameters.Add("p_narozeni", OracleDbType.Date).Value = patient.DateOfBirth;
                     cmd.Parameters.Add("p_telefon", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.Phone);
                     cmd.Parameters.Add("p_email", OracleDbType.Varchar2).Value = patient.Email;
-                    cmd.Parameters.Add("p_pojistovny_id", OracleDbType.Decimal).Value = Convert.ToDecimal((int)patient.InsuranceCompany);
+                    cmd.Parameters.Add("p_pojistovny_id", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.InsuranceCompany.Id);
                     cmd.Parameters.Add("p_kouri", OracleDbType.Char).Value = ConvertBoolToDbChar(patient.HealthCard.Smokes);
                     cmd.Parameters.Add("p_tehotenstvi", OracleDbType.Char).Value = ConvertBoolToDbChar(patient.HealthCard.Pregnancy);
                     cmd.Parameters.Add("p_alkohol", OracleDbType.Char).Value = ConvertBoolToDbChar(patient.HealthCard.Alcohol);
                     cmd.Parameters.Add("p_sport", OracleDbType.Varchar2).Value = patient.HealthCard.Sport;
                     cmd.Parameters.Add("p_plomby", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.HealthCard.Fillings);
-                    cmd.Parameters.Add("p_anamnezy_id", OracleDbType.Decimal).Value = Convert.ToDecimal((int)patient.HealthCard.Anamnesis);
+                    cmd.Parameters.Add("p_anamnezy_id", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.HealthCard.Anamnesis.Id);
 
                     cmd.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = patient.Address.City;
                     cmd.Parameters.Add("p_psc", OracleDbType.Decimal).Value = Convert.ToDecimal(patient.Address.PostalCode);
@@ -501,6 +503,7 @@ namespace Aplikace.data
             List<HealthCard> healthCardList = new List<HealthCard>();
             List<Alergy> alergyList = GetAllAllergies();
             List<AlergyHealthCardLink> allergyHealthCardLinks = GetAllAlergyHealthCardLinks();
+            List<Anamnesis> anamneses = GetAllAnamnesis();
             using (var connection = new OracleDatabaseConnection())
             {
                 connection.OpenConnection();
@@ -528,10 +531,10 @@ namespace Aplikace.data
                             string Sport = reader["SPORT"].ToString();
                             int Fillings = reader["FILLINGS"] != DBNull.Value ? Convert.ToInt32(reader["FILLINGS"]) : 0;
                             int anamnesisID = reader["ANAMNESIS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ANAMNESIS_ID"]) : 0;
-                            Anamnesis an = (Anamnesis)anamnesisID;
+                            Anamnesis anamnesis = anamneses.FirstOrDefault(anamnesis => anamnesis.Id == anamnesisID);
 
 
-                            healthCardList.Add(new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, an));
+                            healthCardList.Add(new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, anamnesis));
 
 
 
@@ -590,12 +593,12 @@ namespace Aplikace.data
                                 Reservation reservation = new Reservation(reservationId, reservationNotes, reservationDate, patientTemp, employeeTemp);
 
 
-                            var linkedProcedures = reservationProcedureLinks.Where(link => link.ReservationId == reservationId)
-                                                                             .Select(link => procedureList.FirstOrDefault(p => p.Id == link.ProcedureId))
-                                                                             .ToList();
-                            reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
+                                var linkedProcedures = reservationProcedureLinks.Where(link => link.ReservationId == reservationId)
+                                                                                 .Select(link => procedureList.FirstOrDefault(p => p.Id == link.ProcedureId))
+                                                                                 .ToList();
+                                reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
 
-                            reservationList.Add(reservation);
+                                reservationList.Add(reservation);
                             }
 
                         }
@@ -631,9 +634,9 @@ namespace Aplikace.data
                         while (reader.Read())
                         {
                             int procedureId = reader.GetInt32(reader.GetOrdinal("ZAKROK_ID"));
-                            string procedureName = reader.GetOrdinal("ZAKROK_NAME").ToString();
+                            string procedureName = reader["ZAKROK_NAME"].ToString();
                             int procedureCost = reader.GetInt32(reader.GetOrdinal("ZAKROK_PRICE"));
-                            bool isPayed = ConvertDbCharToBool(reader.GetOrdinal("COVERED_BY_INSURANCE").ToString());
+                            bool isPayed = ConvertDbCharToBool(reader["COVERED_BY_INSURANCE"].ToString());
                             string process = reader.GetOrdinal("PROCEDURE_DESCRIPTION").ToString();
                             procedureList.Add(new Procedure(procedureId, procedureName, procedureCost, isPayed, process));
 
@@ -758,7 +761,7 @@ namespace Aplikace.data
         public List<Visit> GetAllVisits()
         {
             List<Visit> visits = new List<Visit>();
-            List<Patient> patientList = GetAllPatients(); 
+            List<Patient> patientList = GetAllPatients();
 
             using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
             {
@@ -798,15 +801,14 @@ namespace Aplikace.data
             return visits;
         }
 
-        public List<Insurance> GetAllInsurances()
+        public List<Anamnesis> GetAllAnamnesis()
         {
-            List<Insurance> insurances = new List<Insurance>();
-
+            List<Anamnesis> anamneses = new List<Anamnesis>();
             using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
             {
                 databaseConnection.OpenConnection();
 
-                using (OracleCommand cmd = new OracleCommand("SELECT_POJISTOVNY", databaseConnection.connection))
+                using (OracleCommand cmd = new OracleCommand("SELECT_ANAMNEZY", databaseConnection.connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -820,57 +822,17 @@ namespace Aplikace.data
                     {
                         while (reader.Read())
                         {
-                            int insuranceId = reader.GetInt32(reader.GetOrdinal("INSURANCE_ID"));
-                            string insuranceName = reader.IsDBNull(reader.GetOrdinal("INSURANCE_NAME")) ? null : reader.GetString(reader.GetOrdinal("INSURANCE_NAME"));
-                            string insuranceAbbreviation = reader.IsDBNull(reader.GetOrdinal("INSURANCE_ABBREVIATION")) ? null : reader.GetString(reader.GetOrdinal("INSURANCE_ABBREVIATION"));
+                            int anamnesisId = reader.GetInt32(reader.GetOrdinal("ANAMNESIS_ID"));
+                            string anamnesisName = reader.IsDBNull(reader.GetOrdinal("DISEASE")) ? null : reader.GetString(reader.GetOrdinal("DISEASE"));
+                            Entity.Anamnesis anamnesis = new Entity.Anamnesis(anamnesisId, anamnesisName);
+                            anamneses.Add(anamnesis);
 
-                            Insurance insurance = new Insurance(insuranceId, insuranceName, insuranceAbbreviation);
-                            insurances.Add(insurance);
+
                         }
                     }
                 }
             }
-
-            return insurances;
-        }
-
-        public List<Address> GetAllAddresses()
-        {
-            List<Address> addresses = new List<Address>();
-
-            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-            {
-                databaseConnection.OpenConnection();
-
-                using (OracleCommand cmd = new OracleCommand("SELECT_ADRESY", databaseConnection.connection))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
-                    cursorParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(cursorParam);
-
-                    cmd.ExecuteNonQuery();
-
-                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int addressId = reader.GetInt32(reader.GetOrdinal("ADDRESS_ID"));
-                            string city = reader.IsDBNull(reader.GetOrdinal("CITY")) ? null : reader.GetString(reader.GetOrdinal("CITY"));
-                            int postalCode = reader.IsDBNull(reader.GetOrdinal("ZIP_CODE")) ? 0 : int.Parse(reader.GetString(reader.GetOrdinal("ZIP_CODE")));
-                            int streetNumber = reader.IsDBNull(reader.GetOrdinal("STREET_NUMBER")) ? 0 : int.Parse(reader.GetString(reader.GetOrdinal("STREET_NUMBER")));
-                            string country = reader.IsDBNull(reader.GetOrdinal("COUNTRY")) ? null : reader.GetString(reader.GetOrdinal("COUNTRY"));
-                            string street = reader.IsDBNull(reader.GetOrdinal("STREET")) ? null : reader.GetString(reader.GetOrdinal("STREET"));
-
-                            Address address = new Address(addressId, city, postalCode, streetNumber, country, street);
-                            addresses.Add(address);
-                        }
-                    }
-                }
-            }
-
-            return addresses;
+            return anamneses;
         }
 
 
@@ -981,6 +943,80 @@ namespace Aplikace.data
             }
 
             return userList;
+        }
+        public List<Insurance> GetAllInsurances()
+        {
+            List<Insurance> insurances = new List<Insurance>();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_POJISTOVNY", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int insuranceId = reader.GetInt32(reader.GetOrdinal("INSURANCE_ID"));
+                            string insuranceName = reader.IsDBNull(reader.GetOrdinal("INSURANCE_NAME")) ? null : reader.GetString(reader.GetOrdinal("INSURANCE_NAME"));
+                            string insuranceAbbreviation = reader.IsDBNull(reader.GetOrdinal("INSURANCE_ABBREVIATION")) ? null : reader.GetString(reader.GetOrdinal("INSURANCE_ABBREVIATION"));
+
+                            Insurance insurance = new Insurance(insuranceId, insuranceName, insuranceAbbreviation);
+                            insurances.Add(insurance);
+                        }
+                    }
+                }
+            }
+
+            return insurances;
+        }
+
+        public List<Address> GetAllAddresses()
+        {
+            List<Address> addresses = new List<Address>();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_ADRESY", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int addressId = reader.GetInt32(reader.GetOrdinal("ADDRESS_ID"));
+                            string city = reader.IsDBNull(reader.GetOrdinal("CITY")) ? null : reader.GetString(reader.GetOrdinal("CITY"));
+                            int postalCode = reader.IsDBNull(reader.GetOrdinal("ZIP_CODE")) ? 0 : int.Parse(reader.GetString(reader.GetOrdinal("ZIP_CODE")));
+                            int streetNumber = reader.IsDBNull(reader.GetOrdinal("STREET_NUMBER")) ? 0 : int.Parse(reader.GetString(reader.GetOrdinal("STREET_NUMBER")));
+                            string country = reader.IsDBNull(reader.GetOrdinal("COUNTRY")) ? null : reader.GetString(reader.GetOrdinal("COUNTRY"));
+                            string street = reader.IsDBNull(reader.GetOrdinal("STREET")) ? null : reader.GetString(reader.GetOrdinal("STREET"));
+
+                            Address address = new Address(addressId, city, postalCode, streetNumber, country, street);
+                            addresses.Add(address);
+                        }
+                    }
+                }
+            }
+
+            return addresses;
         }
 
 

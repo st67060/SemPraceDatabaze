@@ -102,15 +102,5 @@ namespace Aplikace.data.Entity
         }
     }
 
-    public class Employee
-    {
-        public int ID { get; set; }
-        // Other employee attributes can be added here
-    }
-
-    public class Patient
-    {
-        public int ID { get; set; }
-        // Other patient attributes can be added here
-    }
+   
 }

@@ -11,6 +11,7 @@
     <None Remove="assets\calendar.png" />
     <None Remove="assets\chat.png" />
     <None Remove="assets\close.png" />
+    <None Remove="assets\database.png" />
     <None Remove="assets\dentist.png" />
     <None Remove="assets\dentistRegister.png" />
     <None Remove="assets\home.png" />
@@ -21,6 +22,12 @@
     <None Remove="assets\user.png" />
     <None Remove="assets\userLogin.png" />
     <None Remove="assets\username.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\database.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
