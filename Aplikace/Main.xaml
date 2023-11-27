@@ -388,11 +388,11 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/database.png" Width="48" Height="48" Margin="0 0 5 0" />
-                            
+
                         </StackPanel>
                     </TabItem.Header>
                     <Grid>
-                       
+
                         <Button x:Name="btnAdressDialog" Margin="11,34,659,487" Content="Addresses" Click="btnAdressDialog_Click"/>
                         <Button x:Name="btnAllergyDialog" Margin="258,34,411,487" Content="Allergies" Click="btnAllergyDialog_Click"/>
                         <Button x:Name="btnAnamnesisDialog" Margin="132,34,538,487" Content="Anamneses" Click="btnAnamnesisDialog_Click"/>
@@ -409,24 +409,21 @@
 
 
                     </Grid>
-                    
+
                 </TabItem>
-                <TabItem x:Name="settingsTabItem"  Style="{StaticResource ModernTabItemStyle}" ContextMenuOpening="settingsTabItem_ContextMenuOpening">
+                <TabItem x:Name="settingsTabItem"  Style="{StaticResource ModernTabItemStyle}" >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/assets/settings.png" Width="48" Height="48" Margin="0 0 5 0" />
 
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid HorizontalAlignment="Center" Width="770" Margin="0,46,0,15" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="280"/>
-                            <ColumnDefinition Width="280"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid HorizontalAlignment="Left" Width="770" Margin="0,47,0,14" >
+                        
 
-                        <Label HorizontalAlignment="Left" Content="Choose non Admin User to Emulate" Width="320" Grid.ColumnSpan="2" Margin="36,-10,0,10"/>
-                        <StackPanel x:Name="f" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,169,27">
-                            <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="497" Width="374" SelectionChanged="usersDataGrid_SelectionChanged" >
+                        <Label HorizontalAlignment="Left" Content="Choose non Admin User to Emulate" Width="320" Margin="112,36,0,433"/>
+                        <StackPanel x:Name="f" Grid.Column="0" Margin="0,142,227,27">
+                            <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="347" Width="386" SelectionChanged="usersDataGrid_SelectionChanged" >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Username" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
@@ -434,33 +431,29 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
-                        <StackPanel x:Name="r" Grid.Column="1" Margin="130,-26,-206,29"  VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <Button x:Name="emulateUserButton" Content="Emulate User" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="10,70,10,10" Width="174" Height="38" Click="emulateUserButton_Click" Visibility="Visible">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                            <Label HorizontalAlignment="Center" Content="Logs" Width="56" Grid.ColumnSpan="2" />
-                            <DataGrid x:Name="logsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" 
-                                      SelectionChanged="usersDataGrid_SelectionChanged" Height="361" >
-                                <DataGrid.CellStyle>
-                                    <Style TargetType="DataGridCell">
-                                        <Setter Property="FontSize" Value="10" />
-                                    </Style>
-                                </DataGrid.CellStyle>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="TableName" Binding="{Binding TableName}" Width="110" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="ChangeType" Binding="{Binding ChangeType}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="ChangeTime" Binding="{Binding ChangeTime}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+
+                        <Button x:Name="emulateUserButton" Content="Emulate User" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="174,82,400,395" Click="emulateUserButton_Click" Visibility="Visible">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button x:Name="btnLogsDialog" Content="Show Logs" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="521,440,52,37"  Visibility="Visible" Click="btnLogsDialog_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
 
-                        </StackPanel>
+
+
 
                     </Grid>
                 </TabItem>

@@ -31,7 +31,6 @@ namespace Aplikace
             LoadListOfPatients();
             LoadListOfUsers();
             LoadListOfEmployees();
-            LoadListOfLogs();
             LoadListOfRezervations();
             
         }
@@ -124,15 +123,7 @@ namespace Aplikace
             data.Users = new ObservableCollection<User>(access.GetAllUsers());
             usersDataGrid.ItemsSource = data.Users;
         }
-        private void LoadListOfLogs()
-        {
-
-
-            data.Logs = new ObservableCollection<Log>(access.GetAllLogs());
-            logsDataGrid.DataContext = data.Logs[0];
-            logsDataGrid.ItemsSource = data.Logs;
-
-        }
+        
         private void LoadListOfRezervations()
         {
             data.Reservations.Clear();
@@ -239,10 +230,6 @@ namespace Aplikace
             
         }
 
-        private void settingsTabItem_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
-        {
-            LoadListOfLogs();
-        }
 
         private void AddReservation_Click(object sender, RoutedEventArgs e)
         {
@@ -335,6 +322,12 @@ namespace Aplikace
         {
             //DialogRole dialogRole = new DialogRole();
             //dialogRole.ShowDialog();
+        }
+
+        private void btnLogsDialog_Click(object sender, RoutedEventArgs e)
+        {
+            DialogLogs dialogLogs = new DialogLogs();
+            dialogLogs.ShowDialog();
         }
     }
 }

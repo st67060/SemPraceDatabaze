@@ -296,3 +296,7 @@ C:\Users\st67060\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows
 C:\Users\st67060\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.csproj.CopyComplete
 C:\Users\st67060\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\Aplikace.genruntimeconfig.cache
 C:\Users\st67060\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\ref\Aplikace.dll
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogReservations.g.cs
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogReservations.baml
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogLogs.g.cs
+C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogLogs.baml

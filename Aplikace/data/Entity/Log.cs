@@ -20,6 +20,8 @@ namespace Aplikace.data.Entity
         private string tableName;
         private ChangeType changeType;
         private DateTime changeTime;
+        private string before;
+        private string after;
 
         public int Id
         {
@@ -72,6 +74,30 @@ namespace Aplikace.data.Entity
                 }
             }
         }
+        public string Before
+        {
+            get { return before; }
+            set
+            {
+                if (before != value)
+                {
+                    before = value;
+                    OnPropertyChanged(nameof(Before));
+                }
+            }
+        }
+        public string After
+        {
+            get { return after; }
+            set
+            {
+                if (after != value)
+                {
+                    after = value;
+                    OnPropertyChanged(nameof(After));
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -80,12 +106,14 @@ namespace Aplikace.data.Entity
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Log(int id, string tableName, ChangeType changeType, DateTime changeTime)
+        public Log(int id, string tableName, ChangeType changeType, DateTime changeTime,string before,string after)
         {
             Id = id;
             TableName = tableName;
             ChangeType = changeType;
             ChangeTime = changeTime;
+            Before = before;
+            After = after;
         }
     }
 }

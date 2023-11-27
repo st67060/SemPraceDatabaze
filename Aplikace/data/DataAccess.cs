@@ -95,55 +95,83 @@ namespace Aplikace.data
         public List<Employee> GetEmployees()
         {
             List<Employee> employees = new List<Employee>();
+            Dictionary<int, int?> superiorMapping = new Dictionary<int, int?>(); // Ukládání nadřízených zaměstnanců
+
             using (var connection = new OracleDatabaseConnection())
             {
                 connection.OpenConnection();
-                string query = "SELECT * FROM zamestnanec";
-                var dataTable = connection.ExecuteQuery(query);
-                foreach (DataRow row in dataTable.Rows)
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_ZAMESTNANCI", connection.connection))
                 {
-                    int id = Convert.ToInt32(row["id"]);
-                    string name = row["jmeno"].ToString();
-                    string surname = row["prijmeni"].ToString();
-                    DateTime hireDate = Convert.ToDateTime(row["nastup"]);
-                    int roleId = Convert.ToInt32(row["role_id"]);
-                    byte[] photo = null;
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    if (!row.IsNull("fotka"))
+                    // Definice výstupních parametrů pro proceduru
+                    cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                    // Spuštění procedury
+                    cmd.ExecuteNonQuery();
+
+                    // Čtení výsledků z kurzoru
+                    OracleDataReader reader = ((OracleRefCursor)cmd.Parameters["v_cursor"].Value).GetDataReader();
+
+                    while (reader.Read())
                     {
-                        photo = (byte[])row["fotka"];
+                        int employeeId = Convert.ToInt32(reader["v_employee_id"]);
+                        string employeeName = reader["v_employee_name"].ToString();
+                        string employeeSurname = reader["v_employee_surname"].ToString();
+                        DateTime hireDate = Convert.ToDateTime(reader["v_employee_hire_date"]);
+                        int roleId = Convert.ToInt32(reader["v_employee_role_id"]);
+                        byte[] photo = reader["v_employee_photo"] != DBNull.Value ? (byte[])reader["v_employee_photo"] : null;
+
+                        int? superiorId = reader["v_employee_employee"] != DBNull.Value? (int?)Convert.ToInt32(reader["v_employee_employee"]): null;
+
+                        if (superiorId != null) {
+                            superiorMapping.Add(employeeId, superiorId);
+                        }
+                        
+
+                        Role role;
+                        switch (roleId)
+                        {
+                            case 1:
+                                role = Role.Admin;
+                                break;
+                            case 2:
+                                role = Role.Doctor;
+                                break;
+                            case 3:
+                                role = Role.Nurse;
+                                break;
+                            case 4:
+                                role = Role.Employee;
+                                break;
+                            default:
+                                role = Role.Employee;
+                                break;
+                        }
+
+                        var employee = new Employee(employeeId, employeeName, employeeSurname, hireDate, photo, role);
+                        employees.Add(employee);
                     }
+                }
 
-
-
-                    Role role;
-                    switch (roleId)
+                // Přiřazení nadřízených zaměstnanců
+                foreach (var employee in employees)
+                {
+                    if (superiorMapping.ContainsKey(employee.Id))
                     {
-                        case 1:
-                            role = Role.Admin;
-                            break;
-                        case 2:
-                            role = Role.Doctor;
-                            break;
-                        case 3:
-                            role = Role.Nurse;
-                            break;
-                        case 4:
-                            role = Role.Employee;
-                            break;
-                        default:
-                            role = Role.Employee;
-                            break;
+                        int? superiorId = superiorMapping[employee.Id];
+                        employee.Superior = superiorId.HasValue
+                            ? employees.FirstOrDefault(e => e.Id == superiorId)
+                            : null;
                     }
-
-
-
-                    var employee = new Employee(id, name, surname, hireDate, photo, role);
-                    employees.Add(employee);
                 }
             }
+
             return employees;
         }
+
+
 
         // ==============================================
         // Metody pro příhlášení a odhlášení
@@ -191,8 +219,10 @@ namespace Aplikace.data
                     string employeeSurname = cmd.Parameters["v_employee_surname"].Value.ToString();
                     DateTime hireDate = Convert.ToDateTime(cmd.Parameters["v_employee_hire_date"].Value.ToString());
                     int roleId = Convert.ToInt32(cmd.Parameters["v_employee_role_id"].Value.ToString());
+
                     byte[] photo = null;
                     OracleBlob blob = (OracleBlob)cmd.Parameters["v_employee_photo"].Value;
+
 
                     if (blob != null && blob.Length > 0)
                     {
@@ -843,43 +873,54 @@ namespace Aplikace.data
 
 
         // nacteni logu - ADMIN
-        private List<Log> GetLogs()
+        
+    private List<Log> GetLogs()
         {
             List<Log> logs = new List<Log>();
-            using (var connection = new OracleDatabaseConnection())
+        using (var connection = new OracleDatabaseConnection())
+        {
+            connection.OpenConnection();
+            string procedureName = "SELECT_LOGY";
+
+            using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
             {
-                connection.OpenConnection();
-                string query = "SELECT * FROM LOG_ZMEN";
-                var dataTable = connection.ExecuteQuery(query);
-                foreach (DataRow row in dataTable.Rows)
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Výstupní parametr pro kurzor
+                cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                using (OracleDataReader reader = cmd.ExecuteReader())
                 {
-                    ChangeType changeType = ChangeType.Insert;
-                    int id = Convert.ToInt32(row["ID"]);
-                    string tableName = row["NAZEV_TABULKY"].ToString();
-                    string s_changeType = row["TYP_ZMENY"].ToString();
-                    DateTime changeTime = Convert.ToDateTime(row["CAS_ZMENY"]);
-                    switch (s_changeType)
+                    while (reader.Read())
                     {
-                        case "INSERT":
-                            changeType = ChangeType.Insert;
-                            break;
-                        case "UPDATE":
-                            changeType = ChangeType.Update;
-                            break;
-                        case "DELETE":
-                            changeType = ChangeType.Delete;
-                            break;
-                        default: break;
-                    }
-
-                    var Log = new Log(id, tableName, changeType, changeTime);
-
-                    logs.Add(Log);
+                        int Id = Convert.ToInt32(reader["LOG_ID"]);
+                        string before = reader["BEFORE_VALUES"].ToString();
+                        DateTime timeStamp = Convert.ToDateTime(reader["TIMESTAMP"]);
+                        string eventType = reader["EVENT_TYPE"].ToString();
+                        string tableName = reader["TABLE_NAME"].ToString();
+                        string after = reader["AFTER_VALUES"].ToString();
+                            ChangeType changeType = ChangeType.Insert;
+                            switch (eventType)
+                            {
+                                case "INSERT":
+                                    changeType = ChangeType.Insert;
+                                    break;
+                                case "UPDATE":
+                                    changeType = ChangeType.Update;
+                                    break;
+                                case "DELETE":
+                                    changeType = ChangeType.Delete;
+                                    break;
+                                default: break;
+                            }
+                            Log log = new Log(Id, tableName,changeType ,timeStamp, before, after);
+                            logs.Add(log);
+                        }
                 }
             }
-            return logs;
-
         }
+        return logs;
+    }
 
 
         // nacteni uzivatelů - ADMIN

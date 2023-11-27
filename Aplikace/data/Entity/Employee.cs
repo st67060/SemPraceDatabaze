@@ -13,6 +13,7 @@ namespace Aplikace.data.Entity
         private DateTime hireDate;
         private byte[] photo;
         private Role role;
+        private Employee superior;
 
         public int Id
         {
@@ -48,6 +49,11 @@ namespace Aplikace.data.Entity
         {
             get { return role; }
             set { SetProperty(ref role, value); }
+        }
+        public Employee Superior
+        {
+            get { return superior; }
+            set { SetProperty(ref superior, value); }
         }
 
         public Employee(int id, string name, string surname, DateTime hireDate, byte[] photo, Role role)
