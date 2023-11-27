@@ -17,6 +17,16 @@ namespace Aplikace.data.Entity
         private string country;
         private string street;
 
+        public Address(int id, string city, int postalCode, int streetNumber, string country, string street)
+        {
+            Id = id;
+            City = city;
+            PostalCode = postalCode;
+            StreetNumber = streetNumber;
+            Country = country;
+            Street = street;
+        }
+
         public int Id
         {
             get { return id; }
@@ -53,15 +63,7 @@ namespace Aplikace.data.Entity
             set { SetProperty(ref street, value); }
         }
 
-        public Address(int id, string city, int postalCode, int streetNumber, string country, string street)
-        {
-            Id = id;
-            City = city;
-            PostalCode = postalCode;
-            StreetNumber = streetNumber;
-            Country = country;
-            Street = street;
-        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 

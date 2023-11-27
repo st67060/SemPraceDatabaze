@@ -1,42 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Aplikace.data;
+using Aplikace.data.Entity;
+using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace Aplikace.dialog
 {
-    /// <summary>
-    /// Логика взаимодействия для DialogInsurance.xaml
-    /// </summary>
     public partial class DialogInsurance : Window
     {
+        DataAccess access;
+        ObservableCollection<Insurance> insurances;
+
         public DialogInsurance()
         {
+            access = new DataAccess();
             InitializeComponent();
+            MouseLeftButtonDown += (s, e) => DragMove();
+            LoadInsurances();
         }
 
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
 
+            if (dgInsurance.SelectedItem != null)
+            {
+                Insurance selectedInsurance = (Insurance)dgInsurance.SelectedItem;
+                selectedInsurance.Name = txtName.Text;
+                selectedInsurance.Abbreviation = txtAbbreviation.Text;
+
+                // access.UpdateInsurance(selectedInsurance);
+
+                LoadInsurances();
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
+            if (dgInsurance.SelectedItem != null)
+            {
+                Insurance selectedInsurance = (Insurance)dgInsurance.SelectedItem;
 
+                // access.DeleteInsurance(selectedInsurance);
+
+                LoadInsurances();
+            }
         }
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
+            Insurance newInsurance = new Insurance(0, txtName.Text, txtAbbreviation.Text);
 
+            //access.InsertInsurance(newInsurance);
+
+            LoadInsurances();
+        }
+
+        private void LoadInsurances()
+        {
+            insurances = new ObservableCollection<Insurance>(access.GetAllInsurances());
+            dgInsurance.ItemsSource = insurances;
         }
 
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -44,4 +67,6 @@ namespace Aplikace.dialog
             this.Close();
         }
     }
+
+
 }

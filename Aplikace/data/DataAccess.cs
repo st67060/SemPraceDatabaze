@@ -337,7 +337,7 @@ namespace Aplikace.data
                             int anamnesisID = reader["ANAMNESIS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ANAMNESIS_ID"]) : 0;
                             Anamnesis an = (Anamnesis)anamnesisID;
                             InsuranceCompany company = (InsuranceCompany)InsuranceID;
-
+                            
                             Address address = new Address(AddressID, City, ZipCode, StreetNumber, Country, Street);
                             HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, an);
                             Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, company);
@@ -722,7 +722,7 @@ namespace Aplikace.data
 
             return allergyHealthCardList;
         }
-        private List<Alergy> GetAllAllergies()
+        public List<Alergy> GetAllAllergies()
         {
             List<Alergy> allergyList = new List<Alergy>();
 
@@ -755,11 +755,124 @@ namespace Aplikace.data
             return allergyList;
         }
 
-        public List<Visit> GetAllVisits() {
+        public List<Visit> GetAllVisits()
+        {
             List<Visit> visits = new List<Visit>();
-            //TODO nacist z db Visits
+            List<Patient> patientList = GetAllPatients(); 
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_NAVSTEVY", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int visitId = reader.GetInt32(reader.GetOrdinal("VISIT_ID"));
+                            DateTime visitDate = reader.GetDateTime(reader.GetOrdinal("VISIT_DATE"));
+                            string visitNotes = reader.IsDBNull(reader.GetOrdinal("VISIT_NOTES")) ? null : reader.GetString(reader.GetOrdinal("VISIT_NOTES"));
+                            int patientId = reader.GetInt32(reader.GetOrdinal("PACIENT_ID"));
+
+                            Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
+
+                            if (patientTemp != null)
+                            {
+                                Visit visit = new Visit(visitId, visitDate, visitNotes, patientTemp);
+                                visits.Add(visit);
+                            }
+                        }
+                    }
+                }
+            }
+
             return visits;
         }
+
+        public List<Insurance> GetAllInsurances()
+        {
+            List<Insurance> insurances = new List<Insurance>();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_POJISTOVNY", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int insuranceId = reader.GetInt32(reader.GetOrdinal("INSURANCE_ID"));
+                            string insuranceName = reader.IsDBNull(reader.GetOrdinal("INSURANCE_NAME")) ? null : reader.GetString(reader.GetOrdinal("INSURANCE_NAME"));
+                            string insuranceAbbreviation = reader.IsDBNull(reader.GetOrdinal("INSURANCE_ABBREVIATION")) ? null : reader.GetString(reader.GetOrdinal("INSURANCE_ABBREVIATION"));
+
+                            Insurance insurance = new Insurance(insuranceId, insuranceName, insuranceAbbreviation);
+                            insurances.Add(insurance);
+                        }
+                    }
+                }
+            }
+
+            return insurances;
+        }
+
+        public List<Address> GetAllAddresses()
+        {
+            List<Address> addresses = new List<Address>();
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_ADRESY", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int addressId = reader.GetInt32(reader.GetOrdinal("ADDRESS_ID"));
+                            string city = reader.IsDBNull(reader.GetOrdinal("CITY")) ? null : reader.GetString(reader.GetOrdinal("CITY"));
+                            int postalCode = reader.IsDBNull(reader.GetOrdinal("ZIP_CODE")) ? 0 : int.Parse(reader.GetString(reader.GetOrdinal("ZIP_CODE")));
+                            int streetNumber = reader.IsDBNull(reader.GetOrdinal("STREET_NUMBER")) ? 0 : int.Parse(reader.GetString(reader.GetOrdinal("STREET_NUMBER")));
+                            string country = reader.IsDBNull(reader.GetOrdinal("COUNTRY")) ? null : reader.GetString(reader.GetOrdinal("COUNTRY"));
+                            string street = reader.IsDBNull(reader.GetOrdinal("STREET")) ? null : reader.GetString(reader.GetOrdinal("STREET"));
+
+                            Address address = new Address(addressId, city, postalCode, streetNumber, country, street);
+                            addresses.Add(address);
+                        }
+                    }
+                }
+            }
+
+            return addresses;
+        }
+
 
 
         // ==============================================

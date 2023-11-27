@@ -11,32 +11,80 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Aplikace.data.Entity;
+using System.Collections.ObjectModel;
+using Aplikace.data;
+using System.Net;
 
 namespace Aplikace.dialog
 {
-    /// <summary>
-    /// Interakční logika pro DialogAddress.xaml
-    /// </summary>
     public partial class DialogAddress : Window
     {
+        DataAccess access;
+        ObservableCollection<Address> addresses;
+
         public DialogAddress()
         {
+            access = new DataAccess();
+
             InitializeComponent();
+            MouseLeftButtonDown += (s, e) => DragMove(); // Allows the dialog to be moved
+            LoadAddresses();
         }
 
-        private void AddNew_Click(object sender, RoutedEventArgs e)
+        private void LoadAddresses()
         {
-
+            addresses = new ObservableCollection<Address>(access.GetAllAddresses());
+            dgAddress.ItemsSource = addresses;
         }
 
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
+            if (dgAddress.SelectedItem != null)
+            {
+                Address selectedAddress = (Address)dgAddress.SelectedItem;
+                Address address = new Address(selectedAddress.Id, txtCity.Text, int.Parse(txtPostalCode.Text),
+                                              int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
+                // access.UpdateAddress(address);
+                LoadAddresses();
+            }
+        }
 
+        private void AddNew_Click(object sender, RoutedEventArgs e)
+        {
+            Address address = new Address(0, txtCity.Text, int.Parse(txtPostalCode.Text),
+                                          int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
+            // access.InsertAddress(address);
+            LoadAddresses();
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
+            if (dgAddress.SelectedItem != null)
+            {
+                Address selectedAddress = (Address)dgAddress.SelectedItem;
+                // access.DeleteAddress(selectedAddress);
+                LoadAddresses();
+            }
+        }
 
+        //private void dgAddress_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (dgAddress.SelectedItem != null)
+        //    {
+        //        Address selectedAddress = (Address)dgAddress.SelectedItem;
+        //        txtCity.Text = selectedAddress.City;
+        //        txtPostalCode.Text = selectedAddress.PostalCode.ToString();
+        //        txtStreetNumber.Text = selectedAddress.StreetNumber.ToString();
+        //        txtCountry.Text = selectedAddress.Country;
+        //        txtStreet.Text = selectedAddress.Street;
+        //    }
+        //}
+
+        private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
     }
 }
+

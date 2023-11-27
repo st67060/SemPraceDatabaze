@@ -38,5 +38,9 @@ namespace Aplikace.dialog
         {
 
         }
+        private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

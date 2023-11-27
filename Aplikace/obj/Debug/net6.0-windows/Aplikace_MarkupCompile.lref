@@ -1,8 +1,12 @@
 ﻿
 
-FC:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\dialog\DialogPatientAdd.xaml;;
-FC:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\Login.xaml;;
-FC:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\Main.xaml;;
-FC:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\Register.xaml;;
-FC:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\dialog\DialogAddress.xaml;;
+FC:\databaze\Aplikace\dialog\DialogAddress.xaml;;
+FC:\databaze\Aplikace\dialog\DialogAllergy.xaml;;
+FC:\databaze\Aplikace\dialog\DialogAnamnesis.xaml;;
+FC:\databaze\Aplikace\dialog\DialogInsurance.xaml;;
+FC:\databaze\Aplikace\dialog\DialogPatientAdd.xaml;;
+FC:\databaze\Aplikace\dialog\DialogVisits.xaml;;
+FC:\databaze\Aplikace\Login.xaml;;
+FC:\databaze\Aplikace\Main.xaml;;
+FC:\databaze\Aplikace\Register.xaml;;
 
