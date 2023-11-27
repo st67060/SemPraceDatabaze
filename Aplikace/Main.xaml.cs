@@ -264,5 +264,77 @@ namespace Aplikace
             DialogAddress dialogAddress = new DialogAddress();
             dialogAddress.ShowDialog();
         }
+
+        private void btnAnamnesisDialog_Click(object sender, RoutedEventArgs e)
+        {
+            DialogAnamnesis dialogAnamnesis = new DialogAnamnesis();
+            dialogAnamnesis.ShowDialog();
+        }
+
+        private void btnAllergyDialog_Click(object sender, RoutedEventArgs e)
+        {
+            DialogAllergy dialogAllergy = new DialogAllergy();
+            dialogAllergy.ShowDialog();
+        }
+
+        private void btnInsuranceDialog_Click(object sender, RoutedEventArgs e)
+        {
+            DialogInsurance dialogInsurance = new DialogInsurance();
+            dialogInsurance.ShowDialog();
+        }
+
+        private void btnPatientsDialog_Click(object sender, RoutedEventArgs e)
+        {
+            //DialogPatient dialogPatient = new DialogPatient();
+            //dialogPatient.ShowDialog();
+        }
+
+        private void btnReservationDialog_Click(object sender, RoutedEventArgs e)
+        {
+            DialogReservations dialogReservations = new DialogReservations();
+            dialogReservations.ShowDialog();
+        }
+
+        private void btnVisitDialog_Click(object sender, RoutedEventArgs e)
+        {
+            DialogVisits dialogVisits = new DialogVisits();
+            dialogVisits.ShowDialog();
+        }
+
+        private void btnEmployeeDialog_Click(object sender, RoutedEventArgs e)
+        {
+            //DialogEmployee dialogEmployee = new DialogEmployee();
+            //dialogEmployee.ShowDialog();
+        }
+
+        private void btnHealthCardDialod_Click(object sender, RoutedEventArgs e)
+        {
+            //DialogHealthCard dialogHealthCard = new DialogHealthCard();
+            //dialogHealthCard.ShowDialog();
+        }
+
+        private void btnPrescriptionDialog_Click(object sender, RoutedEventArgs e)
+        {
+            //DialogPrescrtiption dialogPrescrtiption = new DialogPrescrtiption();
+            //dialogPrescrtiption.ShowDialog();
+        }
+
+        private void btnProcedureDialog_Click(object sender, RoutedEventArgs e)
+        {
+            //DialogProcedure dialogProcedure = new DialogProcedure();
+            //dialogProcedure.ShowDialog();
+        }
+
+        private void btnUserDialog_Click(object sender, RoutedEventArgs e)
+        {
+            //DialogUser dialogUser = new DialogUser();
+            //dialogUser.ShowDialog();
+        }
+
+        private void btnRoleDialog_Click(object sender, RoutedEventArgs e)
+        {
+            //DialogRole dialogRole = new DialogRole();
+            //dialogRole.ShowDialog();
+        }
     }
 }

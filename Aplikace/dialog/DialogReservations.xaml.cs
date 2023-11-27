@@ -91,5 +91,10 @@ namespace Aplikace.dialog
         {
             this.Close();
         }
+
+        private void dgReservations_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+
+        }
     }
 }

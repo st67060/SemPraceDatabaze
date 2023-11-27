@@ -391,7 +391,25 @@
                             
                         </StackPanel>
                     </TabItem.Header>
-                    <Button x:Name="btnAdressDialog" Margin="0,34,670,487" Content="Addresses" Click="btnAdressDialog_Click"/>
+                    <Grid>
+                       
+                        <Button x:Name="btnAdressDialog" Margin="11,34,659,487" Content="Addresses" Click="btnAdressDialog_Click"/>
+                        <Button x:Name="btnAllergyDialog" Margin="258,34,411,487" Content="Allergies" Click="btnAllergyDialog_Click"/>
+                        <Button x:Name="btnAnamnesisDialog" Margin="132,34,538,487" Content="Anamneses" Click="btnAnamnesisDialog_Click"/>
+                        <Button x:Name="btnInsuranceDialog" Margin="427,34,242,487" Content="Insurances" Click="btnInsuranceDialog_Click"/>
+                        <Button x:Name="btnPatientsDialog" Margin="534,34,137,487" Content="Patients" Click="btnPatientsDialog_Click"/>
+                        <Button x:Name="btnReservationDialog" Margin="639,34,31,487" Content="Reservations" Click="btnReservationDialog_Click"/>
+                        <Button x:Name="btnVisitDialog" Margin="25,130,644,392" Content="Visits" Click="btnVisitDialog_Click"/>
+                        <Button x:Name="btnEmployeeDialog" Margin="207,254,462,268" Content="Employees" Click="btnEmployeeDialog_Click"/>
+                        <Button x:Name="btnHealthCardDialod" Margin="25,234,631,288" Content="Health Cards" Click="btnHealthCardDialod_Click"/>
+                        <Button x:Name="btnPrescriptionDialog" Margin="157,137,512,385" Content="Prescriptions" Click="btnPrescriptionDialog_Click"/>
+                        <Button x:Name="btnProcedureDialog" Margin="309,144,360,378" Content="Procedures" Click="btnProcedureDialog_Click"/>
+                        <Button x:Name="btnUserDialog" Margin="478,137,191,385" Content="Users" Click="btnUserDialog_Click"/>
+                        <Button x:Name="btnRoleDialog" Margin="609,137,60,385" Content="Roles" Click="btnRoleDialog_Click"/>
+
+
+                    </Grid>
+                    
                 </TabItem>
                 <TabItem x:Name="settingsTabItem"  Style="{StaticResource ModernTabItemStyle}" ContextMenuOpening="settingsTabItem_ContextMenuOpening">
                     <TabItem.Header>

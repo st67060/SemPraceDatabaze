@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\
+C:\Users\st67060\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\
 Aplikace
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\App.xaml
-9-659707972
+C:\Users\st67060\Source\Repos\SemPraceDatabaze\Aplikace\App.xaml
+10-4762205
 1-1223805434
-29-1455062379
-198-1947793993
-dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogInsurance.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
+30-1252820852
+198-1805989528
+dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogInsurance.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogReservations.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
 
 False
 
