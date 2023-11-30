@@ -527,8 +527,68 @@ namespace Aplikace.data
             }
         }
         // načte všechny rezervace se zákroky
+        public bool InsertReservation(Reservation reservation)
+        {
+            string insertProcedure = "INSERT_REZERVACE";
 
-        private List<HealthCard> GetAllAlergiesHealthCard()
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("p_poznamky_rez", OracleDbType.Varchar2).Value = reservation.Notes;
+                    cmd.Parameters.Add("p_datum_rez", OracleDbType.Date).Value = reservation.Date;
+                    cmd.Parameters.Add("p_pacient_id_rez", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Patient.Id);
+                    cmd.Parameters.Add("p_zamestnanec_id_rez", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Employee.Id);
+
+                    //try
+                    //{
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    //}
+                    //catch (OracleException ex)
+                    //{
+                    //    return false;
+                    //}
+
+
+                }
+            }
+        }
+        public bool DeleteReservation(Reservation reservation )
+        {
+            string deleteProcedure = "DELETE_REZERVACE";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter paramId = new OracleParameter("p_rezervace_id", OracleDbType.Decimal);
+                    paramId.Value = reservation.Id;
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+        public List<HealthCard> GetAllAlergiesHealthCard()
         {
             List<HealthCard> healthCardList = new List<HealthCard>();
             List<Alergy> alergyList = GetAllAllergies();
@@ -1086,7 +1146,6 @@ namespace Aplikace.data
             return value == "Y";
         }
 
-
-
+        
     }
 }

@@ -184,5 +184,9 @@ namespace Aplikace.data.Entity
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

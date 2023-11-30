@@ -31,7 +31,7 @@ namespace Aplikace
             LoadListOfPatients();
             LoadListOfUsers();
             LoadListOfEmployees();
-            LoadListOfRezervations();
+            LoadListOfReservations();
             
         }
 
@@ -124,14 +124,16 @@ namespace Aplikace
             usersDataGrid.ItemsSource = data.Users;
         }
         
-        private void LoadListOfRezervations()
+        private void LoadListOfReservations()
         {
+            cmbPatients.ItemsSource = access.GetAllPatients();
             data.Reservations.Clear();
             data.Reservations = new ObservableCollection<Reservation>(access.GetReservations());
             dgReservations.ItemsSource = data.Reservations;
             
 
         }
+
 
 
         private void patientDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -231,19 +233,30 @@ namespace Aplikace
         }
 
 
-        private void AddReservation_Click(object sender, RoutedEventArgs e)
+      
+        private void AddNewReservation(object sender, RoutedEventArgs e)
         {
-
+            Reservation reservation = new Reservation(0, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatients.SelectedItem, user.Employee);
+            access.InsertReservation(reservation);
+            LoadListOfReservations();
         }
 
-        private void AddProcedure_Click(object sender, RoutedEventArgs e)
+        private void btnRemoveReservation_Click(object sender, RoutedEventArgs e)
         {
+            if(dgReservations.SelectedItem != null)
+            {
+                access.DeleteReservation((Reservation)dgReservations.SelectedItem);
+                LoadListOfReservations() ;
 
+            }
         }
 
         private void dgReservations_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            dgProcedures.ItemsSource = data.Reservations[dgReservations.SelectedIndex].Procedures;
+            if (dgReservations.SelectedItem != null) {
+                dgProcedures.ItemsSource = data.Reservations[dgReservations.SelectedIndex].Procedures;
+            }
+            
         }
 
         private void btnAdressDialog_Click(object sender, RoutedEventArgs e)
@@ -329,5 +342,12 @@ namespace Aplikace
             DialogLogs dialogLogs = new DialogLogs();
             dialogLogs.ShowDialog();
         }
+
+        private void btnAddNewProcedure_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+       
     }
 }
