@@ -101,7 +101,7 @@ namespace Aplikace.dialog {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Aplikace;component/dialog/dialogprocedures.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Aplikace;V1.0.0.0;component/dialog/dialogprocedures.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\dialog\DialogProcedures.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

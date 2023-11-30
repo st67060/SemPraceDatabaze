@@ -1154,6 +1154,38 @@ namespace Aplikace.data
                 }
             }
         }
+        public bool UpdateReservation(Reservation reservation)
+        {
+            string updateProcedure = "UPDATE_RESERVACE";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(updateProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Добавляем параметры
+                    cmd.Parameters.Add("p_rezervace_id", OracleDbType.Decimal).Value = reservation.Id;
+                    cmd.Parameters.Add("p_poznamky_rez", OracleDbType.Varchar2).Value = reservation.Notes;
+                    cmd.Parameters.Add("p_datum_rez", OracleDbType.Date).Value = reservation.Date;
+                    cmd.Parameters.Add("p_pacient_id_rez", OracleDbType.Decimal).Value = reservation.Patient.Id;
+                    cmd.Parameters.Add("p_zamestnanec_id_rez", OracleDbType.Decimal).Value = reservation.Employee.Id;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
         public bool DeleteReservation(Reservation reservation)
         {
             string deleteProcedure = "DELETE_REZERVACE";
@@ -1187,17 +1219,267 @@ namespace Aplikace.data
 
         public bool InsertPrescription(Prescription prescription)
         {
-            return true;
+            string insertProcedure = "INSERT_LEKARSKY_PREDPIS";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Добавляем параметры
+                    cmd.Parameters.Add("p_nazev_leku", OracleDbType.Varchar2).Value = prescription.DrugName;
+                    cmd.Parameters.Add("p_doplatek", OracleDbType.Decimal).Value = prescription.Supplement;
+                    cmd.Parameters.Add("p_zamestnanec_id", OracleDbType.Decimal).Value = Convert.ToDecimal(prescription.Employee.Id);
+                    cmd.Parameters.Add("p_pacient_id", OracleDbType.Decimal).Value = Convert.ToDecimal(prescription.Patient.Id);
+                    cmd.Parameters.Add("p_datum", OracleDbType.Date).Value = prescription.Date;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
         }
+
+        public bool DeletePrescription(Prescription prescription)
+        {
+            string deleteProcedure = "DELETE_LEKARSKY_PREDPIS";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+
+                    OracleParameter paramId = new OracleParameter("p_predpis_id", OracleDbType.Decimal);
+                    paramId.Value = prescription.ID;
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
         public bool UpdatePrescription(Prescription prescription)
         {
             return true;
         }
-        public bool DeletePrescription(Prescription prescription)
+        public bool InsertVisit(Visit visit)
+        {
+            string insertProcedure = "INSERT_NAVSTEVY";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+
+                    cmd.Parameters.Add("p_datum", OracleDbType.Date).Value = visit.Date;
+                    cmd.Parameters.Add("p_poznamky", OracleDbType.Varchar2).Value = visit.Notes;
+                    cmd.Parameters.Add("p_pacient_id", OracleDbType.Decimal).Value = Convert.ToDecimal(visit.Patient.Id);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool DeleteVisit(Visit visit)
+        {
+            string deleteProcedure = "DELETE_NAVSTEVY";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+
+                    OracleParameter paramId = new OracleParameter("p_navsteva_id", OracleDbType.Decimal);
+                    paramId.Value = visit.Id;
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool UpdateVisit(Visit visit)
         {
             return true;
         }
 
+        public bool InsertAddress(Address address)
+        {
+            string insertProcedure = "INSERT_ADRESA";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = address.City;
+                    cmd.Parameters.Add("p_psc", OracleDbType.Decimal).Value = address.PostalCode;
+                    cmd.Parameters.Add("p_cislo_popisne", OracleDbType.Decimal).Value = address.StreetNumber;
+                    cmd.Parameters.Add("p_stat", OracleDbType.Varchar2).Value = address.Country;
+                    cmd.Parameters.Add("p_ulice", OracleDbType.Varchar2).Value = address.Street;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool DeleteAddress(Address address)
+        {
+            string deleteProcedure = "DELETE_ADRESA";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter paramId = new OracleParameter("p_adresa_id", OracleDbType.Decimal);
+                    paramId.Value = address.Id;
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool UpdateAddress(Address address)
+        {
+            return true;
+        }
+
+        public bool InsertAlergy(Alergy alergy)
+        {
+            string insertProcedure = "INSERT_ALERGIE";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = alergy.Name;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool DeleteAlergy(Alergy alergy)
+        {
+            string deleteProcedure = "DELETE_ALERGIE";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter paramId = new OracleParameter("p_alergie_id", OracleDbType.Decimal);
+                    paramId.Value = alergy.Id;
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+        public bool UpdateAlergy(Alergy alergy)
+        {
+            return true;
+        }
 
 
 

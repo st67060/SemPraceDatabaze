@@ -524,5 +524,10 @@ namespace Aplikace
                 return false;
             };
         }
+
+        private void btnSysCatalogDialog_Kopírovat_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

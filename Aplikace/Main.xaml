@@ -338,84 +338,42 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid Margin="0,0,0,31" Width="751">
-                        <!-- První sekce: Formulář pro vkládání rezervací -->
-                        <GroupBox Margin="10">
-                            <Grid Height="501">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" MinHeight="83.553"/>
-                                    <RowDefinition Height="Auto" MinHeight="92.94"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                    <GroupBox Margin="10,10,10,46" Width="738">
+                        <Grid Margin="0,0,0,31" Width="751">
+                            <TextBlock Text="Notes:" Margin="441,134,220,321" Grid.Row="0" Foreground="#FF020202"/>
+                            <TextBox  Margin="531,134,44,321" Name="txtNotes" Background="White" Opacity="0.7"/>
+                            <TextBlock Text="Date:" Margin="441,81,237,377" Foreground="#FF020202" />
+                            <DatePicker Margin="531,76,44,372" Name="dpDate"/>
+                            <TextBlock Text="Choose patient:" Margin="376,29,165,423" Foreground="#FF020202"/>
+                            <ComboBox  Margin="527,26,44,426" Name="cmbPatients" />
+                            <Button Content="Add new reservation" Width="NaN" Style="{StaticResource CommonButtonStyle}"  Click="AddNewReservation" Margin="456,186,63,241"/>
 
-                                <!-- První řádek s textem "Poznámky" přes oba sloupce -->
-                                <TextBlock Text="Notes:" Margin="5,5,631,5" Grid.Row="0"/>
-                                <TextBox Grid.Row="0" Margin="113,5,19,10" Name="txtNotes" Background="White" Opacity="0.7"/>
-
-                                <!-- Druhý řádek s dvěma sloupci pro DatePicker a ComboBox -->
-                                <Grid Margin="0,2,0,44" Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" MinWidth="158.534"/>
-                                        <ColumnDefinition Width="Auto" MinWidth="250.887"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Text="Date:" Margin="260,5,-79,5" Grid.Column="1"/>
-                                    <DatePicker Grid.Column="1" Margin="334,5,-291,5" Name="dpDate"/>
-
-                                    <TextBlock Text="Choose patient:" Margin="5,5,5,5"/>
-                                    <ComboBox Grid.Column="1" Margin="5,5,5,77" Name="cmbPatients" />
-                                </Grid>
-
-                                <!-- Třetí řádek s Buttonem -->
-                                <Grid Grid.Row="1" Margin="0,39,0,0">
-                                    <Button Content="Add new reservation" Width="NaN" Style="{StaticResource CommonButtonStyle}" Margin="175,10,331,59" Click="AddNewReservation"/>
-                                </Grid>
-                            </Grid>
-
-                        </GroupBox>
-
-                        <!-- Druhá sekce: DataGrid pro rezervace a procedury -->
-                        <GroupBox  Margin="10" Grid.Row="1" BorderBrush="{x:Null}">
-                            <Grid Margin="0,0,16,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- DataGrid pro rezervace -->
-                                <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="40,202,64,158" Grid.Column="1" FontSize="8" SelectionChanged="dgReservations_SelectionChanged">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Patient Name" Binding="{Binding Patient.FirstName}" Width="70" />
-                                        <DataGridTextColumn Header="Patient Surname" Binding="{Binding Patient.LastName}" Width="80" />
-                                        <DataGridTextColumn Header="Employee" Binding="{Binding Employee.Surname}" Width="70" />
-                                        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="90" />
-
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                            <!-- DataGrid pro rezervace -->
+                            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="38,48,427,264"  FontSize="8" SelectionChanged="dgReservations_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Patient Name" Binding="{Binding Patient.FirstName}" Width="70" />
+                                    <DataGridTextColumn Header="Patient Surname" Binding="{Binding Patient.LastName}" Width="80" />
+                                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee.Surname}" Width="70" />
+                                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="90" />
+                                </DataGrid.Columns>
+                            </DataGrid>
 
 
-                                <!-- DataGrid pro procedury -->
-                                <DataGrid Name="dgProcedures" AutoGenerateColumns="False" Margin="404,202,-235,158" Grid.Column="1" FontSize="8" RenderTransformOrigin="0.487,0.513">
-                                    <DataGrid.Columns>
-                                        <!-- Column for name -->
-                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="70" />
+                            <DataGrid Name="dgProcedures" AutoGenerateColumns="False" Margin="38,277,471,10" FontSize="8" RenderTransformOrigin="0.487,0.513">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="70" />
+                                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80" />
+                                    <DataGridTextColumn Header="Covered by Insurance" Binding="{Binding CoveredByInsurance}" Width="90" />
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                                        <!-- Column for price -->
-                                        <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80" />
+                            <TextBlock Text="Select Reservation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="103,10,0,0" Foreground="#FF2B2B2B"/>
+                            <Button x:Name="btnRemoveReservation" Width="NaN" Height="NaN" Style="{StaticResource CommonButtonStyle}" Content="Remove Reservation"   Click="btnRemoveReservation_Click" Margin="456,246,63,184"/>
+                            <Button x:Name="btnAddNewProcedure" Width="NaN" Style="{StaticResource CommonButtonStyle}" Content="Add procedure"   Click="btnAddNewProcedure_Click" Margin="456,309,63,118"/>
+                        </Grid>
+                    </GroupBox>
 
-                                        <!-- Column for covered by insurance -->
-                                        <DataGridTextColumn Header="Covered by Insurance" Binding="{Binding CoveredByInsurance}" Width="90" />
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <Grid Margin="10,360,-328,-17" Grid.Column="1">
-                                    <TextBlock Text="Select Reservation" Margin="98,10,468,129"/>
-                                    <Button x:Name="btnRemoveReservation" Width="NaN" Height="20" Style="{StaticResource CommonButtonStyle}" Content="Remove Reservation"  Margin="198,88,393,32" Click="btnRemoveReservation_Click"/>
-                                    <Button x:Name="btnAddNewProcedure" Width="NaN" Style="{StaticResource CommonButtonStyle}" Content="Add procedure"  Margin="21,88,588,32" Click="btnAddNewProcedure_Click"/>
-                                </Grid>
 
-                            </Grid>
-                        </GroupBox>
-                    </Grid>
                 </TabItem>
                 <TabItem x:Name="listTabItem"  Style="{StaticResource ModernTabItemStyle}" >
                     <TabItem.Header>
@@ -523,7 +481,7 @@
                             </DataGrid>
                         </StackPanel>
 
-                        <Button x:Name="emulateUserButton" Content="Emulate User" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="174,82,400,395" Click="emulateUserButton_Click" Visibility="Visible">
+                        <Button x:Name="emulateUserButton" Content="Emulate User" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="174,82,400,395" Click="emulateUserButton_Click" Visibility="Hidden">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
@@ -533,6 +491,15 @@
                             </Button.Template>
                         </Button>
                         <Button x:Name="btnLogsDialog" Content="Show Logs" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="521,440,52,37"  Visibility="Visible" Click="btnLogsDialog_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button x:Name="btnSysCatalogDialog_Kopírovat" Content="Show Catalog" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="521,383,52,94"  Visibility="Visible" Click="btnSysCatalogDialog_Kopírovat_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
