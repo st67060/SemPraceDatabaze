@@ -2,6 +2,7 @@
 using Aplikace.data.Entity;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -65,16 +66,25 @@ namespace Aplikace.dialog
         {
             if (dgVisits.SelectedItem != null)
             {
-                DataContext = (Patient)dgVisits.SelectedItem;
+                DataContext = (Visit)dgVisits.SelectedItem;
 
             }
         }
         private void LoadVisits()
         {
-            visits = new ObservableCollection<Visit>(access.GetAllVisits());
-            patients = new ObservableCollection<Patient>(access.GetAllPatients().Result);
-            dgVisits.ItemsSource = visits;
-            cmbPatient.ItemsSource = patients;
+            
+            Task.Run(async () =>
+            {
+                visits = new ObservableCollection<Visit>(access.GetAllVisits());
+                patients = new ObservableCollection<Patient>(await access.GetAllPatients());
+
+
+                Dispatcher.Invoke(() =>
+                {
+                    dgVisits.ItemsSource = visits;
+                    cmbPatient.ItemsSource = patients;
+                });
+            });
         }
 
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

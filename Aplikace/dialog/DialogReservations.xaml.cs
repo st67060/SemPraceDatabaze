@@ -38,7 +38,7 @@ namespace Aplikace.dialog
             {
                 reservations = new ObservableCollection<Reservation>(access.GetAllReservations().Result);
                 patients = new ObservableCollection<Patient>(access.GetAllPatients().Result);
-                employees = new ObservableCollection<Employee>(access.GetEmployees());
+                employees = new ObservableCollection<Employee>(access.GetEmployees().Result);
 
             }
 
@@ -77,6 +77,15 @@ namespace Aplikace.dialog
                     LoadReservations();
                 }
             }
+
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+     
+
         private void dgReservations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgReservations.SelectedItem != null)
@@ -85,16 +94,6 @@ namespace Aplikace.dialog
                 DataContext = selectedReservation;
 
             }
-        }
-
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void dgReservations_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-
         }
     }
 }

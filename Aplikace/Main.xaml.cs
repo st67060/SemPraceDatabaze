@@ -5,11 +5,13 @@ using Aplikace.dialog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -31,12 +33,9 @@ namespace Aplikace
             MouseLeftButtonDown += (s, e) => DragMove();
             DataContext = user;
             SetAccessToData(user);
-            LoadListOfPatients();
-            LoadListOfUsers();
             LoadListOfEmployees();
-            LoadListOfReservations();
-            LoadListOfPrescriptions();
-            
+
+
         }
 
 
@@ -102,18 +101,19 @@ namespace Aplikace
         }
         private async void LoadListOfEmployees()
         {
+            List<Employee> employees = await access.GetEmployees();
+
             ObservableCollection<Employee> doctorsAndNurses = new ObservableCollection<Employee>();
-            foreach (Employee emp in access.GetEmployees())
+            foreach (Employee emp in employees)
             {
                 if ((int)emp.Role == 2 || (int)emp.Role == 3)
                 {
                     doctorsAndNurses.Add(emp);
                 }
-
             }
+
             data.Employees = doctorsAndNurses;
             employeeDataGrid.ItemsSource = data.Employees;
-
         }
         private async void LoadListOfPatients()
         {
@@ -171,7 +171,7 @@ namespace Aplikace
                     cmbPatient.ItemsSource = patients;
                 });
 
-                List<Prescription> prescriptions = access.GetAllPrescriptions();
+                List<Prescription> prescriptions = access.GetAllPrescriptions().Result;
                 Dispatcher.Invoke(() =>
                 {
                     cmbPrescription.ItemsSource = prescriptions;
@@ -439,6 +439,90 @@ namespace Aplikace
             List<Patient> temp = data.Patients.ToList();
             cmbPatient.SelectedIndex = temp.FindIndex(patient => patient.Id == prescription.Patient.Id);
 
+        }
+
+        private void dataTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void PatientTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void listTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            LoadListOfPrescriptions();
+        }
+
+        private void calendarTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            LoadListOfReservations();
+        }
+
+        private void mainMenuTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            LoadListOfEmployees();
+        }
+
+        private void settingsTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            LoadListOfUsers();
+        }
+
+        private void dataTabItem_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        {
+
+        }
+
+       
+
+        private void medicalCard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            LoadListOfPatients();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            ICollectionView collectionView = CollectionViewSource.GetDefaultView(patientDataGrid.ItemsSource);
+            collectionView.Filter = o =>
+            {
+                if (o is Patient patient)
+                {
+                    // Procházení vlastností třídy Patient
+                    if (string.IsNullOrWhiteSpace(searchTextBox.Text))
+                        return true;
+
+                    bool patientMatch = patient.FirstName.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
+                                       patient.LastName.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
+                                       patient.SocialSecurityNumber.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
+                                       patient.Gender.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
+                                       patient.DateOfBirth.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
+                                       patient.Phone.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
+                                       patient.Email.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase);
+
+                    
+                    bool addressMatch = patient.Address?.City.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                       patient.Address?.PostalCode.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                       patient.Address?.StreetNumber.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                       patient.Address?.Country.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                       patient.Address?.Street.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true;
+                    
+                    bool healthCardMatch = patient.HealthCard?.Smokes.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                          patient.HealthCard?.Pregnancy.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                          patient.HealthCard?.Alcohol.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                          patient.HealthCard?.Sport.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
+                                          patient.HealthCard?.Fillings.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true;
+
+                    return patientMatch || addressMatch || healthCardMatch;
+
+
+                    
+                }
+
+                return false;
+            };
         }
     }
 }

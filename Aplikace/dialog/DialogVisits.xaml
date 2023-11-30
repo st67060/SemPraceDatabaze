@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Aplikace.dialog"
         mc:Ignorable="d"
         Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
-    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0" MouseLeftButtonDown="closeButton_MouseLeftButtonDown">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                 <GradientStop Offset="0" Color="#bde0fe" />

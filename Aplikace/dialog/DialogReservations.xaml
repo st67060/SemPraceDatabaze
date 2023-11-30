@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Aplikace.dialog"
         mc:Ignorable="d"
         Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
-    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0" >
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                 <GradientStop Offset="0" Color="#bde0fe" />
@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Таблица для отображения атрибутов Reservations -->
-            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding ReservationsList}" SourceUpdated="dgReservations_SourceUpdated">
+            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding ReservationsList}" SelectionChanged="dgReservations_SelectionChanged" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" />

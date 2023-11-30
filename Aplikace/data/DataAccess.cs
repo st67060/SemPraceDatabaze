@@ -31,7 +31,7 @@ namespace Aplikace.data
         }
         public List<Log> GetAllLogs()
         {
-            return GetLogs();
+            return GetLogs().Result;
 
         }
         public bool CreateAcount(Employee employee, User user)
@@ -94,83 +94,87 @@ namespace Aplikace.data
         // ==============================================
 
         // nacteni zaměstnanců pro listView
-        public List<Employee> GetEmployees()
+        public Task<List<Employee>> GetEmployees()
         {
-            List<Employee> employees = new List<Employee>();
-            Dictionary<int, int?> superiorMapping = new Dictionary<int, int?>(); // Ukládání nadřízených zaměstnanců
-
-            using (var connection = new OracleDatabaseConnection())
+            return Task.Run(() =>
             {
-                connection.OpenConnection();
+                List<Employee> employees = new List<Employee>();
+                Dictionary<int, int?> superiorMapping = new Dictionary<int, int?>();
 
-                using (OracleCommand cmd = new OracleCommand("SELECT_ZAMESTNANCI", connection.connection))
+                using (var connection = new OracleDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    connection.OpenConnection();
 
-                    // Definice výstupních parametrů pro proceduru
-                    cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-
-                    // Spuštění procedury
-                    cmd.ExecuteNonQuery();
-
-                    // Čtení výsledků z kurzoru
-                    OracleDataReader reader = ((OracleRefCursor)cmd.Parameters["v_cursor"].Value).GetDataReader();
-
-                    while (reader.Read())
+                    using (OracleCommand cmd = new OracleCommand("SELECT_ZAMESTNANCI", connection.connection))
                     {
-                        int employeeId = Convert.ToInt32(reader["v_employee_id"]);
-                        string employeeName = reader["v_employee_name"].ToString();
-                        string employeeSurname = reader["v_employee_surname"].ToString();
-                        DateTime hireDate = Convert.ToDateTime(reader["v_employee_hire_date"]);
-                        int roleId = Convert.ToInt32(reader["v_employee_role_id"]);
-                        byte[] photo = reader["v_employee_photo"] != DBNull.Value ? (byte[])reader["v_employee_photo"] : null;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                        int? superiorId = reader["v_employee_employee"] != DBNull.Value? (int?)Convert.ToInt32(reader["v_employee_employee"]): null;
+                        // Definice výstupních parametrů pro proceduru
+                        cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
 
-                        if (superiorId != null) {
-                            superiorMapping.Add(employeeId, superiorId);
-                        }
-                        
+                        // Spuštění procedury
+                        cmd.ExecuteNonQuery();
 
-                        Role role;
-                        switch (roleId)
+                        // Čtení výsledků z kurzoru
+                        OracleDataReader reader = ((OracleRefCursor)cmd.Parameters["v_cursor"].Value).GetDataReader();
+
+                        while (reader.Read())
                         {
-                            case 1:
-                                role = Role.Admin;
-                                break;
-                            case 2:
-                                role = Role.Doctor;
-                                break;
-                            case 3:
-                                role = Role.Nurse;
-                                break;
-                            case 4:
-                                role = Role.Employee;
-                                break;
-                            default:
-                                role = Role.Employee;
-                                break;
+                            int employeeId = Convert.ToInt32(reader["v_employee_id"]);
+                            string employeeName = reader["v_employee_name"].ToString();
+                            string employeeSurname = reader["v_employee_surname"].ToString();
+                            DateTime hireDate = Convert.ToDateTime(reader["v_employee_hire_date"]);
+                            int roleId = Convert.ToInt32(reader["v_employee_role_id"]);
+                            byte[] photo = reader["v_employee_photo"] != DBNull.Value ? (byte[])reader["v_employee_photo"] : null;
+
+                            int? superiorId = reader["v_employee_employee"] != DBNull.Value ? (int?)Convert.ToInt32(reader["v_employee_employee"]) : null;
+
+                            if (superiorId != null)
+                            {
+                                superiorMapping.Add(employeeId, superiorId);
+                            }
+
+
+                            Role role;
+                            switch (roleId)
+                            {
+                                case 1:
+                                    role = Role.Admin;
+                                    break;
+                                case 2:
+                                    role = Role.Doctor;
+                                    break;
+                                case 3:
+                                    role = Role.Nurse;
+                                    break;
+                                case 4:
+                                    role = Role.Employee;
+                                    break;
+                                default:
+                                    role = Role.Employee;
+                                    break;
+                            }
+
+                            var employee = new Employee(employeeId, employeeName, employeeSurname, hireDate, photo, role);
+                            employees.Add(employee);
                         }
-
-                        var employee = new Employee(employeeId, employeeName, employeeSurname, hireDate, photo, role);
-                        employees.Add(employee);
                     }
-                }
 
-                // Přiřazení nadřízených zaměstnanců
-                foreach (var employee in employees)
-                {
-                    if (superiorMapping.ContainsKey(employee.Id))
+                    // Přiřazení nadřízených zaměstnanců
+                    foreach (var employee in employees)
                     {
-                        int? superiorId = superiorMapping[employee.Id];
-                        employee.Superior = superiorId.HasValue
-                            ? employees.FirstOrDefault(e => e.Id == superiorId)
-                            : null;
+                        if (superiorMapping.ContainsKey(employee.Id))
+                        {
+                            int? superiorId = superiorMapping[employee.Id];
+                            employee.Superior = superiorId.HasValue
+                                ? employees.FirstOrDefault(e => e.Id == superiorId)
+                                : null;
+                        }
                     }
                 }
-            }
 
-            return employees;
+                return employees;
+            });
         }
 
 
@@ -318,84 +322,84 @@ namespace Aplikace.data
         // Metody pro Doctor,Nurse atd
         // ==============================================
 
-        public  async Task<List<Patient>> GetAllPatients()
+        public async Task<List<Patient>> GetAllPatients()
         {
             return await Task.Run(() =>
             {
                 List<Patient> patients = new List<Patient>();
-            List<Alergy> alergies = GetAllAllergies();
-            List<AlergyHealthCardLink> alergyHealthCardLinks = GetAllAlergyHealthCardLinks();
-            List<Anamnesis> anamneses = GetAllAnamnesis();
-            List<Insurance> insurances = GetAllInsurances();
+                List<Alergy> alergies = GetAllAllergies();
+                List<AlergyHealthCardLink> alergyHealthCardLinks = GetAllAlergyHealthCardLinks();
+                List<Anamnesis> anamneses = GetAllAnamnesis();
+                List<Insurance> insurances = GetAllInsurances();
 
-            using (var connection = new OracleDatabaseConnection())
-            {
-                connection.OpenConnection();
-                string procedureName = "SELECT_PACIENTI";
-
-                using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+                using (var connection = new OracleDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    connection.OpenConnection();
+                    string procedureName = "SELECT_PACIENTI";
 
-                    // Výstupní parametr pro kurzor
-                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
-                    cursorParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(cursorParam);
-
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
                     {
-                        while (reader.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Výstupní parametr pro kurzor
+                        OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                        cursorParam.Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(cursorParam);
+
+                        using (OracleDataReader reader = cmd.ExecuteReader())
                         {
-
-
-                            int ID = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;
-                            string FirstName = reader["PATIENT_NAME"].ToString();
-                            string LastName = reader["PATIENT_SURNAME"].ToString();
-                            long IDNumber = reader["PATIENT_ID_NUMBER"] != DBNull.Value ? (long)Convert.ToDouble(reader["PATIENT_ID_NUMBER"]) : 0;
-                            string Gender = reader["GENDER"].ToString();
-                            DateTime BirthDate = reader["BIRTH_DATE"] != DBNull.Value ? Convert.ToDateTime(reader["BIRTH_DATE"]) : DateTime.MinValue;
-                            long Phone = reader["PHONE"] != DBNull.Value ? (long)Convert.ToDouble(reader["PHONE"]) : 0;
-                            string Email = reader["EMAIL"].ToString();
-                            string City = reader["CITY"].ToString();
-                            string Street = reader["STREET"].ToString();
-                            int StreetNumber = reader["STREET_NUMBER"] != DBNull.Value ? Convert.ToInt32(reader["STREET_NUMBER"]) : 0;
-                            int ZipCode = reader["ZIP_CODE"] != DBNull.Value ? Convert.ToInt32(reader["ZIP_CODE"]) : 0;
-                            string Country = reader["COUNTRY"].ToString();
-                            string InsuranceName = reader["INSURANCE_NAME"].ToString();
-                            int HealthCardID = reader["HEALTH_CARD_ID"] != DBNull.Value ? Convert.ToInt32(reader["HEALTH_CARD_ID"]) : 0;
-                            int AddressID = reader["ADDRESS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ADDRESS_ID"]) : 0;
-                            int InsuranceID = reader["INSURANCE_ID"] != DBNull.Value ? Convert.ToInt32(reader["INSURANCE_ID"]) : 0;
-                            bool Smokes = ConvertDbCharToBool(reader["SMOKES"].ToString());
-                            bool Pregnancy = ConvertDbCharToBool(reader["PREGNANCY"].ToString());
-                            bool Alcohol = ConvertDbCharToBool(reader["ALCOHOL"].ToString());
-                            string Sport = reader["SPORT"].ToString();
-                            int Fillings = reader["FILLINGS"] != DBNull.Value ? Convert.ToInt32(reader["FILLINGS"]) : 0;
-                            string anamnesisName = reader["ANAMNESIS_NAME"].ToString();
-
-                            Insurance insurance = insurances.FirstOrDefault(insurance => insurance.Id == InsuranceID);
-                            Anamnesis anamnesis = anamneses.FirstOrDefault(anamnesis => anamnesis.Name == anamnesisName);
-                            Address address = new Address(AddressID, City, ZipCode, StreetNumber, Country, Street);
-                            HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, anamnesis);
-                            Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, insurance);
-                            var linkedAlergies = alergyHealthCardLinks.Where(link => link.HealthCardId == HealthCardID)
-                                                    .Select(link => alergies.FirstOrDefault(a => a.Id == link.AlergyId))
-                                                    .ToList();
-                            patient.HealthCard.Alergies.Clear();
-                            foreach (var alergy in linkedAlergies)
+                            while (reader.Read())
                             {
-                                patient.HealthCard.Alergies.Add(alergy);
+
+
+                                int ID = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;
+                                string FirstName = reader["PATIENT_NAME"].ToString();
+                                string LastName = reader["PATIENT_SURNAME"].ToString();
+                                long IDNumber = reader["PATIENT_ID_NUMBER"] != DBNull.Value ? (long)Convert.ToDouble(reader["PATIENT_ID_NUMBER"]) : 0;
+                                string Gender = reader["GENDER"].ToString();
+                                DateTime BirthDate = reader["BIRTH_DATE"] != DBNull.Value ? Convert.ToDateTime(reader["BIRTH_DATE"]) : DateTime.MinValue;
+                                long Phone = reader["PHONE"] != DBNull.Value ? (long)Convert.ToDouble(reader["PHONE"]) : 0;
+                                string Email = reader["EMAIL"].ToString();
+                                string City = reader["CITY"].ToString();
+                                string Street = reader["STREET"].ToString();
+                                int StreetNumber = reader["STREET_NUMBER"] != DBNull.Value ? Convert.ToInt32(reader["STREET_NUMBER"]) : 0;
+                                int ZipCode = reader["ZIP_CODE"] != DBNull.Value ? Convert.ToInt32(reader["ZIP_CODE"]) : 0;
+                                string Country = reader["COUNTRY"].ToString();
+                                string InsuranceName = reader["INSURANCE_NAME"].ToString();
+                                int HealthCardID = reader["HEALTH_CARD_ID"] != DBNull.Value ? Convert.ToInt32(reader["HEALTH_CARD_ID"]) : 0;
+                                int AddressID = reader["ADDRESS_ID"] != DBNull.Value ? Convert.ToInt32(reader["ADDRESS_ID"]) : 0;
+                                int InsuranceID = reader["INSURANCE_ID"] != DBNull.Value ? Convert.ToInt32(reader["INSURANCE_ID"]) : 0;
+                                bool Smokes = ConvertDbCharToBool(reader["SMOKES"].ToString());
+                                bool Pregnancy = ConvertDbCharToBool(reader["PREGNANCY"].ToString());
+                                bool Alcohol = ConvertDbCharToBool(reader["ALCOHOL"].ToString());
+                                string Sport = reader["SPORT"].ToString();
+                                int Fillings = reader["FILLINGS"] != DBNull.Value ? Convert.ToInt32(reader["FILLINGS"]) : 0;
+                                string anamnesisName = reader["ANAMNESIS_NAME"].ToString();
+
+                                Insurance insurance = insurances.FirstOrDefault(insurance => insurance.Id == InsuranceID);
+                                Anamnesis anamnesis = anamneses.FirstOrDefault(anamnesis => anamnesis.Name == anamnesisName);
+                                Address address = new Address(AddressID, City, ZipCode, StreetNumber, Country, Street);
+                                HealthCard healthCard = new HealthCard(HealthCardID, Smokes, Pregnancy, Alcohol, Sport, Fillings, anamnesis);
+                                Patient patient = new Patient(ID, FirstName, LastName, IDNumber, Gender, BirthDate, Phone, Email, address, healthCard, insurance);
+                                var linkedAlergies = alergyHealthCardLinks.Where(link => link.HealthCardId == HealthCardID)
+                                                        .Select(link => alergies.FirstOrDefault(a => a.Id == link.AlergyId))
+                                                        .ToList();
+                                patient.HealthCard.Alergies.Clear();
+                                foreach (var alergy in linkedAlergies)
+                                {
+                                    patient.HealthCard.Alergies.Add(alergy);
+                                }
+
+
+                                patients.Add(patient);
+
+
                             }
-
-
-                            patients.Add(patient);
-
-
                         }
                     }
                 }
-            }
 
-            return patients;
+                return patients;
             });
 
         }
@@ -530,8 +534,8 @@ namespace Aplikace.data
                 }
             }
         }
-        
-        
+
+
         public List<HealthCard> GetAllAlergiesHealthCard()
         {
             List<HealthCard> healthCardList = new List<HealthCard>();
@@ -591,60 +595,60 @@ namespace Aplikace.data
             return await Task.Run(() =>
             {
                 List<Reservation> reservationList = new List<Reservation>();
-            List<Patient> patientList = GetAllPatients().Result;
-            List<Employee> employeeList = GetEmployees();
-            List<Procedure> procedureList = GetAllProcedures();
-            List<ReservationProcedureLink> reservationProcedureLinks = GetAllReservationProcedureLinks();
+                List<Patient> patientList = GetAllPatients().Result;
+                List<Employee> employeeList = GetEmployees().Result;
+                List<Procedure> procedureList = GetAllProcedures();
+                List<ReservationProcedureLink> reservationProcedureLinks = GetAllReservationProcedureLinks();
 
-            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-            {
-                databaseConnection.OpenConnection();
-
-                using (OracleCommand cmd = new OracleCommand("SELECT_REZERVACI", databaseConnection.connection))
+                using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    databaseConnection.OpenConnection();
 
-                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
-                    cursorParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(cursorParam);
-
-                    cmd.ExecuteNonQuery();
-
-                    // Zpracování výsledků pomocí OracleDataReader
-                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    using (OracleCommand cmd = new OracleCommand("SELECT_REZERVACI", databaseConnection.connection))
                     {
-                        while (reader.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                        cursorParam.Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(cursorParam);
+
+                        cmd.ExecuteNonQuery();
+
+                        // Zpracování výsledků pomocí OracleDataReader
+                        using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
                         {
-                            int reservationId = reader.GetInt32(reader.GetOrdinal("RESERVATION_ID"));
-                            string reservationNotes = reader.GetOrdinal("NOTES").ToString();
-                            DateTime reservationDate = reader.GetDateTime(reader.GetOrdinal("RESERVATION_DATE"));
-                            int employeeId = reader.GetInt32(reader.GetOrdinal("EMPLOYEE_ID"));
-                            int patientId = reader.GetInt32(reader.GetOrdinal("PATIENT_ID"));
-
-                            Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
-                            Employee employeeTemp = employeeList.FirstOrDefault(e => e.Id == employeeId);
-
-                            if (employeeTemp != null && patientTemp != null)
+                            while (reader.Read())
                             {
-                                Reservation reservation = new Reservation(reservationId, reservationNotes, reservationDate, patientTemp, employeeTemp);
+                                int reservationId = reader.GetInt32(reader.GetOrdinal("RESERVATION_ID"));
+                                string reservationNotes = reader.GetOrdinal("NOTES").ToString();
+                                DateTime reservationDate = reader.GetDateTime(reader.GetOrdinal("RESERVATION_DATE"));
+                                int employeeId = reader.GetInt32(reader.GetOrdinal("EMPLOYEE_ID"));
+                                int patientId = reader.GetInt32(reader.GetOrdinal("PATIENT_ID"));
+
+                                Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
+                                Employee employeeTemp = employeeList.FirstOrDefault(e => e.Id == employeeId);
+
+                                if (employeeTemp != null && patientTemp != null)
+                                {
+                                    Reservation reservation = new Reservation(reservationId, reservationNotes, reservationDate, patientTemp, employeeTemp);
 
 
-                                var linkedProcedures = reservationProcedureLinks.Where(link => link.ReservationId == reservationId)
-                                                                                 .Select(link => procedureList.FirstOrDefault(p => p.Id == link.ProcedureId))
-                                                                                 .ToList();
-                                reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
+                                    var linkedProcedures = reservationProcedureLinks.Where(link => link.ReservationId == reservationId)
+                                                                                     .Select(link => procedureList.FirstOrDefault(p => p.Id == link.ProcedureId))
+                                                                                     .ToList();
+                                    reservation.Procedures = new ObservableCollection<Procedure>(linkedProcedures);
 
-                                reservationList.Add(reservation);
+                                    reservationList.Add(reservation);
+                                }
+
                             }
-
                         }
                     }
                 }
-            }
 
 
 
-            return reservationList;
+                return reservationList;
             });
         }
         public List<Procedure> GetAllProcedures()
@@ -871,53 +875,55 @@ namespace Aplikace.data
             }
             return anamneses;
         }
-        public List<Prescription> GetAllPrescriptions()
+        public Task<List<Prescription>> GetAllPrescriptions()
         {
-            List<Patient> patients = GetAllPatients().Result;
-            List<Employee> employees = GetEmployees();
-            List<Prescription> prescriptions = new List<Prescription>();
-
-
-            using (var connection = new OracleDatabaseConnection())
+            return Task.Run(async () =>
             {
-                connection.OpenConnection();
-                string procedureName = "SELECT_LEKARSKE_PREDPISY";
+                List<Patient> patients = GetAllPatients().Result;
+                List<Employee> employees = GetEmployees().Result;
+                List<Prescription> prescriptions = new List<Prescription>();
 
-                using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+
+                using (var connection = new OracleDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    connection.OpenConnection();
+                    string procedureName = "SELECT_LEKARSKE_PREDPISY";
 
-                    // Výstupní parametr pro kurzor
-                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
-                    cursorParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(cursorParam);
-
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
                     {
-                        while (reader.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Výstupní parametr pro kurzor
+                        OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                        cursorParam.Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(cursorParam);
+
+                        using (OracleDataReader reader = cmd.ExecuteReader())
                         {
+                            while (reader.Read())
+                            {
 
 
-                            int ID = reader["PRESCRIPTION_ID"] != DBNull.Value ? Convert.ToInt32(reader["PRESCRIPTION_ID"]) : 0;
-                            string drugName = reader["DRUG_NAME"].ToString();
-                            decimal supplement = reader["SUPPLEMENT"] != DBNull.Value ? Convert.ToDecimal(reader["SUPPLEMENT"]) : 0;
-                            DateTime date = reader["DATE_PRESCRIBED"] != DBNull.Value ? Convert.ToDateTime(reader["DATE_PRESCRIBED"]) : DateTime.MinValue;
-                            int patientId = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;                           
-                            int employeeId = reader["EMPLOYEE_ID"] != DBNull.Value ? Convert.ToInt32(reader["EMPLOYEE_ID"]) : 0;
+                                int ID = reader["PRESCRIPTION_ID"] != DBNull.Value ? Convert.ToInt32(reader["PRESCRIPTION_ID"]) : 0;
+                                string drugName = reader["DRUG_NAME"].ToString();
+                                decimal supplement = reader["SUPPLEMENT"] != DBNull.Value ? Convert.ToDecimal(reader["SUPPLEMENT"]) : 0;
+                                DateTime date = reader["DATE_PRESCRIBED"] != DBNull.Value ? Convert.ToDateTime(reader["DATE_PRESCRIBED"]) : DateTime.MinValue;
+                                int patientId = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;
+                                int employeeId = reader["EMPLOYEE_ID"] != DBNull.Value ? Convert.ToInt32(reader["EMPLOYEE_ID"]) : 0;
 
-                            Patient patientTemp = patients.FirstOrDefault(p => p.Id == patientId);
-                            Employee employeeTemp = employees.FirstOrDefault(p => p.Id == employeeId);
-                            Prescription prescription = new Prescription(ID, drugName, supplement, employeeTemp, patientTemp, date);
-                            prescriptions.Add(prescription);
+                                Patient patientTemp = patients.FirstOrDefault(p => p.Id == patientId);
+                                Employee employeeTemp = employees.FirstOrDefault(p => p.Id == employeeId);
+                                Prescription prescription = new Prescription(ID, drugName, supplement, employeeTemp, patientTemp, date);
+                                prescriptions.Add(prescription);
 
 
+                            }
                         }
                     }
                 }
-            }
 
-            return prescriptions;
-
+                return prescriptions;
+            });
 
         }
 
@@ -929,53 +935,56 @@ namespace Aplikace.data
 
         // nacteni logu - ADMIN
 
-        private List<Log> GetLogs()
+        private Task<List<Log>> GetLogs()
         {
-            List<Log> logs = new List<Log>();
-        using (var connection = new OracleDatabaseConnection())
-        {
-            connection.OpenConnection();
-            string procedureName = "SELECT_LOGY";
-
-            using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+            return Task.Run(async () =>
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // Výstupní parametr pro kurzor
-                cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
-
-                using (OracleDataReader reader = cmd.ExecuteReader())
+                List<Log> logs = new List<Log>();
+                using (var connection = new OracleDatabaseConnection())
                 {
-                    while (reader.Read())
+                    connection.OpenConnection();
+                    string procedureName = "SELECT_LOGY";
+
+                    using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
                     {
-                        int Id = Convert.ToInt32(reader["LOG_ID"]);
-                        string before = reader["BEFORE_VALUES"].ToString();
-                        DateTime timeStamp = Convert.ToDateTime(reader["TIMESTAMP"]);
-                        string eventType = reader["EVENT_TYPE"].ToString();
-                        string tableName = reader["TABLE_NAME"].ToString();
-                        string after = reader["AFTER_VALUES"].ToString();
-                            ChangeType changeType = ChangeType.Insert;
-                            switch (eventType)
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Výstupní parametr pro kurzor
+                        cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                        using (OracleDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
                             {
-                                case "INSERT":
-                                    changeType = ChangeType.Insert;
-                                    break;
-                                case "UPDATE":
-                                    changeType = ChangeType.Update;
-                                    break;
-                                case "DELETE":
-                                    changeType = ChangeType.Delete;
-                                    break;
-                                default: break;
+                                int Id = Convert.ToInt32(reader["LOG_ID"]);
+                                string before = reader["BEFORE_VALUES"].ToString();
+                                DateTime timeStamp = Convert.ToDateTime(reader["TIMESTAMP"]);
+                                string eventType = reader["EVENT_TYPE"].ToString();
+                                string tableName = reader["TABLE_NAME"].ToString();
+                                string after = reader["AFTER_VALUES"].ToString();
+                                ChangeType changeType = ChangeType.Insert;
+                                switch (eventType)
+                                {
+                                    case "INSERT":
+                                        changeType = ChangeType.Insert;
+                                        break;
+                                    case "UPDATE":
+                                        changeType = ChangeType.Update;
+                                        break;
+                                    case "DELETE":
+                                        changeType = ChangeType.Delete;
+                                        break;
+                                    default: break;
+                                }
+                                Log log = new Log(Id, tableName, changeType, timeStamp, before, after);
+                                logs.Add(log);
                             }
-                            Log log = new Log(Id, tableName,changeType ,timeStamp, before, after);
-                            logs.Add(log);
                         }
+                    }
                 }
-            }
+                return logs;
+            });
         }
-        return logs;
-    }
 
 
         // nacteni uzivatelů - ADMIN
@@ -1211,6 +1220,6 @@ namespace Aplikace.data
             return value == "Y";
         }
 
-        
+
     }
 }

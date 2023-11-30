@@ -28,7 +28,7 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       ContentSource="Header"
-                                      Margin="25,10"/>
+                                      Margin="15,10"/>
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="3" Opacity="0.2"/>
                             </Border.Effect>
@@ -92,6 +92,40 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="CommonButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Width" Value="140"/>
+            <Setter Property="Height" Value="55"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="BorderBrush" Value="Blue"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="buttonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonBorder" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox" x:Key="GlobalTextBoxStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0,0,0,0.1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource GlobalTextBoxStyle}">
+
+        </Style>
+
     </Window.Resources>
 
 
@@ -170,11 +204,11 @@
                     </Border>
 
                 </TabItem>
-                <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}" >
+                <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}"  >
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/home.png" Width="48" Height="48" Margin="0 0 5 0" />
+                            <Image Source="/assets/home.png" Width="48" Height="48" Margin="0 0 5 0" PreviewMouseDown="mainMenuTabItem_PreviewMouseDown"/>
 
                         </StackPanel>
                     </TabItem.Header>
@@ -205,10 +239,10 @@
                     </StackPanel>
 
                 </TabItem>
-                <TabItem x:Name="PatientTabItem"  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="PatientTabItem"  Style="{StaticResource ModernTabItemStyle}" >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/medicalCard.png" Width="48" Height="48" Margin="0 0 5 0" />
+                            <Image x:Name="medicalCard" Source="/assets/medicalCard.png" Width="48" Height="48" Margin="0 0 5 0" PreviewMouseDown="medicalCard_PreviewMouseDown" />
 
                         </StackPanel>
                     </TabItem.Header>
@@ -220,10 +254,15 @@
 
                         <Label HorizontalAlignment="Left" Content="Choose patient to see more details " Width="303" Grid.ColumnSpan="2" Margin="111,0,0,492" FontSize="14" Foreground="#FF312E2E"/>
                         <Label HorizontalAlignment="Left" Content="List of Patients " Width="190" Grid.ColumnSpan="2" Margin="154,-26,0,522"/>
-                        <StackPanel x:Name="stackPanelPatients" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,87,69">
-                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="427" Width="478" SelectionChanged="patientDataGrid_SelectionChanged" >
+                        <Label HorizontalAlignment="Left" Content="Search " Width="69" Margin="127,38,0,458" FontSize="16"/>
+                        <TextBox x:Name="searchTextBox"  Margin="196,40,0,0" Width="176" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="SearchTextBox_TextChanged" Grid.ColumnSpan="2" />
+
+                        <StackPanel x:Name="stackPanelPatients" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,74,24,75">
+                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" 
+                                      RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" 
+                                      Height="380" Width="516" SelectionChanged="patientDataGrid_SelectionChanged" >
                                 <DataGrid.CellStyle>
-                                    <Style TargetType="DataGridCell">
+                                    <Style TargetType="{x:Type DataGridCell}">
                                         <Setter Property="FontSize" Value="11" />
 
                                     </Style>
@@ -236,15 +275,16 @@
                                     <DataGridTextColumn Header="Birth" Binding="{Binding DateOfBirth}" Width="60" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="82" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="130" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-
-
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
                         <Button x:Name="addPatient" Margin="0,489,93,0" Content="Add new patient" Click="addPatient_Click"></Button>
                         <Button x:Name="deletePatient" Margin="196,489,177,0" Content="Delete patient"  Grid.ColumnSpan="2" Click="deletePatient_Click"></Button>
                         <Button x:Name="editPatient" Margin="108,489,-15,0" Content="Edit patient" Grid.Column="1" Click="editPatient_Click" />
-                        <StackPanel x:Name="addressDataStackPanel" Grid.Column="1" Margin="198,-26,-206,23" >
+                        <StackPanel x:Name="addressDataStackPanel" Grid.Column="1" Margin="261,40,-240,-43" >
+                            <StackPanel.LayoutTransform>
+                                <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                            </StackPanel.LayoutTransform>
                             <Label Content="HealthCard:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <Label Content="Smokes:" HorizontalAlignment="Left" VerticalAlignment="Center" />
@@ -291,10 +331,10 @@
 
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="calendarTabItem"  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="calendarTabItem"  Style="{StaticResource ModernTabItemStyle}" >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/calendar.png" Width="48" Height="48" Margin="0 0 5 0" />
+                            <Image Source="/assets/calendar.png" Width="48" Height="48" Margin="0 0 5 0" PreviewMouseDown="calendarTabItem_PreviewMouseDown"/>
 
                         </StackPanel>
                     </TabItem.Header>
@@ -323,12 +363,12 @@
                                     <DatePicker Grid.Column="1" Margin="334,5,-291,5" Name="dpDate"/>
 
                                     <TextBlock Text="Choose patient:" Margin="5,5,5,5"/>
-                                    <ComboBox Grid.Column="1" Margin="5,5,5,10" Name="cmbPatients" />
+                                    <ComboBox Grid.Column="1" Margin="5,5,5,77" Name="cmbPatients" />
                                 </Grid>
 
                                 <!-- Třetí řádek s Buttonem -->
                                 <Grid Grid.Row="1" Margin="0,39,0,0">
-                                    <Button Content="Add new reservation"  Margin="241,5,290,21" Click="AddNewReservation"/>
+                                    <Button Content="Add new reservation" Width="NaN" Style="{StaticResource CommonButtonStyle}" Margin="175,10,331,59" Click="AddNewReservation"/>
                                 </Grid>
                             </Grid>
 
@@ -367,20 +407,20 @@
                                         <DataGridTextColumn Header="Covered by Insurance" Binding="{Binding CoveredByInsurance}" Width="90" />
                                     </DataGrid.Columns>
                                 </DataGrid>
-                                <Grid Margin="4,39,-322,10" Grid.Column="1">
-                                    <TextBlock Text="Select Reservation" Margin="105,346,461,100"/>
-                                    <Button x:Name="btnRemoveReservation" Content="Remove Reservation"  Margin="105,375,475,68" Click="btnRemoveReservation_Click"/>
-                                    <Button x:Name="btnAddNewProcedure" Content="Add procedure"  Margin="110,406,480,26" Click="btnAddNewProcedure_Click"/>
+                                <Grid Margin="10,360,-328,-17" Grid.Column="1">
+                                    <TextBlock Text="Select Reservation" Margin="98,10,468,129"/>
+                                    <Button x:Name="btnRemoveReservation" Width="NaN" Height="20" Style="{StaticResource CommonButtonStyle}" Content="Remove Reservation"  Margin="198,88,393,32" Click="btnRemoveReservation_Click"/>
+                                    <Button x:Name="btnAddNewProcedure" Width="NaN" Style="{StaticResource CommonButtonStyle}" Content="Add procedure"  Margin="21,88,588,32" Click="btnAddNewProcedure_Click"/>
                                 </Grid>
 
                             </Grid>
                         </GroupBox>
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="listTabItem"  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="listTabItem"  Style="{StaticResource ModernTabItemStyle}" >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/list.png" Width="48" Height="48" Margin="0 0 5 0" />
+                            <Image Source="/assets/list.png" Width="48" Height="48" Margin="0 0 5 0" PreviewMouseDown="listTabItem_PreviewMouseDown"/>
 
                         </StackPanel>
                     </TabItem.Header>
@@ -413,9 +453,9 @@
                             <!-- Date Picker -->
                             <Label Content="Date:" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
                             <DatePicker x:Name="dpDatePresctiption" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="190,0,0,0" Width="200" SelectedDate="{Binding Date}"/>
-                            <Button x:Name="btnAddPrescription" Content="Add new Prescription" Margin="462,10,24,4" Click="btnAddPrescription_Click" />
-                            <Button x:Name="btnEditPrescription" Content="Edit existing Prescription" Margin="476,7,10,105" Grid.Row="4" Height="30" Width="250" Click="btnEditPrescription_Click"/>
-                            <Button x:Name="btnDeletePrescription" Content="Delete existing Prescription" Margin="475,63,10,50" Grid.Row="4" Width="250" Height="30" Click="btnDeletePrescription_Click"/>
+                            <Button x:Name="btnAddPrescription" Width="200" Style="{StaticResource CommonButtonStyle}" Content="Add new Prescription" Margin="490,9,62,36" Click="btnAddPrescription_Click" Grid.RowSpan="2" />
+                            <Button x:Name="btnEditPrescription" Style="{StaticResource CommonButtonStyle}" Content="Edit existing Prescription" Margin="476,7,10,105" Grid.Row="4" Height="30" Width="250" Click="btnEditPrescription_Click"/>
+                            <Button x:Name="btnDeletePrescription" Style="{StaticResource CommonButtonStyle}" Content="Delete existing Prescription" Margin="475,63,10,50" Grid.Row="4" Width="250" Height="30" Click="btnDeletePrescription_Click"/>
                             <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Center" Margin="174,0,326,0" Grid.Row="4" Visibility="Hidden" Background="#FFC4FF81" Foreground="#FF333333" RenderTransformOrigin="0.501,2.482"/>
                         </Grid>
 
@@ -425,37 +465,47 @@
 
                     </GroupBox>
                 </TabItem>
-                <TabItem x:Name="dataTabItem"  Style="{StaticResource ModernTabItemStyle}">
+                <TabItem x:Name="dataTabItem"  Style="{StaticResource ModernTabItemStyle}"  >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/database.png" Width="48" Height="48" Margin="0 0 5 0" />
+                            <Image Source="/assets/database.png" Width="48" Height="48" Margin="0 0 5 0" PreviewMouseDown="dataTabItem_PreviewMouseDown"/>
 
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid>
+                    <GroupBox Margin="0,23,0,49" Width="726">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="172*"/>
+                                <RowDefinition Height="157*"/>
+                                <RowDefinition Height="230*"/>
+                            </Grid.RowDefinitions>
 
-                        <Button x:Name="btnAdressDialog" Margin="11,34,659,487" Content="Addresses" Click="btnAdressDialog_Click"/>
-                        <Button x:Name="btnAllergyDialog" Margin="258,34,411,487" Content="Allergies" Click="btnAllergyDialog_Click"/>
-                        <Button x:Name="btnAnamnesisDialog" Margin="132,34,538,487" Content="Anamneses" Click="btnAnamnesisDialog_Click"/>
-                        <Button x:Name="btnInsuranceDialog" Margin="427,34,242,487" Content="Insurances" Click="btnInsuranceDialog_Click"/>
-                        <Button x:Name="btnPatientsDialog" Margin="534,34,137,487" Content="Patients" Click="btnPatientsDialog_Click"/>
-                        <Button x:Name="btnReservationDialog" Margin="639,34,31,487" Content="Reservations" Click="btnReservationDialog_Click"/>
-                        <Button x:Name="btnVisitDialog" Margin="25,130,644,392" Content="Visits" Click="btnVisitDialog_Click"/>
-                        <Button x:Name="btnEmployeeDialog" Margin="207,254,462,268" Content="Employees" Click="btnEmployeeDialog_Click"/>
-                        <Button x:Name="btnHealthCardDialod" Margin="25,234,631,288" Content="Health Cards" Click="btnHealthCardDialod_Click"/>
-                        <Button x:Name="btnPrescriptionDialog" Margin="157,137,512,385" Content="Prescriptions" Click="btnPrescriptionDialog_Click"/>
-                        <Button x:Name="btnProcedureDialog" Margin="309,144,360,378" Content="Procedures" Click="btnProcedureDialog_Click"/>
-                        <Button x:Name="btnUserDialog" Margin="478,137,191,385" Content="Users" Click="btnUserDialog_Click"/>
-                        <Button x:Name="btnRoleDialog" Margin="609,137,60,385" Content="Roles" Click="btnRoleDialog_Click"/>
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Width="478" Height="90" Margin="132,34,0,0">
+                                <Button x:Name="btnAdressDialog" Style="{StaticResource CommonButtonStyle}" Content="Addresses" Click="btnAdressDialog_Click" />
+                                <Button x:Name="btnAllergyDialog" Style="{StaticResource CommonButtonStyle}" Content="Allergies" Click="btnAllergyDialog_Click" />
+                                <Button x:Name="btnAnamnesisDialog" Style="{StaticResource CommonButtonStyle}" Content="Anamneses" Click="btnAnamnesisDialog_Click" />
+                            </StackPanel>
 
+                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Height="66" Width="450">
+                                <Button x:Name="btnInsuranceDialog" Style="{StaticResource CommonButtonStyle}" Content="Insurances" Click="btnInsuranceDialog_Click"/>
+                                <Button x:Name="btnPatientsDialog" Style="{StaticResource CommonButtonStyle}" Content="Patients" Click="btnPatientsDialog_Click"/>
+                                <Button x:Name="btnReservationDialog" Style="{StaticResource CommonButtonStyle}" Content="Reservations" Click="btnReservationDialog_Click"/>
+                            </StackPanel>
 
-                    </Grid>
+                            <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal" Height="80" Width="450" Margin="0,47,0,0">
+                                <Button x:Name="btnVisitDialog" Style="{StaticResource CommonButtonStyle}" Content="Visits" Click="btnVisitDialog_Click"/>
+                                <Button x:Name="btnEmployeeDialog" Style="{StaticResource CommonButtonStyle}" Content="Employees" Click="btnEmployeeDialog_Click"/>
+                                <Button x:Name="btnHealthCardDialod" Style="{StaticResource CommonButtonStyle}" Content="Health Cards" Click="btnHealthCardDialod_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+
 
                 </TabItem>
-                <TabItem x:Name="settingsTabItem"  Style="{StaticResource ModernTabItemStyle}" >
+                <TabItem x:Name="settingsTabItem"  Style="{StaticResource ModernTabItemStyle}"  >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/settings.png" Width="48" Height="48" Margin="0 0 5 0" />
+                            <Image Source="/assets/settings.png" Width="48" Height="48" Margin="0 0 5 0" PreviewMouseDown="settingsTabItem_PreviewMouseDown"  />
 
                         </StackPanel>
                     </TabItem.Header>

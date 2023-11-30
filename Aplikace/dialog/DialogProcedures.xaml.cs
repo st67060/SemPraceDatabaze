@@ -75,18 +75,20 @@ namespace Aplikace.dialog
             }
         }
 
-        private void dgProcedures_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        
+
+        private void dgProcedures_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             if (dgProcedures.SelectedItem != null)
             {
                 Procedure selectedProcedure = (Procedure)dgProcedures.SelectedItem;
                 DataContext = selectedProcedure;
             }
-        }
-
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
         }
     }
 }
