@@ -103,5 +103,9 @@ namespace Aplikace.data.Entity
             }
             return false;
         }
+        public override string ToString()
+        {
+            return $"{Role} {Surname}";
+        }
     }
 }

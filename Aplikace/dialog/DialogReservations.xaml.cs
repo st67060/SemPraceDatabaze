@@ -36,8 +36,8 @@ namespace Aplikace.dialog
 
             private void LoadReservations()
             {
-                reservations = new ObservableCollection<Reservation>(access.GetAllReservations());
-                patients = new ObservableCollection<Patient>(access.GetAllPatients());
+                reservations = new ObservableCollection<Reservation>(access.GetAllReservations().Result);
+                patients = new ObservableCollection<Patient>(access.GetAllPatients().Result);
                 employees = new ObservableCollection<Employee>(access.GetEmployees());
 
             }

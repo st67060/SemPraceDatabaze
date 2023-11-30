@@ -298,7 +298,7 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid>
+                    <Grid Margin="0,0,0,31" Width="751">
                         <!-- První sekce: Formulář pro vkládání rezervací -->
                         <GroupBox Margin="10">
                             <Grid Height="501">
@@ -310,7 +310,7 @@
 
                                 <!-- První řádek s textem "Poznámky" přes oba sloupce -->
                                 <TextBlock Text="Notes:" Margin="5,5,631,5" Grid.Row="0"/>
-                                <TextBox Grid.Row="0" Margin="113,5,5,10" Name="txtNotes" Background="White" Opacity="0.7"/>
+                                <TextBox Grid.Row="0" Margin="113,5,19,10" Name="txtNotes" Background="White" Opacity="0.7"/>
 
                                 <!-- Druhý řádek s dvěma sloupci pro DatePicker a ComboBox -->
                                 <Grid Margin="0,2,0,44" Grid.Row="1">
@@ -320,7 +320,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Text="Date:" Margin="260,5,-79,5" Grid.Column="1"/>
-                                    <DatePicker Grid.Column="1" Margin="334,5,-324,5" Name="dpDate"/>
+                                    <DatePicker Grid.Column="1" Margin="334,5,-291,5" Name="dpDate"/>
 
                                     <TextBlock Text="Choose patient:" Margin="5,5,5,5"/>
                                     <ComboBox Grid.Column="1" Margin="5,5,5,10" Name="cmbPatients" />
@@ -335,8 +335,8 @@
                         </GroupBox>
 
                         <!-- Druhá sekce: DataGrid pro rezervace a procedury -->
-                        <GroupBox  Margin="10" Grid.Row="1">
-                            <Grid>
+                        <GroupBox  Margin="10" Grid.Row="1" BorderBrush="{x:Null}">
+                            <Grid Margin="0,0,16,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -368,9 +368,9 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <Grid Margin="4,39,-322,10" Grid.Column="1">
-                                    <TextBlock Text="Select Reservation" Margin="110,365,456,81"/>
-                                    <Button x:Name="btnRemoveReservation" Content="Remove Reservation"  Margin="105,392,475,68" Click="btnRemoveReservation_Click"/>
-                                    <Button x:Name="btnAddNewProcedure" Content="Add procedure"  Margin="110,446,480,14" Click="btnAddNewProcedure_Click"/>
+                                    <TextBlock Text="Select Reservation" Margin="105,346,461,100"/>
+                                    <Button x:Name="btnRemoveReservation" Content="Remove Reservation"  Margin="105,375,475,68" Click="btnRemoveReservation_Click"/>
+                                    <Button x:Name="btnAddNewProcedure" Content="Add procedure"  Margin="110,406,480,26" Click="btnAddNewProcedure_Click"/>
                                 </Grid>
 
                             </Grid>
@@ -384,7 +384,46 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <!-- Obsah pro záložku 3 -->
+                    <GroupBox x:Name="gpPrescription" Margin="10,34,17,51" >
+                        <Grid>
+                            <!-- Grid definition for layout -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Medication Name -->
+                            <Label Content="Medication Name:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <TextBox x:Name="txtMedicationName" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="190,0,0,0" Width="200" Text="{Binding DrugName}"/>
+
+                            <!-- Co-payment -->
+                            <Label Content="Co-payment:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <TextBox x:Name="txtCoPayment" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" Text="{Binding Supplement}"/>
+
+                            <!-- Employee ComboBox -->
+                            <Label Content="Patient:" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <ComboBox x:Name="cmbPatient" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" SelectedItem="{Binding Patient}"/>
+                            <Label Content="Choose Presctiption to modify:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="449,12,0,0"/>
+                            <ComboBox x:Name="cmbPrescription" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="485,8,0,0" Width="200" SelectionChanged="cmbPrescription_SelectionChanged"/>
+
+
+                            <!-- Date Picker -->
+                            <Label Content="Date:" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <DatePicker x:Name="dpDatePresctiption" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="190,0,0,0" Width="200" SelectedDate="{Binding Date}"/>
+                            <Button x:Name="btnAddPrescription" Content="Add new Prescription" Margin="462,10,24,4" Click="btnAddPrescription_Click" />
+                            <Button x:Name="btnEditPrescription" Content="Edit existing Prescription" Margin="476,7,10,105" Grid.Row="4" Height="30" Width="250" Click="btnEditPrescription_Click"/>
+                            <Button x:Name="btnDeletePrescription" Content="Delete existing Prescription" Margin="475,63,10,50" Grid.Row="4" Width="250" Height="30" Click="btnDeletePrescription_Click"/>
+                            <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Center" Margin="174,0,326,0" Grid.Row="4" Visibility="Hidden" Background="#FFC4FF81" Foreground="#FF333333" RenderTransformOrigin="0.501,2.482"/>
+                        </Grid>
+
+
+
+
+
+                    </GroupBox>
                 </TabItem>
                 <TabItem x:Name="dataTabItem"  Style="{StaticResource ModernTabItemStyle}">
                     <TabItem.Header>

@@ -3,9 +3,12 @@ using Aplikace.data.Entity;
 using Aplikace.data.Enum;
 using Aplikace.dialog;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -32,6 +35,7 @@ namespace Aplikace
             LoadListOfUsers();
             LoadListOfEmployees();
             LoadListOfReservations();
+            LoadListOfPrescriptions();
             
         }
 
@@ -96,7 +100,7 @@ namespace Aplikace
             mainWindow.Show();
             Close();
         }
-        private void LoadListOfEmployees()
+        private async void LoadListOfEmployees()
         {
             ObservableCollection<Employee> doctorsAndNurses = new ObservableCollection<Employee>();
             foreach (Employee emp in access.GetEmployees())
@@ -111,27 +115,68 @@ namespace Aplikace
             employeeDataGrid.ItemsSource = data.Employees;
 
         }
-        private void LoadListOfPatients()
+        private async void LoadListOfPatients()
         {
             data.Patients.Clear();
-            data.Patients = new ObservableCollection<Patient>(access.GetAllPatients());
-            patientDataGrid.ItemsSource = data.Patients;
+            await Task.Run(() =>
+            {
+                List<Patient> patients = access.GetAllPatients().Result;
+
+                Dispatcher.Invoke(() =>
+                {
+                    data.Patients = new ObservableCollection<Patient>(patients);
+                    patientDataGrid.ItemsSource = data.Patients;
+                });
+            });
 
         }
-        private void LoadListOfUsers()
+        private async void LoadListOfUsers()
         {
-            data.Users = new ObservableCollection<User>(access.GetAllUsers());
-            usersDataGrid.ItemsSource = data.Users;
+            await Task.Run(() =>
+            {
+                List<User> users = access.GetAllUsers();
+                Dispatcher.Invoke(() =>
+                {
+                    data.Users = new ObservableCollection<User>(users);
+                    usersDataGrid.ItemsSource = data.Users;
+                });
+            });
         }
-        
-        private void LoadListOfReservations()
-        {
-            cmbPatients.ItemsSource = access.GetAllPatients();
-            data.Reservations.Clear();
-            data.Reservations = new ObservableCollection<Reservation>(access.GetReservations());
-            dgReservations.ItemsSource = data.Reservations;
-            
 
+        private async void LoadListOfReservations()
+        {
+            await Task.Run(() =>
+            {
+                List<Patient> patients = access.GetAllPatients().Result;
+                Dispatcher.Invoke(() =>
+                {
+                    cmbPatients.ItemsSource = patients;
+                });
+
+                List<Reservation> reservations = access.GetReservations();
+                Dispatcher.Invoke(() =>
+                {
+                    data.Reservations = new ObservableCollection<Reservation>(reservations);
+                    dgReservations.ItemsSource = data.Reservations;
+                });
+            });
+        }
+        private async void LoadListOfPrescriptions()
+        {
+            await Task.Run(() =>
+            {
+                List<Patient> patients = access.GetAllPatients().Result;
+                Dispatcher.Invoke(() =>
+                {
+                    cmbPatient.ItemsSource = patients;
+                });
+
+                List<Prescription> prescriptions = access.GetAllPrescriptions();
+                Dispatcher.Invoke(() =>
+                {
+                    cmbPrescription.ItemsSource = prescriptions;
+                });
+            });
         }
 
 
@@ -348,6 +393,52 @@ namespace Aplikace
 
         }
 
-       
+        private async Task btnAddPrescription_ClickAsync(object sender, RoutedEventArgs e)
+        {
+
+            
+            
+        }
+
+        private void btnEditPrescription_Click(object sender, RoutedEventArgs e)
+        {
+            if(cmbPrescription.SelectedItem != null)
+            {
+                Prescription prescription = cmbPrescription.SelectedItem as Prescription;
+                access.UpdatePrescription(prescription);
+                LoadListOfPrescriptions();
+            }
+            
+        }
+
+        private void btnDeletePrescription_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbPrescription.SelectedItem != null)
+            {
+                Prescription prescription = cmbPrescription.SelectedItem as Prescription;
+                access.DeletePrescription(prescription);
+                LoadListOfPrescriptions();
+            }
+        }
+
+        private async void btnAddPrescription_Click(object sender, RoutedEventArgs e)
+        {
+            Prescription prescription = new Prescription(0, txtMedicationName.Text, int.Parse(txtCoPayment.Text), user.Employee, (Patient)cmbPatient.SelectedItem, (DateTime)dpDatePresctiption.SelectedDate);
+            if (access.InsertPrescription(prescription))
+            {
+                lPrescriptionCreated.Visibility = Visibility.Visible;
+                await Task.Delay(1500);
+                lPrescriptionCreated.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void cmbPrescription_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            Prescription prescription = cmbPrescription.SelectedItem as Prescription;
+            gpPrescription.DataContext = prescription;
+            List<Patient> temp = data.Patients.ToList();
+            cmbPatient.SelectedIndex = temp.FindIndex(patient => patient.Id == prescription.Patient.Id);
+
+        }
     }
 }

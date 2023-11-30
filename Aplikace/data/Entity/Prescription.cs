@@ -16,6 +16,15 @@ namespace Aplikace.data.Entity
         private Patient patient;
         private DateTime date;
 
+        public Prescription(int id, string drugName, decimal supplement, Employee employee, Patient patient, DateTime date)
+        {
+            ID = id;
+            DrugName = drugName;
+            Supplement = supplement;
+            Employee = employee;
+            Patient = patient;
+            Date = date;
+        }
         public int ID
         {
             get { return id; }
@@ -100,7 +109,12 @@ namespace Aplikace.data.Entity
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public override string ToString()
+        {
+            return $" Medication: {DrugName}, {Supplement}, Employee: {Employee.ToString()}, Patient: {Patient.ToString()}, Date: {Date.ToString("dd/MM/yy")}";
+        }
     }
+
 
    
 }

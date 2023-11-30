@@ -72,7 +72,7 @@ namespace Aplikace.dialog
         private void LoadVisits()
         {
             visits = new ObservableCollection<Visit>(access.GetAllVisits());
-            patients = new ObservableCollection<Patient>(access.GetAllPatients());
+            patients = new ObservableCollection<Patient>(access.GetAllPatients().Result);
             dgVisits.ItemsSource = visits;
             cmbPatient.ItemsSource = patients;
         }

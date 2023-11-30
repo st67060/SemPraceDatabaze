@@ -6,6 +6,7 @@ using Oracle.ManagedDataAccess.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing.Text;
 using System.IO;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Xps;
 using System.Xml.Linq;
 using static Aplikace.data.DataAccess;
@@ -60,7 +62,7 @@ namespace Aplikace.data
         public List<Reservation> GetReservations()
         {
 
-            return GetAllReservations();
+            return GetAllReservations().Result;
         }
         public class ReservationProcedureLink
         {
@@ -316,9 +318,11 @@ namespace Aplikace.data
         // Metody pro Doctor,Nurse atd
         // ==============================================
 
-        public List<Patient> GetAllPatients()
+        public  async Task<List<Patient>> GetAllPatients()
         {
-            List<Patient> patients = new List<Patient>();
+            return await Task.Run(() =>
+            {
+                List<Patient> patients = new List<Patient>();
             List<Alergy> alergies = GetAllAllergies();
             List<AlergyHealthCardLink> alergyHealthCardLinks = GetAllAlergyHealthCardLinks();
             List<Anamnesis> anamneses = GetAllAnamnesis();
@@ -392,7 +396,7 @@ namespace Aplikace.data
             }
 
             return patients;
-
+            });
 
         }
         // zapsání Pacient, adresy a zdravotní karty do databáze
@@ -526,68 +530,8 @@ namespace Aplikace.data
                 }
             }
         }
-        // načte všechny rezervace se zákroky
-        public bool InsertReservation(Reservation reservation)
-        {
-            string insertProcedure = "INSERT_REZERVACE";
-
-            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-            {
-                databaseConnection.OpenConnection();
-
-                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add("p_poznamky_rez", OracleDbType.Varchar2).Value = reservation.Notes;
-                    cmd.Parameters.Add("p_datum_rez", OracleDbType.Date).Value = reservation.Date;
-                    cmd.Parameters.Add("p_pacient_id_rez", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Patient.Id);
-                    cmd.Parameters.Add("p_zamestnanec_id_rez", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Employee.Id);
-
-                    //try
-                    //{
-                        cmd.ExecuteNonQuery();
-                        return true;
-                    //}
-                    //catch (OracleException ex)
-                    //{
-                    //    return false;
-                    //}
-
-
-                }
-            }
-        }
-        public bool DeleteReservation(Reservation reservation )
-        {
-            string deleteProcedure = "DELETE_REZERVACE";
-
-            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
-            {
-                databaseConnection.OpenConnection();
-
-                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    OracleParameter paramId = new OracleParameter("p_rezervace_id", OracleDbType.Decimal);
-                    paramId.Value = reservation.Id;
-                    cmd.Parameters.Add(paramId);
-
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-
-                        Console.WriteLine("Error: " + ex.Message);
-                        return false;
-                    }
-                }
-            }
-        }
+        
+        
         public List<HealthCard> GetAllAlergiesHealthCard()
         {
             List<HealthCard> healthCardList = new List<HealthCard>();
@@ -642,10 +586,12 @@ namespace Aplikace.data
 
 
 
-        public List<Reservation> GetAllReservations()
+        public async Task<List<Reservation>> GetAllReservations()
         {
-            List<Reservation> reservationList = new List<Reservation>();
-            List<Patient> patientList = GetAllPatients();
+            return await Task.Run(() =>
+            {
+                List<Reservation> reservationList = new List<Reservation>();
+            List<Patient> patientList = GetAllPatients().Result;
             List<Employee> employeeList = GetEmployees();
             List<Procedure> procedureList = GetAllProcedures();
             List<ReservationProcedureLink> reservationProcedureLinks = GetAllReservationProcedureLinks();
@@ -699,6 +645,7 @@ namespace Aplikace.data
 
 
             return reservationList;
+            });
         }
         public List<Procedure> GetAllProcedures()
         {
@@ -851,7 +798,7 @@ namespace Aplikace.data
         public List<Visit> GetAllVisits()
         {
             List<Visit> visits = new List<Visit>();
-            List<Patient> patientList = GetAllPatients();
+            List<Patient> patientList = GetAllPatients().Result;
 
             using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
             {
@@ -924,7 +871,55 @@ namespace Aplikace.data
             }
             return anamneses;
         }
+        public List<Prescription> GetAllPrescriptions()
+        {
+            List<Patient> patients = GetAllPatients().Result;
+            List<Employee> employees = GetEmployees();
+            List<Prescription> prescriptions = new List<Prescription>();
 
+
+            using (var connection = new OracleDatabaseConnection())
+            {
+                connection.OpenConnection();
+                string procedureName = "SELECT_LEKARSKE_PREDPISY";
+
+                using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Výstupní parametr pro kurzor
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+
+                            int ID = reader["PRESCRIPTION_ID"] != DBNull.Value ? Convert.ToInt32(reader["PRESCRIPTION_ID"]) : 0;
+                            string drugName = reader["DRUG_NAME"].ToString();
+                            decimal supplement = reader["SUPPLEMENT"] != DBNull.Value ? Convert.ToDecimal(reader["SUPPLEMENT"]) : 0;
+                            DateTime date = reader["DATE_PRESCRIBED"] != DBNull.Value ? Convert.ToDateTime(reader["DATE_PRESCRIBED"]) : DateTime.MinValue;
+                            int patientId = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;                           
+                            int employeeId = reader["EMPLOYEE_ID"] != DBNull.Value ? Convert.ToInt32(reader["EMPLOYEE_ID"]) : 0;
+
+                            Patient patientTemp = patients.FirstOrDefault(p => p.Id == patientId);
+                            Employee employeeTemp = employees.FirstOrDefault(p => p.Id == employeeId);
+                            Prescription prescription = new Prescription(ID, drugName, supplement, employeeTemp, patientTemp, date);
+                            prescriptions.Add(prescription);
+
+
+                        }
+                    }
+                }
+            }
+
+            return prescriptions;
+
+
+        }
 
 
         // ==============================================
@@ -933,8 +928,8 @@ namespace Aplikace.data
 
 
         // nacteni logu - ADMIN
-        
-    private List<Log> GetLogs()
+
+        private List<Log> GetLogs()
         {
             List<Log> logs = new List<Log>();
         using (var connection = new OracleDatabaseConnection())
@@ -1120,9 +1115,79 @@ namespace Aplikace.data
             return addresses;
         }
 
+        public bool InsertReservation(Reservation reservation)
+        {
+            string insertProcedure = "INSERT_REZERVACE";
 
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
 
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    cmd.Parameters.Add("p_poznamky_rez", OracleDbType.Varchar2).Value = reservation.Notes;
+                    cmd.Parameters.Add("p_datum_rez", OracleDbType.Date).Value = reservation.Date;
+                    cmd.Parameters.Add("p_pacient_id_rez", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Patient.Id);
+                    cmd.Parameters.Add("p_zamestnanec_id_rez", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Employee.Id);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        return false;
+                    }
+
+                }
+            }
+        }
+        public bool DeleteReservation(Reservation reservation)
+        {
+            string deleteProcedure = "DELETE_REZERVACE";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter paramId = new OracleParameter("p_rezervace_id", OracleDbType.Decimal);
+                    paramId.Value = reservation.Id;
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool InsertPrescription(Prescription prescription)
+        {
+            return true;
+        }
+        public bool UpdatePrescription(Prescription prescription)
+        {
+            return true;
+        }
+        public bool DeletePrescription(Prescription prescription)
+        {
+            return true;
+        }
 
 
 

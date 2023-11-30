@@ -16,6 +16,9 @@
     <Compile Update="dialog\DialogPatientAdd.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="dialog\DialogProcedures.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Main.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +34,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="dialog\DialogPatientAdd.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="dialog\DialogProcedures.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Login.xaml">
