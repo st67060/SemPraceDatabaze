@@ -12,6 +12,7 @@ using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Reflection.PortableExecutable;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -92,6 +93,64 @@ namespace Aplikace.data
         // ==============================================
         // Metody pro Quest
         // ==============================================
+
+        public  Task<Employee> GetSuperior()
+        {
+            return Task.Run(() =>
+            {
+                Employee employee = null;
+
+                using (var connection = new OracleDatabaseConnection())
+                {
+                    connection.OpenConnection();
+
+                    using (OracleCommand cmd = new OracleCommand("SELECT_EMPLOYEES_LEVEL_1", connection.connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Výstupní parametr
+                        cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                        // Vykonání příkazu
+                        cmd.ExecuteNonQuery();
+
+                        // Čtení dat ze vstupního kurzoru
+                        OracleDataReader reader = ((OracleRefCursor)cmd.Parameters["v_cursor"].Value).GetDataReader();
+
+                        reader.Read();
+                        
+                            string employeeName = reader["v_employee_name"].ToString();
+                            string employeeSurname = reader["v_employee_surname"].ToString();
+                            int roleId = Convert.ToInt32(reader["v_employee_role_id"]);
+
+                            Role role;
+                            switch (roleId)
+                            {
+                                case 1:
+                                    role = Role.Admin;
+                                    break;
+                                case 2:
+                                    role = Role.Doctor;
+                                    break;
+                                case 3:
+                                    role = Role.Nurse;
+                                    break;
+                                case 4:
+                                    role = Role.Employee;
+                                    break;
+                                default:
+                                    role = Role.Employee;
+                                    break;
+                            }
+
+                            employee = new Employee(0, employeeName, employeeSurname, DateTime.Now, role);
+                        
+                    }
+                }
+
+                return employee;
+            });
+        }
 
         // nacteni zaměstnanců pro listView
         public Task<List<Employee>> GetEmployees()
@@ -799,47 +858,50 @@ namespace Aplikace.data
             return allergyList;
         }
 
-        public List<Visit> GetAllVisits()
+        public async Task<List<Visit>> GetAllVisits()
         {
-            List<Visit> visits = new List<Visit>();
-            List<Patient> patientList = GetAllPatients().Result;
-
-            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            return await Task.Run(() =>
             {
-                databaseConnection.OpenConnection();
+                List<Visit> visits = new List<Visit>();
+                List<Patient> patientList = GetAllPatients().Result;
 
-                using (OracleCommand cmd = new OracleCommand("SELECT_NAVSTEVY", databaseConnection.connection))
+                using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    databaseConnection.OpenConnection();
 
-                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
-                    cursorParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(cursorParam);
-
-                    cmd.ExecuteNonQuery();
-
-                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    using (OracleCommand cmd = new OracleCommand("SELECT_NAVSTEVY", databaseConnection.connection))
                     {
-                        while (reader.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                        cursorParam.Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(cursorParam);
+
+                        cmd.ExecuteNonQuery();
+
+                        using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
                         {
-                            int visitId = reader.GetInt32(reader.GetOrdinal("VISIT_ID"));
-                            DateTime visitDate = reader.GetDateTime(reader.GetOrdinal("VISIT_DATE"));
-                            string visitNotes = reader.IsDBNull(reader.GetOrdinal("VISIT_NOTES")) ? null : reader.GetString(reader.GetOrdinal("VISIT_NOTES"));
-                            int patientId = reader.GetInt32(reader.GetOrdinal("PACIENT_ID"));
-
-                            Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
-
-                            if (patientTemp != null)
+                            while (reader.Read())
                             {
-                                Visit visit = new Visit(visitId, visitDate, visitNotes, patientTemp);
-                                visits.Add(visit);
+                                int visitId = reader.GetInt32(reader.GetOrdinal("VISIT_ID"));
+                                DateTime visitDate = reader.GetDateTime(reader.GetOrdinal("VISIT_DATE"));
+                                string visitNotes = reader.IsDBNull(reader.GetOrdinal("VISIT_NOTES")) ? null : reader.GetString(reader.GetOrdinal("VISIT_NOTES"));
+                                int patientId = reader.GetInt32(reader.GetOrdinal("PACIENT_ID"));
+
+                                Patient patientTemp = patientList.FirstOrDefault(p => p.Id == patientId);
+
+                                if (patientTemp != null)
+                                {
+                                    Visit visit = new Visit(visitId, visitDate, visitNotes, patientTemp);
+                                    visits.Add(visit);
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            return visits;
+                return visits;
+            });
         }
 
         public List<Anamnesis> GetAllAnamnesis()
@@ -937,7 +999,7 @@ namespace Aplikace.data
                 using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    
+
                     cmd.Parameters.Add("v_rezervace_id", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Id);
                     cmd.Parameters.Add("v_zakrok_id", OracleDbType.Decimal).Value = Convert.ToDecimal(procedure.Id);
 
@@ -1174,13 +1236,13 @@ namespace Aplikace.data
                     {
                         cmd.ExecuteNonQuery();
                         return true;
-                }
+                    }
                     catch (OracleException ex)
                     {
-                    return false;
-                }
+                        return false;
+                    }
 
-            }
+                }
             }
         }
         public bool UpdateReservation(Reservation reservation)
@@ -2077,7 +2139,41 @@ namespace Aplikace.data
             }
         }
 
+        public Task<List<Catalog>> GetCatalog()
+        {
+            return Task.Run(async () =>
+            {
+                List<Catalog> catalogItems = new List<Catalog>();
+                using (var connection = new OracleDatabaseConnection())
+                {
+                    connection.OpenConnection();
+                    string procedureName = "SYSTEM_KATALOG";
 
+                    using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Výstupní parametr pro kurzor
+                        cmd.Parameters.Add("v_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+                        using (OracleDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string owner = reader["OWNER"].ToString();
+                                string name = reader["OBJECT_NAME"].ToString();
+                                string type = reader["OBJECT_TYPE"].ToString();
+
+                                Catalog catalog = new Catalog(owner, name, type);
+
+                                catalogItems.Add(catalog);
+                            }
+                        }
+                    }
+                }
+                return catalogItems;
+            });
+        }
 
 
         // ==============================================

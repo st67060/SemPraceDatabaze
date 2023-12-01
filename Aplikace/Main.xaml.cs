@@ -52,7 +52,8 @@ namespace Aplikace
             settingsTabItem.Visibility = Visibility.Collapsed;
             listTabItem.Visibility = Visibility.Collapsed;
             calendarTabItem.Visibility = Visibility.Collapsed;
-            if (SetProfileImage(user) != null) {
+            if (SetProfileImage(user) != null)
+            {
                 userImage.Source = SetProfileImage(user);
             }
 
@@ -75,7 +76,7 @@ namespace Aplikace
 
             }
             else if (user.Employee.Role == Role.Employee)
-            {               
+            {
                 UserTabItem.Visibility = Visibility.Visible;
 
 
@@ -86,7 +87,8 @@ namespace Aplikace
 
         private BitmapImage SetProfileImage(User user)
         {
-            if (user.Employee.Photo != null) {
+            if (user.Employee.Photo != null)
+            {
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.StreamSource = new MemoryStream(user.Employee.Photo);
@@ -94,7 +96,7 @@ namespace Aplikace
                 return bitmapImage;
             }
             else { return null; }
-            
+
         }
 
         private void logoutButton_Click(object sender, RoutedEventArgs e)
@@ -115,7 +117,8 @@ namespace Aplikace
                     doctorsAndNurses.Add(emp);
                 }
             }
-
+            Employee employee = await access.GetSuperior();
+            DataContext = employee;
             data.Employees = doctorsAndNurses;
             employeeDataGrid.ItemsSource = data.Employees;
         }
@@ -297,14 +300,23 @@ namespace Aplikace
 
         private void AddNewReservation(object sender, RoutedEventArgs e)
         {
-            Reservation reservation = new Reservation(0, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatients.SelectedItem, user.Employee);
-            if (access.InsertReservation(reservation)) {
-                LoadListOfReservations();
+            if (cmbPatients.SelectedItem == null || dpDate.SelectedDate == null)
+            {
+                MessageBox.Show("Select Patient and Date", "error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            else {
-                MessageBox.Show("Reservation for day"+ (DateTime)dpDate.SelectedDate + "already exists", "Invalid Date", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                Reservation reservation = new Reservation(0, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatients.SelectedItem, user.Employee);
+                if (access.InsertReservation(reservation))
+                {
+                    LoadListOfReservations();
+                }
+                else
+                {
+                    MessageBox.Show("Reservation for day" + dpDate.SelectedDate.Value.ToString("dd.MM.yyyy") + "already exists", "Invalid Date", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            
+
         }
 
         private void btnRemoveReservation_Click(object sender, RoutedEventArgs e)
@@ -314,6 +326,11 @@ namespace Aplikace
                 access.DeleteReservation((Reservation)dgReservations.SelectedItem);
                 LoadListOfReservations();
 
+            }
+            else
+            {
+
+                MessageBox.Show("No reservation selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -412,10 +429,11 @@ namespace Aplikace
 
         private async void btnAddNewProcedure_Click(object sender, RoutedEventArgs e)
         {
-            if(dgReservations.SelectedItem != null && cmbProcedure.SelectedItem !=null)
+            if (dgReservations.SelectedItem != null && cmbProcedure.SelectedItem != null)
             {
                 var selectedItem = dgReservations.SelectedIndex;
-                try {
+                try
+                {
                     access.InsertProcedureToReservation((Reservation)dgReservations.SelectedItem, (Procedure)cmbProcedure.SelectedItem);
                     await LoadListOfReservations();
                     dgReservations.SelectedIndex = selectedItem;
@@ -427,6 +445,10 @@ namespace Aplikace
 
                 }
 
+            }
+            else
+            {
+                MessageBox.Show("No reservation or procedure selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -450,17 +472,30 @@ namespace Aplikace
                 access.DeletePrescription(prescription);
                 LoadListOfPrescriptions();
             }
+            else
+            {
+                MessageBox.Show("Select prescription", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async void btnAddPrescription_Click(object sender, RoutedEventArgs e)
         {
-            Prescription prescription = new Prescription(0, txtMedicationName.Text, int.Parse(txtCoPayment.Text), user.Employee, (Patient)cmbPatient.SelectedItem, (DateTime)dpDatePresctiption.SelectedDate);
-            if (access.InsertPrescription(prescription))
+            if (string.IsNullOrEmpty(txtMedicationName.Text) || string.IsNullOrEmpty(txtCoPayment.Text) || cmbPatient.SelectedItem == null || dpDatePresctiption.SelectedDate == null)
             {
-                lPrescriptionCreated.Visibility = Visibility.Visible;
-                await Task.Delay(1500);
-                lPrescriptionCreated.Visibility = Visibility.Hidden;
+
+                MessageBox.Show("Some Fields are empty", "error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            else
+            {
+                Prescription prescription = new Prescription(0, txtMedicationName.Text, int.Parse(txtCoPayment.Text), user.Employee, (Patient)cmbPatient.SelectedItem, (DateTime)dpDatePresctiption.SelectedDate);
+                if (access.InsertPrescription(prescription))
+                {
+                    lPrescriptionCreated.Visibility = Visibility.Visible;
+                    await Task.Delay(1500);
+                    lPrescriptionCreated.Visibility = Visibility.Hidden;
+                }
+            }
+
         }
 
         private void cmbPrescription_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -472,15 +507,8 @@ namespace Aplikace
 
         }
 
-        private void dataTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
 
-        }
 
-        private void PatientTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
 
         private void listTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -549,9 +577,10 @@ namespace Aplikace
             };
         }
 
-        private void btnSysCatalogDialog_Kopírovat_Click(object sender, RoutedEventArgs e)
+        private void btnSysCatalogDialog_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogSysCatalog dialogSysCatalog = new DialogSysCatalog();
+            dialogSysCatalog.ShowDialog();
         }
     }
 }

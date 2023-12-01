@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\App.xaml
-121419728754
+13-1392760164
 1-1223805434
-321771744897
+34-96076951
 198-1947793993
-dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogInsurance.xaml;dialog\DialogLogs.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogProcedures.xaml;dialog\DialogReservations.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
+dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogInsurance.xaml;dialog\DialogLogs.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogProcedures.xaml;dialog\DialogReservations.xaml;dialog\DialogSysCatalog.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
 
 False
 

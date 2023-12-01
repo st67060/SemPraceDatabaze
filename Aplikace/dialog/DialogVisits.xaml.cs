@@ -66,7 +66,8 @@ namespace Aplikace.dialog
         {
             if (dgVisits.SelectedItem != null)
             {
-                DataContext = (Visit)dgVisits.SelectedItem;
+                var visit = (Visit)dgVisits.SelectedItem;
+                DataContext = visit;
 
             }
         }
@@ -75,8 +76,8 @@ namespace Aplikace.dialog
             
             Task.Run(async () =>
             {
-                visits = new ObservableCollection<Visit>(access.GetAllVisits());
-                patients = new ObservableCollection<Patient>(await access.GetAllPatients());
+                visits = new ObservableCollection<Visit>( access.GetAllVisits().Result);
+                patients = new ObservableCollection<Patient>( access.GetAllPatients().Result);
 
 
                 Dispatcher.Invoke(() =>

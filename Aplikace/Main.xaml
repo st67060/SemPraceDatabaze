@@ -214,12 +214,16 @@
                     </TabItem.Header>
 
                     <!-- Obsah pro záložku 1 -->
-                    <StackPanel>
+                    <GroupBox Margin="0,24,0,40" Width="746">
 
-                        <StackPanel HorizontalAlignment="Left" Width="620" Height="481" Margin="50,58,0,0">
 
-                            <Label HorizontalAlignment="Center" Content="List of Employees" Width="190"/>
-                            <DataGrid x:Name="employeeDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" Width="466" BorderThickness="0" Height="400">
+                        <Grid>
+                            <Label Content="List of Employees" Width="190" Margin="272,5,272,453"/>
+                            <Label Content="Main Doctor:" Width="190" Margin="134,457,410,1"/>
+                            <TextBox x:Name="txtSuperiorName" Margin="360,458,282,21" Text="{Binding Name}" FontSize="16" Focusable="False"/>
+                            <TextBox x:Name="txtSuperiorSurname" Margin="452,458,167,21" Text="{Binding Surname}" FontSize="16" Focusable="False"/>
+                            <TextBox x:Name="txtSuperiorRole" Margin="264,458,374,21" Text="{Binding Role}" FontSize="16" Focusable="False"/>
+                            <DataGrid x:Name="employeeDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" Width="466" BorderThickness="0" Height="400" Margin="134,52,134,53">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}" />
                                     <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}" />
@@ -233,10 +237,12 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+                        </Grid>
 
 
-                        </StackPanel>
-                    </StackPanel>
+
+                    </GroupBox>
+
 
                 </TabItem>
                 <TabItem x:Name="PatientTabItem"  Style="{StaticResource ModernTabItemStyle}" >
@@ -340,6 +346,7 @@
                     </TabItem.Header>
                     <GroupBox Margin="10,10,10,46" Width="738">
                         <Grid Margin="0,0,-25,0" Width="751" Height="510">
+                            <Rectangle HorizontalAlignment="Center" Height="170" Margin="0,5,0,0" Stroke="Black" VerticalAlignment="Top" Width="438"/>
                             <TextBlock Text="Notes:" Margin="236,79,430,403" Grid.Row="0" Foreground="#FF020202" FontSize="16"/>
                             <TextBox  Margin="309,79,180,403" Name="txtNotes" Background="White" Opacity="0.7"/>
                             <TextBlock Text="Date:" Margin="241,46,437,438" Foreground="#FF020202" FontSize="16" />
@@ -370,7 +377,7 @@
                             <TextBlock Text="Select reservation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,234,0,0" Foreground="#FF2B2B2B" FontWeight="Normal" FontSize="16"/>
                             <Button x:Name="btnRemoveReservation" Width="150" Height="35" Style="{StaticResource CommonButtonStyle}" Content="Remove Reservation"   Click="btnRemoveReservation_Click" Margin="102,465,499,10" FontSize="14"/>
                             <Button x:Name="btnAddNewProcedure" Width="150" Height="35" Style="{StaticResource CommonButtonStyle}" Content="Add procedure"   Click="btnAddNewProcedure_Click" Margin="463,315,138,160" FontSize="18"/>
-                            <Rectangle HorizontalAlignment="Center" Height="170" Margin="0,5,0,0" Stroke="Black" VerticalAlignment="Top" Width="438"/>
+
                             <TextBlock Text="Select procedure for selected reservation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="395,234,0,0" Foreground="#FF2B2B2B" FontWeight="Normal" FontSize="16"/>
                             <ComboBox  Margin="423,276,96,200" Name="cmbProcedure" />
                             <TextBlock Text="Reservations" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="123,205,0,0" Foreground="Black" FontWeight="Bold"/>
@@ -397,29 +404,21 @@
                                 <RowDefinition Height="*"/>
 
                             </Grid.RowDefinitions>
-
-                            <!-- Medication Name -->
+                            <Rectangle HorizontalAlignment="Left" Height="257" Margin="10,8,0,0" Stroke="Black" VerticalAlignment="Top" Width="399" Grid.RowSpan="4"/>
                             <Label Content="Medication Name:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
                             <TextBox x:Name="txtMedicationName" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="190,0,0,0" Width="200" Text="{Binding DrugName}"/>
-
-                            <!-- Co-payment -->
                             <Label Content="Co-payment:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
                             <TextBox x:Name="txtCoPayment" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" Text="{Binding Supplement}"/>
-
-                            <!-- Employee ComboBox -->
                             <Label Content="Patient:" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
                             <ComboBox x:Name="cmbPatient" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" SelectedItem="{Binding Patient}"/>
                             <Label Content="Choose Presctiption to modify:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="449,12,0,0"/>
                             <ComboBox x:Name="cmbPrescription" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="485,8,0,0" Width="200" SelectionChanged="cmbPrescription_SelectionChanged"/>
-
-
-                            <!-- Date Picker -->
                             <Label Content="Date:" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,2,0,0"/>
                             <DatePicker x:Name="dpDatePresctiption" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" SelectedDate="{Binding Date}"/>
                             <Button x:Name="btnAddPrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Add new Prescription" Margin="91,66,441,228" Click="btnAddPrescription_Click" Grid.Row="3" FontSize="16" />
                             <Button x:Name="btnDeletePrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Delete existing Prescription" Margin="475,6,57,288" Grid.Row="3"  Click="btnDeletePrescription_Click" FontSize="16"/>
-                            <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Top" Margin="76,143,426,0"  Visibility="Visible" Background="#FFC4FF81" Foreground="#FF333333"  Height="32" Grid.Row="3"/>
-                            <Rectangle HorizontalAlignment="Left" Height="257" Margin="10,8,0,0" Stroke="Black" VerticalAlignment="Top" Width="399" Grid.RowSpan="4"/>
+                            <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Top" Margin="251,198,251,0"  Visibility="Hidden" Background="#FFC4FF81" Foreground="#FF333333"  Height="32" Grid.Row="3"/>
+
 
 
                         </Grid>
@@ -433,7 +432,7 @@
                 <TabItem x:Name="dataTabItem"  Style="{StaticResource ModernTabItemStyle}"  >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/assets/database.png" Width="48" Height="48" Margin="0 0 5 0" PreviewMouseDown="dataTabItem_PreviewMouseDown"/>
+                            <Image Source="/assets/database.png" Width="48" Height="48" Margin="0 0 5 0"/>
 
                         </StackPanel>
                     </TabItem.Header>
@@ -506,7 +505,7 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
-                        <Button x:Name="btnSysCatalogDialog_Kopírovat" Content="Show Catalog" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="521,383,52,94"  Visibility="Visible" Click="btnSysCatalogDialog_Kopírovat_Click">
+                        <Button x:Name="btnSysCatalogDialog" Content="Show Catalog" Background="White" Foreground="Blue" BorderBrush="Blue" BorderThickness="0"  Margin="521,383,52,94"  Visibility="Visible" Click="btnSysCatalogDialog_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">

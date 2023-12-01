@@ -21,12 +21,12 @@
             </Grid.ColumnDefinitions>
 
             <!-- Таблица для отображения атрибутов Visits -->
-            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding VisitsList}" SelectionChanged="dgVisits_SelectionChanged">
+            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0"  SelectionChanged="dgVisits_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Details" Binding="{Binding Details}" />
                     <!-- Переименование Pacient_id в Patient и отображение имени и фамилии пациента -->
-                    <DataGridTextColumn Header="Patient" Binding="{Binding PatientFullName}" />
+                    <DataGridTextColumn Header="Patient" Binding="{Binding Patient}" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -39,7 +39,7 @@
                 <TextBox Name="txtDetails" Width="200" Margin="0,0,0,10" Text="{Binding Details, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Patient:" Margin="0,0,0,5"/>
-                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding Patient.LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10"   />
 
                 <!-- Кнопки для добавления, изменения и удаления записей -->
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">

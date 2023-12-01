@@ -302,3 +302,5 @@ C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\d
 C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogLogs.baml
 C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogProcedures.g.cs
 C:\Users\laibl\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogProcedures.baml
+C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogSysCatalog.g.cs
+C:\Users\laibl\source\repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\dialog\DialogSysCatalog.baml
