@@ -45,7 +45,7 @@ namespace Aplikace.dialog
                 Address selectedAddress = (Address)dgAddress.SelectedItem;
                 Address address = new Address(selectedAddress.Id, txtCity.Text, int.Parse(txtPostalCode.Text),
                                               int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
-                // access.UpdateAddress(address);
+                access.UpdateAddress(address);
                 LoadAddresses();
             }
         }
@@ -54,7 +54,7 @@ namespace Aplikace.dialog
         {
             Address address = new Address(0, txtCity.Text, int.Parse(txtPostalCode.Text),
                                           int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
-            // access.InsertAddress(address);
+            access.InsertAddress(address);
             LoadAddresses();
         }
 
@@ -63,7 +63,7 @@ namespace Aplikace.dialog
             if (dgAddress.SelectedItem != null)
             {
                 Address selectedAddress = (Address)dgAddress.SelectedItem;
-                // access.DeleteAddress(selectedAddress);
+                access.DeleteAddress(selectedAddress);
                 LoadAddresses();
             }
         }

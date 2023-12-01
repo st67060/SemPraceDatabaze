@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace Aplikace.dialog
 {
@@ -30,7 +31,7 @@ namespace Aplikace.dialog
                 access = new DataAccess();
 
                 InitializeComponent();
-                MouseLeftButtonDown += (s, e) => DragMove(); // позволяет перемещать окно
+                MouseLeftButtonDown += (s, e) => DragMove();
                 LoadReservations();
             }
 
@@ -47,24 +48,23 @@ namespace Aplikace.dialog
                 if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtNotes.Text) && cmbPatient.SelectedItem != null && cmbEmployee.SelectedItem != null)
                 {
                     Reservation reservation = new Reservation(0, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatient.SelectedItem, (Employee)cmbEmployee.SelectedItem);
-                    // access.InsertReservation(reservation);
+                    access.InsertReservation(reservation);
                     LoadReservations();
                 }
             }
-
-            private void Modify_Click(object sender, RoutedEventArgs e)
+        
+        private void Modify_Click(object sender, RoutedEventArgs e)
             {
                 if (dgReservations.SelectedItem != null)
                 {
                     if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtNotes.Text) && cmbPatient.SelectedItem != null && cmbEmployee.SelectedItem != null)
                     {
-                        Reservation temp = (Reservation)dgReservations.SelectedItem;
-                        temp.Date = (DateTime)dpDate.SelectedDate;
-                        temp.Notes = txtNotes.Text;
-                        temp.Patient = (Patient)cmbPatient.SelectedItem;
-                        temp.Employee = (Employee)cmbEmployee.SelectedItem;
-                        // access.UpdateReservation(temp);
-                        LoadReservations();
+                    Reservation selectedReservation = (Reservation)dgReservations.SelectedItem;
+                    Patient selectedPatient = (Patient)cmbPatient.SelectedItem;
+                    Employee selectedEmployee = (Employee)cmbEmployee.SelectedItem;
+                    Reservation reservation = new Reservation(selectedReservation.Id, txtNotes.Text, dpDate.SelectedDate.Value, selectedPatient, selectedEmployee);
+                    access.UpdateReservation(selectedReservation);
+                    LoadReservations();
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace Aplikace.dialog
             {
                 if (dgReservations.SelectedItem != null)
                 {
-                    // access.DeleteReservation((Reservation)dgReservations.SelectedItem);
+                   access.DeleteReservation((Reservation)dgReservations.SelectedItem);
                     LoadReservations();
                 }
             }

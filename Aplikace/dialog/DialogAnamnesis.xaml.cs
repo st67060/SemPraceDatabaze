@@ -26,24 +26,25 @@ namespace Aplikace.dialog
             dgAnamnesis.ItemsSource = anamnesises;
         }
 
+
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
             if (dgAnamnesis.SelectedItem != null)
             {
                 Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
-                Anamnesis anamnesis = new Anamnesis(selectedAnamnesis.Id, txtDisease.Text);
-                // access.UpdateAnamnesis(anamnesis);
+                Anamnesis anamnesis = new Anamnesis(selectedAnamnesis.Id, txtAnamnesis.Text);
+                access.UpdateAnamnesis(anamnesis);
                 LoadAnamnesis();
             }
         }
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtDisease.Text))
+            if (!string.IsNullOrWhiteSpace(txtAnamnesis.Text))
             {
-                Anamnesis anamnesis = new Anamnesis(0, txtDisease.Text); 
-                // access.InsertAnamnesis(anamnesis);
-                LoadAnamnesis();
+                Anamnesis anamnesis = new Anamnesis(0, txtAnamnesis.Text);
+                access.InsertAnamnesis(anamnesis);
+                LoadAnamnesis();          
             }
         }
 
@@ -52,7 +53,7 @@ namespace Aplikace.dialog
             if (dgAnamnesis.SelectedItem != null)
             {
                 Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
-                // access.DeleteAnamnesis(selectedAnamnesis);
+                access.DeleteAnamnesis(selectedAnamnesis);
                 LoadAnamnesis();
             }
         }
@@ -67,7 +68,7 @@ namespace Aplikace.dialog
             if (dgAnamnesis.SelectedItem != null)
             {
                 Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
-                txtDisease.Text = selectedAnamnesis.Name;
+                txtAnamnesis.Text = selectedAnamnesis.Name;
             }
         }
     }

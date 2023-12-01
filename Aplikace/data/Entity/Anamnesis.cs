@@ -14,10 +14,7 @@ namespace Aplikace.data.Entity
         private string name;
         
 
-        public Anamnesis()
-        {
-                    
-        }
+        
         public Anamnesis(int id, string name)
         {
             this.id = id;
