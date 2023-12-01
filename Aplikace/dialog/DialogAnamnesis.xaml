@@ -23,7 +23,7 @@
 
             <DataGrid Name="dgAnamnesis" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding AnamnesisList}" SelectionChanged="dgAnamnesis_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Disease" Binding="{Binding Disease}" />
+                    <DataGridTextColumn Header="Disease" Binding="{Binding Name}" />
                 </DataGrid.Columns>
             </DataGrid>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aplikace.data.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -95,6 +96,10 @@ namespace Aplikace.data.Entity
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public override string ToString()
+        {
+            return $"{name}";
         }
     }
 }

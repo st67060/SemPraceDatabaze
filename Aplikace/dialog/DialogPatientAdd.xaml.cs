@@ -56,38 +56,143 @@ namespace Aplikace.dialog
             DialogResult = false;
             Close();
         }
+        private bool IsNumeric(string text)
+        {
+            return int.TryParse(text, out _); 
+        }
+        private bool IsTextNotEmpty(string text)
+        {
+            return !string.IsNullOrEmpty(text);
+        }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             if(patient != null)
             {
-                address = new Address(address.Id, txtCity.Text, int.Parse(txtPostalCode.Text), int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
-                healthCard = new HealthCard(healthCard.Id, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
-                patient = new Patient(patient.Id, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
-                DataAccess access = new DataAccess();
-                DialogResult = access.UpdatePatient(patient);
-                if (DialogResult == true)
+                if (ValidateAddress() && ValidateHealthCard() && ValidatePatient())
                 {
-                    Close();
+                    address = new Address(address.Id, txtCity.Text, int.Parse(txtPostalCode.Text), int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
+                    healthCard = new HealthCard(healthCard.Id, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
+                    patient = new Patient(patient.Id, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
+                    DataAccess access = new DataAccess();
+                    DialogResult = access.UpdatePatient(patient);
+                    if (DialogResult == true)
+                    {
+                        Close();
+                    }
                 }
 
             }
             else
             {
-                address = new Address(0, txtCity.Text, int.Parse(txtPostalCode.Text), int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
-                healthCard = new HealthCard(0, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
-                patient = new Patient(0, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
-                DataAccess access = new DataAccess();
-                DialogResult = access.InsertPatient(patient);
-                if (DialogResult == true)
+                if (ValidateAddress() && ValidateHealthCard() && ValidatePatient())
                 {
-                    Close();
+                    address = new Address(0, txtCity.Text, int.Parse(txtPostalCode.Text), int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
+                    healthCard = new HealthCard(0, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
+                    patient = new Patient(0, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
+                    DataAccess access = new DataAccess();
+                    DialogResult = access.InsertPatient(patient);
+                    if (DialogResult == true)
+                    {
+                        Close();
+                    }
                 }
 
             }
             
             
         }
-        
+
+        private void txtSocialSecurityNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true; 
+               
+            }
+
+        }
+        private bool ValidateAddress()
+        {
+            if (!IsTextNotEmpty(txtCity.Text) ||
+                !IsTextNotEmpty(txtPostalCode.Text) ||
+                !IsTextNotEmpty(txtStreetNumber.Text) ||
+                !IsTextNotEmpty(txtCountry.Text) ||
+                !IsTextNotEmpty(txtStreet.Text))
+            {
+                MessageBox.Show("Some fields for the ADDRESS are empty", "error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidateHealthCard()
+        {
+            if (!IsTextNotEmpty(txtSport.Text) ||
+                !IsTextNotEmpty(txtFillings.Text) ||
+                cmbAnamnesis.SelectedItem == null
+                )
+            {
+                MessageBox.Show("Some fields for the HEALTH CARD are empty", "error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidatePatient()
+        {
+            if (!IsTextNotEmpty(txtFirstName.Text) ||
+                !IsTextNotEmpty(txtLastName.Text) ||
+                !IsTextNotEmpty(txtSocialSecurityNumber.Text) ||
+                !IsTextNotEmpty(txtGender.Text) ||
+                dpDateOfBirth.SelectedDate == null ||
+                !IsTextNotEmpty(txtPhone.Text) ||
+                !IsTextNotEmpty(txtEmail.Text) ||
+                cmbInsuranceCompany.SelectedItem == null)
+            {
+                MessageBox.Show("Some fields for the PATIENT are empty", "error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void txtPhone_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+
+            }
+        }
+
+        private void txtFillings_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+
+            }
+        }
+
+        private void txtPostalCode_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+
+            }
+        }
+
+        private void txtStreetNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+
+            }
+        }
     }
 }

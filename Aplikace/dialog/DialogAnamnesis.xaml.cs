@@ -10,20 +10,22 @@ namespace Aplikace.dialog
     public partial class DialogAnamnesis : Window
     {
         DataAccess access;
-        ObservableCollection<Anamnesis> anamnesises;
+        ObservableCollection<Anamnesis> AnamnesisList;
 
         public DialogAnamnesis()
         {
             access = new DataAccess();
+           
             InitializeComponent();
-            MouseLeftButtonDown += (s, e) => DragMove(); 
             LoadAnamnesis();
+            MouseLeftButtonDown += (s, e) => DragMove(); 
+            
         }
 
         private void LoadAnamnesis()
         {
-            anamnesises = new ObservableCollection<Anamnesis>(access.GetAllAnamnesis());
-            dgAnamnesis.ItemsSource = anamnesises;
+            AnamnesisList = new ObservableCollection<Anamnesis>(access.GetAllAnamnesis());
+            dgAnamnesis.ItemsSource = AnamnesisList;
         }
 
         private void Modify_Click(object sender, RoutedEventArgs e)
@@ -64,7 +66,7 @@ namespace Aplikace.dialog
 
         private void dgAnamnesis_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgAnamnesis.SelectedItem != null)
+            if (dgAnamnesis.SelectedItem != null && dgAnamnesis.SelectedValue !=null)
             {
                 Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
                 txtDisease.Text = selectedAnamnesis.Name;

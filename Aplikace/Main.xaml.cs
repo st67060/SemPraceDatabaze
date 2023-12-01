@@ -52,10 +52,12 @@ namespace Aplikace
             settingsTabItem.Visibility = Visibility.Collapsed;
             listTabItem.Visibility = Visibility.Collapsed;
             calendarTabItem.Visibility = Visibility.Collapsed;
+            if (SetProfileImage(user) != null) {
+                userImage.Source = SetProfileImage(user);
+            }
 
             if (user.Employee.Role == Role.Admin)
             {
-                userImage.Source = SetProfileImage(user);
                 UserTabItem.Visibility = Visibility.Visible;
                 dataTabItem.Visibility = Visibility.Visible;
                 settingsTabItem.Visibility = Visibility.Visible;
@@ -66,7 +68,6 @@ namespace Aplikace
             }
             else if (user.Employee.Role == Role.Doctor || user.Employee.Role == Role.Nurse)
             {
-                userImage.Source = SetProfileImage(user);
                 UserTabItem.Visibility = Visibility.Visible;
                 listTabItem.Visibility = Visibility.Visible;
                 calendarTabItem.Visibility = Visibility.Visible;
@@ -74,8 +75,7 @@ namespace Aplikace
 
             }
             else if (user.Employee.Role == Role.Employee)
-            {
-                userImage.Source = SetProfileImage(user);
+            {               
                 UserTabItem.Visibility = Visibility.Visible;
 
 
@@ -86,11 +86,15 @@ namespace Aplikace
 
         private BitmapImage SetProfileImage(User user)
         {
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.StreamSource = new MemoryStream(user.Employee.Photo);
-            bitmapImage.EndInit();
-            return bitmapImage;
+            if (user.Employee.Photo != null) {
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = new MemoryStream(user.Employee.Photo);
+                bitmapImage.EndInit();
+                return bitmapImage;
+            }
+            else { return null; }
+            
         }
 
         private void logoutButton_Click(object sender, RoutedEventArgs e)
@@ -143,9 +147,11 @@ namespace Aplikace
             });
         }
 
-        private async void LoadListOfReservations()
+        private Task LoadListOfReservations()
         {
-            await Task.Run(() =>
+            var taskCompletionSource = new TaskCompletionSource<object>();
+
+            Task.Run(() =>
             {
                 List<Patient> patients = access.GetAllPatients().Result;
                 Dispatcher.Invoke(() =>
@@ -154,12 +160,20 @@ namespace Aplikace
                 });
 
                 List<Reservation> reservations = access.GetReservations();
+                List<Procedure> procedures = access.GetAllProcedures();
                 Dispatcher.Invoke(() =>
                 {
                     data.Reservations = new ObservableCollection<Reservation>(reservations);
+                    data.Procedures = new ObservableCollection<Procedure>(procedures);
                     dgReservations.ItemsSource = data.Reservations;
+                    cmbProcedure.ItemsSource = data.Procedures;
                 });
+
+                // Signalizujeme dokončení asynchronní operace
+                taskCompletionSource.SetResult(null);
             });
+
+            return taskCompletionSource.Task;
         }
         private async void LoadListOfPrescriptions()
         {
@@ -183,11 +197,12 @@ namespace Aplikace
 
         private void patientDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (patientDataGrid.SelectedItem != null) {
+            if (patientDataGrid.SelectedItem != null)
+            {
                 patient = (Patient)patientDataGrid.SelectedItem;
                 addressDataStackPanel.DataContext = patient;
             }
-            
+
         }
 
         private void emulateUserButton_Click(object sender, RoutedEventArgs e)
@@ -243,15 +258,16 @@ namespace Aplikace
 
         private void deletePatient_Click(object sender, RoutedEventArgs e)
         {
-            if(patientDataGrid.SelectedItem!=null)
-                
+            if (patientDataGrid.SelectedItem != null)
+
             {
                 Patient patient = (Patient)patientDataGrid.SelectedItem;
-                if (access.DeletePatient(patient)) {
+                if (access.DeletePatient(patient))
+                {
                     data.Patients.Remove(patient);
                 }
             }
-            
+
         }
 
         private void editPatient_Click(object sender, RoutedEventArgs e)
@@ -274,34 +290,40 @@ namespace Aplikace
 
                 }
             }
-            
+
         }
 
 
-      
+
         private void AddNewReservation(object sender, RoutedEventArgs e)
         {
             Reservation reservation = new Reservation(0, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatients.SelectedItem, user.Employee);
-            access.InsertReservation(reservation);
-            LoadListOfReservations();
+            if (access.InsertReservation(reservation)) {
+                LoadListOfReservations();
+            }
+            else {
+                MessageBox.Show("Reservation for day"+ (DateTime)dpDate.SelectedDate + "already exists", "Invalid Date", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
 
         private void btnRemoveReservation_Click(object sender, RoutedEventArgs e)
         {
-            if(dgReservations.SelectedItem != null)
+            if (dgReservations.SelectedItem != null)
             {
                 access.DeleteReservation((Reservation)dgReservations.SelectedItem);
-                LoadListOfReservations() ;
+                LoadListOfReservations();
 
             }
         }
 
         private void dgReservations_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (dgReservations.SelectedItem != null) {
+            if (dgReservations.SelectedItem != null)
+            {
                 dgProcedures.ItemsSource = data.Reservations[dgReservations.SelectedIndex].Procedures;
             }
-            
+
         }
 
         private void btnAdressDialog_Click(object sender, RoutedEventArgs e)
@@ -388,27 +410,36 @@ namespace Aplikace
             dialogLogs.ShowDialog();
         }
 
-        private void btnAddNewProcedure_Click(object sender, RoutedEventArgs e)
+        private async void btnAddNewProcedure_Click(object sender, RoutedEventArgs e)
         {
+            if(dgReservations.SelectedItem != null && cmbProcedure.SelectedItem !=null)
+            {
+                var selectedItem = dgReservations.SelectedIndex;
+                try {
+                    access.InsertProcedureToReservation((Reservation)dgReservations.SelectedItem, (Procedure)cmbProcedure.SelectedItem);
+                    await LoadListOfReservations();
+                    dgReservations.SelectedIndex = selectedItem;
+                    dgProcedures.ItemsSource = data.Reservations[selectedItem].Procedures;
+                }
+                catch (Exception ex)
+                {
 
+
+                }
+
+            }
         }
 
-        private async Task btnAddPrescription_ClickAsync(object sender, RoutedEventArgs e)
-        {
-
-            
-            
-        }
 
         private void btnEditPrescription_Click(object sender, RoutedEventArgs e)
         {
-            if(cmbPrescription.SelectedItem != null)
+            if (cmbPrescription.SelectedItem != null)
             {
                 Prescription prescription = cmbPrescription.SelectedItem as Prescription;
                 access.UpdatePrescription(prescription);
                 LoadListOfPrescriptions();
             }
-            
+
         }
 
         private void btnDeletePrescription_Click(object sender, RoutedEventArgs e)
@@ -448,7 +479,7 @@ namespace Aplikace
 
         private void PatientTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+
         }
 
         private void listTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -471,12 +502,6 @@ namespace Aplikace
             LoadListOfUsers();
         }
 
-        private void dataTabItem_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
-        {
-
-        }
-
-       
 
         private void medicalCard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -490,7 +515,6 @@ namespace Aplikace
             {
                 if (o is Patient patient)
                 {
-                    // Procházení vlastností třídy Patient
                     if (string.IsNullOrWhiteSpace(searchTextBox.Text))
                         return true;
 
@@ -502,13 +526,13 @@ namespace Aplikace
                                        patient.Phone.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
                                        patient.Email.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase);
 
-                    
+
                     bool addressMatch = patient.Address?.City.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
                                        patient.Address?.PostalCode.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
                                        patient.Address?.StreetNumber.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
                                        patient.Address?.Country.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
                                        patient.Address?.Street.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true;
-                    
+
                     bool healthCardMatch = patient.HealthCard?.Smokes.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
                                           patient.HealthCard?.Pregnancy.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
                                           patient.HealthCard?.Alcohol.ToString().Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase) == true ||
@@ -518,7 +542,7 @@ namespace Aplikace
                     return patientMatch || addressMatch || healthCardMatch;
 
 
-                    
+
                 }
 
                 return false;

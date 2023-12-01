@@ -926,6 +926,35 @@ namespace Aplikace.data
             });
 
         }
+        public bool InsertProcedureToReservation(Reservation reservation, Procedure procedure)
+        {
+            string insertProcedure = "INSERT_REZERVACE_ZAKROK";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    
+                    cmd.Parameters.Add("v_rezervace_id", OracleDbType.Decimal).Value = Convert.ToDecimal(reservation.Id);
+                    cmd.Parameters.Add("v_zakrok_id", OracleDbType.Decimal).Value = Convert.ToDecimal(procedure.Id);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        return false;
+                    }
+
+
+                }
+            }
+        }
 
 
         // ==============================================
@@ -1145,13 +1174,13 @@ namespace Aplikace.data
                     {
                         cmd.ExecuteNonQuery();
                         return true;
-                    }
+                }
                     catch (OracleException ex)
                     {
-                        return false;
-                    }
-
+                    return false;
                 }
+
+            }
             }
         }
         public bool UpdateReservation(Reservation reservation)
@@ -1227,8 +1256,6 @@ namespace Aplikace.data
                 using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Добавляем параметры
                     cmd.Parameters.Add("p_nazev_leku", OracleDbType.Varchar2).Value = prescription.DrugName;
                     cmd.Parameters.Add("p_doplatek", OracleDbType.Decimal).Value = prescription.Supplement;
                     cmd.Parameters.Add("p_zamestnanec_id", OracleDbType.Decimal).Value = Convert.ToDecimal(prescription.Employee.Id);

@@ -58,7 +58,7 @@
                             <TextBox x:Name="txtLastName" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Social Security Number:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtSocialSecurityNumber" Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtSocialSecurityNumber" Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5" PreviewTextInput="txtSocialSecurityNumber_PreviewTextInput"/>
 
                             <TextBlock Text="Gender:" VerticalAlignment="Center"/>
                             <TextBox x:Name="txtGender" Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
@@ -67,7 +67,7 @@
                             <DatePicker x:Name="dpDateOfBirth" SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Phone:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtPhone" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtPhone" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="5" PreviewTextInput="txtPhone_PreviewTextInput"/>
 
                             <TextBlock Text="Email:" VerticalAlignment="Center"/>
                             <TextBox x:Name="txtEmail" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
@@ -85,10 +85,10 @@
                             <TextBox x:Name="txtCity" Text="{Binding Address.City, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Postal Code:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtPostalCode" Text="{Binding Address.PostalCode, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtPostalCode" Text="{Binding Address.PostalCode, UpdateSourceTrigger=PropertyChanged}" Margin="5" PreviewTextInput="txtPostalCode_PreviewTextInput"/>
 
                             <TextBlock Text="Street Number:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtStreetNumber" Text="{Binding Address.StreetNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtStreetNumber" Text="{Binding Address.StreetNumber, UpdateSourceTrigger=PropertyChanged}" Margin="5" PreviewTextInput="txtStreetNumber_PreviewTextInput"/>
 
                             <TextBlock Text="Country:" VerticalAlignment="Center"/>
                             <TextBox x:Name="txtCountry" Text="{Binding Address.Country, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
@@ -115,7 +115,7 @@
                             <TextBox x:Name="txtSport" Text="{Binding HealthCard.Sport, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                             <TextBlock Text="Fillings:" VerticalAlignment="Center"/>
-                            <TextBox x:Name="txtFillings" Text="{Binding HealthCard.Fillings, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                            <TextBox x:Name="txtFillings" Text="{Binding HealthCard.Fillings, UpdateSourceTrigger=PropertyChanged}" Margin="5" PreviewTextInput="txtFillings_PreviewTextInput"/>
 
                             <TextBlock Text="Anamnesis:" VerticalAlignment="Center"/>
                             <ComboBox x:Name="cmbAnamnesis" DisplayMemberPath="Name" Margin="5"/>

@@ -339,37 +339,42 @@
                         </StackPanel>
                     </TabItem.Header>
                     <GroupBox Margin="10,10,10,46" Width="738">
-                        <Grid Margin="0,0,0,31" Width="751">
-                            <TextBlock Text="Notes:" Margin="441,134,220,321" Grid.Row="0" Foreground="#FF020202"/>
-                            <TextBox  Margin="531,134,44,321" Name="txtNotes" Background="White" Opacity="0.7"/>
-                            <TextBlock Text="Date:" Margin="441,81,237,377" Foreground="#FF020202" />
-                            <DatePicker Margin="531,76,44,372" Name="dpDate"/>
-                            <TextBlock Text="Choose patient:" Margin="376,29,165,423" Foreground="#FF020202"/>
-                            <ComboBox  Margin="527,26,44,426" Name="cmbPatients" />
-                            <Button Content="Add new reservation" Width="NaN" Style="{StaticResource CommonButtonStyle}"  Click="AddNewReservation" Margin="456,186,63,241"/>
+                        <Grid Margin="0,0,-25,0" Width="751" Height="510">
+                            <TextBlock Text="Notes:" Margin="236,79,430,403" Grid.Row="0" Foreground="#FF020202" FontSize="16"/>
+                            <TextBox  Margin="309,79,180,403" Name="txtNotes" Background="White" Opacity="0.7"/>
+                            <TextBlock Text="Date:" Margin="241,46,437,438" Foreground="#FF020202" FontSize="16" />
+                            <DatePicker Margin="309,48,180,436" Name="dpDate" FontSize="16" Text="Select Date"/>
+                            <TextBlock Text="Choose patient:" Margin="165,11,450,470" Foreground="#FF020202" FontSize="16"/>
+                            <ComboBox  Margin="306,10,180,470" Name="cmbPatients" />
+                            <Button x:Name="btnAddReservation" Content="Add new reservation" Width="150"  Height="35" Style="{StaticResource CommonButtonStyle}"  Click="AddNewReservation" Margin="288,121,313,354" FontSize="14"/>
 
                             <!-- DataGrid pro rezervace -->
-                            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="38,48,427,264"  FontSize="8" SelectionChanged="dgReservations_SelectionChanged">
+                            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="21,260,388,52"  FontSize="10" SelectionChanged="dgReservations_SelectionChanged">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Patient Name" Binding="{Binding Patient.FirstName}" Width="70" />
-                                    <DataGridTextColumn Header="Patient Surname" Binding="{Binding Patient.LastName}" Width="80" />
-                                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee.Surname}" Width="70" />
+                                    <DataGridTextColumn Header="Patient Name" Binding="{Binding Patient.FirstName}" Width="80" />
+                                    <DataGridTextColumn Header="Patient Surname" Binding="{Binding Patient.LastName}" Width="90" />
+                                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee.Surname}" Width="80" />
                                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="90" />
                                 </DataGrid.Columns>
                             </DataGrid>
 
 
-                            <DataGrid Name="dgProcedures" AutoGenerateColumns="False" Margin="38,277,471,10" FontSize="8" RenderTransformOrigin="0.487,0.513">
+                            <DataGrid Name="dgProcedures" AutoGenerateColumns="False" Margin="380,360,53,10" FontSize="10" RenderTransformOrigin="0.487,0.513">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="70" />
-                                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80" />
-                                    <DataGridTextColumn Header="Covered by Insurance" Binding="{Binding CoveredByInsurance}" Width="90" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="115" />
+                                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="90" />
+                                    <DataGridTextColumn Header="Covered by Insurance" Binding="{Binding CoveredByInsurance}" Width="120" />
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <TextBlock Text="Select Reservation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="103,10,0,0" Foreground="#FF2B2B2B"/>
-                            <Button x:Name="btnRemoveReservation" Width="NaN" Height="NaN" Style="{StaticResource CommonButtonStyle}" Content="Remove Reservation"   Click="btnRemoveReservation_Click" Margin="456,246,63,184"/>
-                            <Button x:Name="btnAddNewProcedure" Width="NaN" Style="{StaticResource CommonButtonStyle}" Content="Add procedure"   Click="btnAddNewProcedure_Click" Margin="456,309,63,118"/>
+                            <TextBlock Text="Select reservation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,234,0,0" Foreground="#FF2B2B2B" FontWeight="Normal" FontSize="16"/>
+                            <Button x:Name="btnRemoveReservation" Width="150" Height="35" Style="{StaticResource CommonButtonStyle}" Content="Remove Reservation"   Click="btnRemoveReservation_Click" Margin="102,465,499,10" FontSize="14"/>
+                            <Button x:Name="btnAddNewProcedure" Width="150" Height="35" Style="{StaticResource CommonButtonStyle}" Content="Add procedure"   Click="btnAddNewProcedure_Click" Margin="463,315,138,160" FontSize="18"/>
+                            <Rectangle HorizontalAlignment="Center" Height="170" Margin="0,5,0,0" Stroke="Black" VerticalAlignment="Top" Width="438"/>
+                            <TextBlock Text="Select procedure for selected reservation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="395,234,0,0" Foreground="#FF2B2B2B" FontWeight="Normal" FontSize="16"/>
+                            <ComboBox  Margin="423,276,96,200" Name="cmbProcedure" />
+                            <TextBlock Text="Reservations" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="123,205,0,0" Foreground="Black" FontWeight="Bold"/>
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="484,205,0,0" Foreground="Black" FontWeight="Bold"><Run Language="cs-cz" Text="Procedures"/></TextBlock>
                         </Grid>
                     </GroupBox>
 
@@ -389,8 +394,8 @@
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="50"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+
                             </Grid.RowDefinitions>
 
                             <!-- Medication Name -->
@@ -409,12 +414,14 @@
 
 
                             <!-- Date Picker -->
-                            <Label Content="Date:" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                            <DatePicker x:Name="dpDatePresctiption" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="190,0,0,0" Width="200" SelectedDate="{Binding Date}"/>
-                            <Button x:Name="btnAddPrescription" Width="200" Style="{StaticResource CommonButtonStyle}" Content="Add new Prescription" Margin="490,9,62,36" Click="btnAddPrescription_Click" Grid.RowSpan="2" />
-                            <Button x:Name="btnEditPrescription" Style="{StaticResource CommonButtonStyle}" Content="Edit existing Prescription" Margin="476,7,10,105" Grid.Row="4" Height="30" Width="250" Click="btnEditPrescription_Click"/>
-                            <Button x:Name="btnDeletePrescription" Style="{StaticResource CommonButtonStyle}" Content="Delete existing Prescription" Margin="475,63,10,50" Grid.Row="4" Width="250" Height="30" Click="btnDeletePrescription_Click"/>
-                            <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Center" Margin="174,0,326,0" Grid.Row="4" Visibility="Hidden" Background="#FFC4FF81" Foreground="#FF333333" RenderTransformOrigin="0.501,2.482"/>
+                            <Label Content="Date:" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,2,0,0"/>
+                            <DatePicker x:Name="dpDatePresctiption" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" SelectedDate="{Binding Date}"/>
+                            <Button x:Name="btnAddPrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Add new Prescription" Margin="91,66,441,228" Click="btnAddPrescription_Click" Grid.Row="3" FontSize="16" />
+                            <Button x:Name="btnDeletePrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Delete existing Prescription" Margin="475,6,57,288" Grid.Row="3"  Click="btnDeletePrescription_Click" FontSize="16"/>
+                            <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Top" Margin="76,143,426,0"  Visibility="Visible" Background="#FFC4FF81" Foreground="#FF333333"  Height="32" Grid.Row="3"/>
+                            <Rectangle HorizontalAlignment="Left" Height="257" Margin="10,8,0,0" Stroke="Black" VerticalAlignment="Top" Width="399" Grid.RowSpan="4"/>
+
+
                         </Grid>
 
 
@@ -470,7 +477,7 @@
                     <Grid HorizontalAlignment="Left" Width="770" Margin="0,47,0,14" >
 
 
-                        <Label HorizontalAlignment="Left" Content="Choose non Admin User to Emulate" Width="320" Margin="112,36,0,433"/>
+                        <Label HorizontalAlignment="Left" Content="Choose nonAdmin User to Emulate" Width="320" Margin="112,36,0,433"/>
                         <StackPanel x:Name="f" Grid.Column="0" Margin="0,142,227,27">
                             <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="347" Width="386" SelectionChanged="usersDataGrid_SelectionChanged" >
                                 <DataGrid.Columns>
@@ -545,6 +552,7 @@
 
 
             <Image x:Name="closeButton" Margin="868,5,5,568" Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Height="27" Width="27"/>
+
         </Grid>
     </Border>
 </Window>
