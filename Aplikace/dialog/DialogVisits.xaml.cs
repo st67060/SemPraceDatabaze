@@ -19,9 +19,9 @@ namespace Aplikace.dialog
         public DialogVisits()
         {
             access = new DataAccess();
-                       
+            DataContext = this;
             InitializeComponent();
-            MouseLeftButtonDown += (s, e) => DragMove(); // lze s dialogem hybat
+            MouseLeftButtonDown += (s, e) => DragMove();
             LoadVisits();
             
 
@@ -31,15 +31,15 @@ namespace Aplikace.dialog
         {
             if (dgVisits.SelectedItem != null)
             {
-                if (dpDate.SelectedDate != null && string.IsNullOrWhiteSpace(txtDetails.Text) && cmbPatient.SelectedItem != null)
+                if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtDetails.Text) && cmbPatient.SelectedItem != null)
                 {
                     Visit temp = (Visit)dgVisits.SelectedItem;
                     Visit visit = new Visit(temp.Id, (DateTime)dpDate.SelectedDate, txtDetails.Text, (Patient)cmbPatient.SelectedItem);
-                    // access.UpdateVisit(Visit);
+                    access.UpdateVisit(visit);
                     LoadVisits();
                 }
-                
-                
+
+
             }
         }
 
@@ -48,7 +48,7 @@ namespace Aplikace.dialog
             if (dpDate.SelectedDate != null && string.IsNullOrWhiteSpace(txtDetails.Text) && cmbPatient.SelectedItem != null)
             {
                 Visit visit = new Visit(0, (DateTime)dpDate.SelectedDate, txtDetails.Text, (Patient)cmbPatient.SelectedItem);
-                // access.InsertVisit();
+                access.InsertVisit(visit);
                 LoadVisits();
             }
         }
@@ -57,8 +57,16 @@ namespace Aplikace.dialog
         {
             if (dgVisits.SelectedItem != null)
             {
-                // access.DeleteVisit((Patient)dgVisits.SelectedItem);
-                LoadVisits();
+                Visit selectedVisit = (Visit)dgVisits.SelectedItem;
+
+                if (access.DeleteVisit(selectedVisit))
+                {
+                    LoadVisits();
+                }
+                else
+                {
+                    MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -68,27 +76,29 @@ namespace Aplikace.dialog
             {
                 var visit = (Visit)dgVisits.SelectedItem;
                 DataContext = visit;
-
             }
         }
         private void LoadVisits()
         {
-            
+
             Task.Run(async () =>
             {
-                visits = new ObservableCollection<Visit>( access.GetAllVisits().Result);
-                patients = new ObservableCollection<Patient>( access.GetAllPatients().Result);
+                visits = new ObservableCollection<Visit>(await access.GetAllVisits());
+                patients = new ObservableCollection<Patient>(await access.GetAllPatients());
 
 
                 Dispatcher.Invoke(() =>
                 {
+
                     dgVisits.ItemsSource = visits;
                     cmbPatient.ItemsSource = patients;
                 });
             });
         }
 
-        private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        
+
+        private void closeButton_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }

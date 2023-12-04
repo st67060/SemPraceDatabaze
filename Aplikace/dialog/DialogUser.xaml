@@ -1,0 +1,54 @@
+﻿<Window x:Class="Aplikace.dialog.UserDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Aplikace.dialog"
+        Title="User Dialog" Height="400" Width="800"
+        ResizeMode="NoResize" Background="Transparent"
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#bde0fe"/>
+                <GradientStop Offset="0.5" Color="#a2d2ff"/>
+                <GradientStop Offset="1" Color="#0096c7"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="284"/>
+                <ColumnDefinition Width="Auto" MinWidth="220"/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Name="dgUsers" AutoGenerateColumns="False" Margin="10" Grid.Column="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee.FullName}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock Text="ID:" Margin="0,0,0,5"/>
+                <TextBox Name="txtUserId" Width="200" Margin="0,0,0,10" IsReadOnly="True"/>
+
+                <TextBlock Text="Name:" Margin="0,0,0,5"/>
+                <TextBox Name="txtUserName" Width="200" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Password:" Margin="0,0,0,5"/>
+                <PasswordBox Name="txtUserPassword" Width="200" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Employee:" Margin="0,0,0,5"/>
+                <ComboBox Name="cmbEmployee" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                    <Button Content="Add New" Click="AddNew_Click" Margin="0,0,10,0"/>
+                    <Button Content="Modify" Click="Modify_Click" Margin="0,0,10,0"/>
+                    <Button Content="Delete" Click="Delete_Click"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Image x:Name="closeButton" Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="479,10,-286,363" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Panel.ZIndex="100"/>
+        </Grid>
+    </Border>
+</Window>

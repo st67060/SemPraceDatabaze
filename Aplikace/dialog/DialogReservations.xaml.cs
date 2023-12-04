@@ -3,6 +3,7 @@ using Aplikace.data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace Aplikace.dialog
 {
@@ -28,9 +30,9 @@ namespace Aplikace.dialog
         public DialogReservations()
         {
             access = new DataAccess();
-
+            DataContext = this;
             InitializeComponent();
-            MouseLeftButtonDown += (s, e) => DragMove(); // позволяет перемещать окно
+            MouseLeftButtonDown += (s, e) => DragMove(); 
             LoadReservations();
         }
 
@@ -41,9 +43,12 @@ namespace Aplikace.dialog
                 reservations = new ObservableCollection<Reservation>(access.GetAllReservations().Result);
                 patients = new ObservableCollection<Patient>(access.GetAllPatients().Result);
                 employees = new ObservableCollection<Employee>(access.GetEmployees().Result);
+
                 Dispatcher.Invoke(() =>
                 {
-
+                    dgReservations.ItemsSource = reservations;
+                    cmbPatient.ItemsSource = patients;
+                    cmbEmployee.ItemsSource = employees;
                 });
             });
 
@@ -55,7 +60,7 @@ namespace Aplikace.dialog
             if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtNotes.Text) && cmbPatient.SelectedItem != null && cmbEmployee.SelectedItem != null)
             {
                 Reservation reservation = new Reservation(0, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatient.SelectedItem, (Employee)cmbEmployee.SelectedItem);
-                // access.InsertReservation(reservation);
+                access.InsertReservation(reservation);
                 LoadReservations();
             }
         }
@@ -67,11 +72,8 @@ namespace Aplikace.dialog
                 if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtNotes.Text) && cmbPatient.SelectedItem != null && cmbEmployee.SelectedItem != null)
                 {
                     Reservation temp = (Reservation)dgReservations.SelectedItem;
-                    temp.Date = (DateTime)dpDate.SelectedDate;
-                    temp.Notes = txtNotes.Text;
-                    temp.Patient = (Patient)cmbPatient.SelectedItem;
-                    temp.Employee = (Employee)cmbEmployee.SelectedItem;
-                    // access.UpdateReservation(temp);
+                    Reservation reservation = new Reservation(temp.Id, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatient.SelectedItem, (Employee)cmbEmployee.SelectedItem);
+                    access.UpdateReservation(temp);
                     LoadReservations();
                 }
             }
@@ -81,15 +83,19 @@ namespace Aplikace.dialog
         {
             if (dgReservations.SelectedItem != null)
             {
-                // access.DeleteReservation((Reservation)dgReservations.SelectedItem);
-                LoadReservations();
+                var selectedReservation = (Reservation)dgReservations.SelectedItem;
+
+
+
+                if (access.DeleteReservation(selectedReservation))
+                {
+                    LoadReservations();
+                }
+                else
+                {
+                    MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-        }
-
-
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
         }
 
 
@@ -100,8 +106,13 @@ namespace Aplikace.dialog
             {
                 var selectedReservation = (Reservation)dgReservations.SelectedItem;
                 DataContext = selectedReservation;
-
+                
             }
+        }
+
+        private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
     }
 }

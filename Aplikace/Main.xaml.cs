@@ -387,8 +387,8 @@ namespace Aplikace
 
         private void btnEmployeeDialog_Click(object sender, RoutedEventArgs e)
         {
-            //DialogEmployee dialogEmployee = new DialogEmployee();
-            //dialogEmployee.ShowDialog();
+            DialogEmployee dialogEmployee = new DialogEmployee();
+            dialogEmployee.ShowDialog();
         }
 
         private void btnHealthCardDialod_Click(object sender, RoutedEventArgs e)
@@ -397,16 +397,16 @@ namespace Aplikace
             //dialogHealthCard.ShowDialog();
         }
 
-        private void btnPrescriptionDialog_Click(object sender, RoutedEventArgs e)
+        private void btnPrescriptionsDialog_Click(object sender, RoutedEventArgs e)
         {
-            //DialogPrescrtiption dialogPrescrtiption = new DialogPrescrtiption();
-            //dialogPrescrtiption.ShowDialog();
+            DialogPrescriptions dialogPrescrtiptions = new DialogPrescriptions();
+            dialogPrescrtiptions.ShowDialog();
         }
 
-        private void btnProcedureDialog_Click(object sender, RoutedEventArgs e)
+        private void btnProceduresDialog_Click(object sender, RoutedEventArgs e)
         {
-            //DialogProcedure dialogProcedure = new DialogProcedure();
-            //dialogProcedure.ShowDialog();
+            DialogProcedures dialogProcedure = new DialogProcedures();
+            dialogProcedure.ShowDialog();
         }
 
         private void btnUserDialog_Click(object sender, RoutedEventArgs e)

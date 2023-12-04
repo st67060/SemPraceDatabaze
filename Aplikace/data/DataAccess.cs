@@ -153,7 +153,8 @@ namespace Aplikace.data
         }
 
         // nacteni zaměstnanců pro listView
-        public Task<List<Employee>> GetEmployees()
+        
+         public Task<List<Employee>> GetEmployees()
         {
             return Task.Run(() =>
             {
@@ -392,7 +393,7 @@ namespace Aplikace.data
                 List<Insurance> insurances = GetAllInsurances();
 
                 using (var connection = new OracleDatabaseConnection())
-                {
+                {                
                     connection.OpenConnection();
                     string procedureName = "SELECT_PACIENTI";
 
@@ -1079,7 +1080,7 @@ namespace Aplikace.data
 
 
         // nacteni uzivatelů - ADMIN
-        private List<User> GetUsers()
+        public List<User> GetUsers()
         {
             List<User> userList = new List<User>();
 
@@ -2138,6 +2139,103 @@ namespace Aplikace.data
                 }
             }
         }
+
+        public bool InsertProcedure(Procedure procedure)
+        {
+            string insertProcedure = "INSERT_ZAKROK";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(insertProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                   
+                    cmd.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = procedure.Name;
+                    cmd.Parameters.Add("p_cena", OracleDbType.Decimal).Value = procedure.Price;
+                    cmd.Parameters.Add("p_hradi_pojistovna", OracleDbType.Char).Value = procedure.CoveredByInsurance ? 'Y' : 'N';
+                    cmd.Parameters.Add("p_postup", OracleDbType.Varchar2).Value = procedure.ProcedureSteps;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool DeleteProcedure(Procedure procedure)
+        {
+            string deleteProcedure = "DELETE_ZAKROK";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(deleteProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Добавляем параметр ID
+                    OracleParameter paramId = new OracleParameter("p_zakrok_id", OracleDbType.Decimal);
+                    paramId.Value = procedure.Id;
+                    cmd.Parameters.Add(paramId);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool UpdateProcedure(Procedure procedure)
+        {
+            string updateProcedure = "UPDATE_ZAKROK";
+
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand(updateProcedure, databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    
+                    cmd.Parameters.Add("p_id", OracleDbType.Decimal).Value = procedure.Id;
+                    cmd.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = procedure.Name;
+                    cmd.Parameters.Add("p_cena", OracleDbType.Decimal).Value = procedure.Price;
+                    cmd.Parameters.Add("p_hradi_pojistovna", OracleDbType.Char).Value = procedure.CoveredByInsurance ? 'Y' : 'N';
+                    cmd.Parameters.Add("p_postup", OracleDbType.Varchar2).Value = procedure.ProcedureSteps;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (OracleException ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
 
         public Task<List<Catalog>> GetCatalog()
         {

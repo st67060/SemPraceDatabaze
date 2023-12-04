@@ -25,19 +25,19 @@ namespace Aplikace.dialog
         {
             if (dgAlergie.SelectedItem != null)
             {
-                var temp = (Alergy)dgAlergie.SelectedItem;
-                Alergy allergy = new Alergy(temp.Id, txtName.Text);
-                //access.UpdateAllergy(allergy);
+                Alergy selectedAlergy = (Alergy)dgAlergie.SelectedItem;
+                Alergy allergy = new Alergy(selectedAlergy.Id, txtName.Text);
+                access.UpdateAlergy(allergy);
                 LoadAllergies();
             }
         }
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtName.Text))
+            if(!string.IsNullOrWhiteSpace(txtName.Text))
             {
-                Alergy allergy = new Alergy(0, txtName.Text); 
-                //access.InsertAllergy(allergy);
+                Alergy allergy = new Alergy(0, txtName.Text);
+                access.InsertAlergy(allergy);
                 LoadAllergies();
             }
         }
@@ -47,7 +47,7 @@ namespace Aplikace.dialog
             if (dgAlergie.SelectedItem != null)
             {
                 Alergy allergy = (Alergy)dgAlergie.SelectedItem;
-                //access.DeleteAllergy(allergy);
+                access.DeleteAlergy(allergy);
                 LoadAllergies();
             }
         }
@@ -65,7 +65,8 @@ namespace Aplikace.dialog
 
         private void dgAlergie_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
+            Alergy selectedAlergy = (Alergy)dgAlergie.SelectedItem;
+            DataContext = selectedAlergy;
         }
     }
 }

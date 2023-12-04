@@ -44,8 +44,8 @@ namespace Aplikace.dialog
         {
             if (!string.IsNullOrWhiteSpace(txtName.Text) && decimal.TryParse(txtPrice.Text, out var price))
             {
-                var newProcedure = new Procedure(0, txtName.Text, price, chkCoveredByInsurance.IsChecked ?? false, txtProcedureSteps.Text);
-                // access.InsertProcedure(newProcedure); 
+                var newProcedure = new Procedure(0, txtName.Text, int.Parse(txtPrice.Text), chkCoveredByInsurance.IsChecked ?? false, txtProcedureSteps.Text);
+                access.InsertProcedure(newProcedure); 
                 LoadProcedures();
             }
         }
@@ -55,12 +55,9 @@ namespace Aplikace.dialog
             if (dgProcedures.SelectedItem != null && !string.IsNullOrWhiteSpace(txtName.Text) && decimal.TryParse(txtPrice.Text, out var price))
             {
                 var selectedProcedure = (Procedure)dgProcedures.SelectedItem;
-                selectedProcedure.Name = txtName.Text;
-                selectedProcedure.Price = price;
-                selectedProcedure.CoveredByInsurance = chkCoveredByInsurance.IsChecked ?? false;
-                selectedProcedure.ProcedureSteps = txtProcedureSteps.Text;
+                Procedure procedure = new Procedure(selectedProcedure.Id, txtName.Text, int.Parse(txtPrice.Text), chkCoveredByInsurance.IsChecked ?? false, txtProcedureSteps.Text);
 
-                // access.UpdateProcedure(selectedProcedure); 
+                access.UpdateProcedure(selectedProcedure); 
                 LoadProcedures();
             }
         }
@@ -70,17 +67,10 @@ namespace Aplikace.dialog
             if (dgProcedures.SelectedItem != null)
             {
                 var selectedProcedure = (Procedure)dgProcedures.SelectedItem;
-                // access.DeleteProcedure(selectedProcedure); 
+                access.DeleteProcedure(selectedProcedure); 
                 LoadProcedures();
             }
-        }
-
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
-        }
-
-        
+        }        
 
         private void dgProcedures_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
@@ -89,6 +79,11 @@ namespace Aplikace.dialog
                 Procedure selectedProcedure = (Procedure)dgProcedures.SelectedItem;
                 DataContext = selectedProcedure;
             }
+        }
+
+        private void closeButton_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
     }
 }

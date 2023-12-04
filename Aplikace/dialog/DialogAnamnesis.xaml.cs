@@ -10,41 +10,40 @@ namespace Aplikace.dialog
     public partial class DialogAnamnesis : Window
     {
         DataAccess access;
-        ObservableCollection<Anamnesis> AnamnesisList;
+        ObservableCollection<Anamnesis> anamnesises;
 
         public DialogAnamnesis()
         {
             access = new DataAccess();
-           
             InitializeComponent();
+            MouseLeftButtonDown += (s, e) => DragMove();
             LoadAnamnesis();
-            MouseLeftButtonDown += (s, e) => DragMove(); 
-            
         }
 
         private void LoadAnamnesis()
         {
-            AnamnesisList = new ObservableCollection<Anamnesis>(access.GetAllAnamnesis());
-            dgAnamnesis.ItemsSource = AnamnesisList;
+            anamnesises = new ObservableCollection<Anamnesis>(access.GetAllAnamnesis());
+            dgAnamnesis.ItemsSource = anamnesises;
         }
+
 
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
             if (dgAnamnesis.SelectedItem != null)
             {
                 Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
-                Anamnesis anamnesis = new Anamnesis(selectedAnamnesis.Id, txtDisease.Text);
-                // access.UpdateAnamnesis(anamnesis);
+                Anamnesis anamnesis = new Anamnesis(selectedAnamnesis.Id, txtAnamnesis.Text);
+                access.UpdateAnamnesis(anamnesis);
                 LoadAnamnesis();
             }
         }
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtDisease.Text))
+            if (!string.IsNullOrWhiteSpace(txtAnamnesis.Text))
             {
-                Anamnesis anamnesis = new Anamnesis(0, txtDisease.Text); 
-                // access.InsertAnamnesis(anamnesis);
+                Anamnesis anamnesis = new Anamnesis(0, txtAnamnesis.Text);
+                access.InsertAnamnesis(anamnesis);
                 LoadAnamnesis();
             }
         }
@@ -54,7 +53,7 @@ namespace Aplikace.dialog
             if (dgAnamnesis.SelectedItem != null)
             {
                 Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
-                // access.DeleteAnamnesis(selectedAnamnesis);
+                access.DeleteAnamnesis(selectedAnamnesis);
                 LoadAnamnesis();
             }
         }
@@ -66,10 +65,10 @@ namespace Aplikace.dialog
 
         private void dgAnamnesis_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgAnamnesis.SelectedItem != null && dgAnamnesis.SelectedValue !=null)
+            if (dgAnamnesis.SelectedItem != null)
             {
                 Anamnesis selectedAnamnesis = (Anamnesis)dgAnamnesis.SelectedItem;
-                txtDisease.Text = selectedAnamnesis.Name;
+                txtAnamnesis.Text = selectedAnamnesis.Name;
             }
         }
     }

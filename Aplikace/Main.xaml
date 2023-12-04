@@ -444,16 +444,18 @@
                                 <RowDefinition Height="230*"/>
                             </Grid.RowDefinitions>
 
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Width="478" Height="90" Margin="132,34,0,0">
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Width="600" Height="90" Margin="80,34,0,0">
                                 <Button x:Name="btnAdressDialog" Style="{StaticResource CommonButtonStyle}" Content="Addresses" Click="btnAdressDialog_Click" />
                                 <Button x:Name="btnAllergyDialog" Style="{StaticResource CommonButtonStyle}" Content="Allergies" Click="btnAllergyDialog_Click" />
                                 <Button x:Name="btnAnamnesisDialog" Style="{StaticResource CommonButtonStyle}" Content="Anamneses" Click="btnAnamnesisDialog_Click" />
+                                <Button x:Name="btnProceduresDialog" Style="{StaticResource CommonButtonStyle}" Content="Procedures" Click="btnProceduresDialog_Click" />
                             </StackPanel>
 
-                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Height="66" Width="450">
+                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Height="66" Margin="45,5,0,0">
                                 <Button x:Name="btnInsuranceDialog" Style="{StaticResource CommonButtonStyle}" Content="Insurances" Click="btnInsuranceDialog_Click"/>
-                                <Button x:Name="btnPatientsDialog" Style="{StaticResource CommonButtonStyle}" Content="Patients" Click="btnPatientsDialog_Click"/>
+                                <Button x:Name="btnPatientsDialog" Style="{StaticResource CommonButtonStyle}" Content="Patients" Click="btnPatientsDialog_Click"/> 
                                 <Button x:Name="btnReservationDialog" Style="{StaticResource CommonButtonStyle}" Content="Reservations" Click="btnReservationDialog_Click"/>
+                                <Button x:Name="btnPrescriptionsDialog" Style="{StaticResource CommonButtonStyle}" Content="Prescriptions" Click="btnPrescriptionsDialog_Click"/>
                             </StackPanel>
 
                             <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal" Height="80" Width="450" Margin="0,47,0,0">

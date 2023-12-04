@@ -188,5 +188,7 @@ namespace Aplikace.data.Entity
         {
             return $"{FirstName} {LastName}";
         }
+
+        
     }
 }

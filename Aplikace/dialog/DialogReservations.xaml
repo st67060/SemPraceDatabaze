@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aplikace.dialog"
         mc:Ignorable="d"
-        Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+        Height="400" Width="800" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
     <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0" >
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -20,19 +20,39 @@
                 <ColumnDefinition Width="Auto" MinWidth="220"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Таблица для отображения атрибутов Reservations -->
+            
             <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding ReservationsList}" SelectionChanged="dgReservations_SelectionChanged" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" />
-                    <!-- Переименование Pacient_id в Patient и отображение имени и фамилии пациента -->
-                    <DataGridTextColumn Header="Patient" Binding="{Binding PatientFullName}" />
-                    <!-- Переименование Zamestnanec_id в Employee и отображение имени и фамилии сотрудника -->
-                    <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeFullName}" />
+                    <DataGridTemplateColumn Header="Patient &amp; Employee">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}Patient: {0} {1}">
+                                                <Binding Path="Patient.FirstName"/>
+                                                <Binding Path="Patient.LastName"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}Employee: {0} {1}">
+                                                <Binding Path="Employee.Role"/>
+                                                <Binding Path="Employee.Surname"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- Формуляр для ввода атрибутов Reservations -->
+           
             <StackPanel Grid.Column="1" Margin="10">
                 <TextBlock Text="Date:" Margin="0,0,0,5"/>
                 <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
@@ -41,20 +61,23 @@
                 <TextBox Name="txtNotes" Width="200" Margin="0,0,0,10" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Patient:" Margin="0,0,0,5"/>
-                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding PatientId, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10"  SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding PatientId, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Employee:" Margin="0,0,0,5"/>
-                <ComboBox Name="cmbEmployee" Width="200" Margin="0,0,0,10" DisplayMemberPath="FullName" SelectedValuePath="Zamestnanec_id" ItemsSource="{Binding EmployeesList}" SelectedValue="{Binding EmployeeId, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Name="cmbEmployee" Width="200" Margin="0,0,0,10"  SelectedValuePath="Zamestnanec_id" ItemsSource="{Binding EmployeesList}" SelectedValue="{Binding EmployeeId, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <!-- Кнопки для добавления, изменения и удаления записей -->
+                
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                     <Button Content="Add New" Click="AddNew_Click" Margin="0,0,10,0"/>
                     <Button Content="Modify" Click="Modify_Click" Margin="0,0,10,0"/>
                     <Button Content="Delete" Click="Delete_Click"/>
+
                 </StackPanel>
-            </StackPanel>
-            <!-- Изображение для кнопки закрытия, как в DialogVisits.xaml -->
-            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="Border_MouseLeftButtonDown" Height="27" Width="27" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,-86,0"/>
+
+            </StackPanel>  
+          
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="479,10, -286,363" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Panel.ZIndex="100"/>
+
         </Grid>
     </Border>
 </Window>

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aplikace.dialog"
         mc:Ignorable="d"
-        Height="400" Width="600" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+        
+        Height="400" Width="800" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
     <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -21,12 +22,18 @@
             </Grid.ColumnDefinitions>
 
             <!-- Таблица для отображения атрибутов Visits -->
-            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0"  SelectionChanged="dgVisits_SelectionChanged">
+            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding visits}" SelectionChanged="dgVisits_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Details" Binding="{Binding Details}" />
-                    <!-- Переименование Pacient_id в Patient и отображение имени и фамилии пациента -->
-                    <DataGridTextColumn Header="Patient" Binding="{Binding Patient}" />
+                    <DataGridTextColumn Header="Patient">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                                <Binding Path="Patient.FirstName"/>
+                                <Binding Path="Patient.LastName"/>
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -39,7 +46,7 @@
                 <TextBox Name="txtDetails" Width="200" Margin="0,0,0,10" Text="{Binding Details, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Patient:" Margin="0,0,0,5"/>
-                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10"   />
+                <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" SelectedItem="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding patients}"/>
 
                 <!-- Кнопки для добавления, изменения и удаления записей -->
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
@@ -48,10 +55,7 @@
                     <Button Content="Delete" Click="Delete_Click"/>
                 </StackPanel>
             </StackPanel>
-            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Height="27" Width="27" Grid.Column="1" Margin="283,4,-90,369"/>
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="479,10,-286,363" MouseLeftButtonDown="closeButton_MouseLeftButtonDown_1"/>
         </Grid>
-        
     </Border>
 </Window>
-
-

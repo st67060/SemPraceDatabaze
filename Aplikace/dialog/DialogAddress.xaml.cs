@@ -32,6 +32,11 @@ namespace Aplikace.dialog
             LoadAddresses();
         }
 
+        private bool IsNumeric(string text)
+        {
+            return int.TryParse(text, out _);
+        }
+
         private void LoadAddresses()
         {
             addresses = new ObservableCollection<Address>(access.GetAllAddresses());
@@ -75,7 +80,7 @@ namespace Aplikace.dialog
             }
         }
 
-
+        
 
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -86,6 +91,29 @@ namespace Aplikace.dialog
         {
             Address selectedAddress = (Address)dgAddress.SelectedItem;
             DataContext = selectedAddress;
+        }
+
+        private void txtPostalCode_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void txtPostalCode_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+
+            }
+        }
+
+        private void txtStreetNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+
+            }
         }
     }
 }
