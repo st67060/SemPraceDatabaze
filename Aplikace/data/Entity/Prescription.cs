@@ -15,7 +15,7 @@ namespace Aplikace.data.Entity
         private Employee employee;
         private Patient patient;
         private DateTime date;
-
+        private Document file;
         public Prescription(int id, string drugName, decimal supplement, Employee employee, Patient patient, DateTime date)
         {
             ID = id;
@@ -99,6 +99,18 @@ namespace Aplikace.data.Entity
                 {
                     date = value;
                     OnPropertyChanged(nameof(Date));
+                }
+            }
+        }
+        public Document File
+        {
+            get { return file; }
+            set
+            {
+                if (file != value)
+                {
+                    file = value;
+                    OnPropertyChanged(nameof(Document));
                 }
             }
         }

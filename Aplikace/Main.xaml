@@ -416,8 +416,9 @@
                             <Label Content="Date:" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,2,0,0"/>
                             <DatePicker x:Name="dpDatePresctiption" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" SelectedDate="{Binding Date}"/>
                             <Button x:Name="btnAddPrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Add new Prescription" Margin="91,66,441,228" Click="btnAddPrescription_Click" Grid.Row="3" FontSize="16" />
-                            <Button x:Name="btnDeletePrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Delete existing Prescription" Margin="475,6,57,288" Grid.Row="3"  Click="btnDeletePrescription_Click" FontSize="16"/>
+                            <Button x:Name="btnDeletePrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Delete existing Prescription" Margin="475,15,57,279" Grid.Row="3"  Click="btnDeletePrescription_Click" FontSize="16"/>
                             <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Top" Margin="251,198,251,0"  Visibility="Hidden" Background="#FFC4FF81" Foreground="#FF333333"  Height="32" Grid.Row="3"/>
+                            <Button x:Name="btnShowPdf" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Show Pdf" Margin="475,75,57,219" Grid.Row="3"  FontSize="16" Click="btnShowPdf_Click"/>
 
 
 

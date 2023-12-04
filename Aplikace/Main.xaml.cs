@@ -2,10 +2,14 @@
 using Aplikace.data.Entity;
 using Aplikace.data.Enum;
 using Aplikace.dialog;
+using PdfSharp.Drawing;
+using PdfSharp.Fonts;
+using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -581,6 +585,12 @@ namespace Aplikace
         {
             DialogSysCatalog dialogSysCatalog = new DialogSysCatalog();
             dialogSysCatalog.ShowDialog();
+        }
+
+        private void btnShowPdf_Click(object sender, RoutedEventArgs e)
+        {
+ 
+
         }
     }
 }

@@ -3,6 +3,8 @@ using Aplikace.data.Enum;
 using Aplikace.Data;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -94,7 +96,7 @@ namespace Aplikace.data
         // Metody pro Quest
         // ==============================================
 
-        public  Task<Employee> GetSuperior()
+        public Task<Employee> GetSuperior()
         {
             return Task.Run(() =>
             {
@@ -118,33 +120,33 @@ namespace Aplikace.data
                         OracleDataReader reader = ((OracleRefCursor)cmd.Parameters["v_cursor"].Value).GetDataReader();
 
                         reader.Read();
-                        
-                            string employeeName = reader["v_employee_name"].ToString();
-                            string employeeSurname = reader["v_employee_surname"].ToString();
-                            int roleId = Convert.ToInt32(reader["v_employee_role_id"]);
 
-                            Role role;
-                            switch (roleId)
-                            {
-                                case 1:
-                                    role = Role.Admin;
-                                    break;
-                                case 2:
-                                    role = Role.Doctor;
-                                    break;
-                                case 3:
-                                    role = Role.Nurse;
-                                    break;
-                                case 4:
-                                    role = Role.Employee;
-                                    break;
-                                default:
-                                    role = Role.Employee;
-                                    break;
-                            }
+                        string employeeName = reader["v_employee_name"].ToString();
+                        string employeeSurname = reader["v_employee_surname"].ToString();
+                        int roleId = Convert.ToInt32(reader["v_employee_role_id"]);
 
-                            employee = new Employee(0, employeeName, employeeSurname, DateTime.Now, role);
-                        
+                        Role role;
+                        switch (roleId)
+                        {
+                            case 1:
+                                role = Role.Admin;
+                                break;
+                            case 2:
+                                role = Role.Doctor;
+                                break;
+                            case 3:
+                                role = Role.Nurse;
+                                break;
+                            case 4:
+                                role = Role.Employee;
+                                break;
+                            default:
+                                role = Role.Employee;
+                                break;
+                        }
+
+                        employee = new Employee(0, employeeName, employeeSurname, DateTime.Now, role);
+
                     }
                 }
 
@@ -153,8 +155,8 @@ namespace Aplikace.data
         }
 
         // nacteni zaměstnanců pro listView
-        
-         public Task<List<Employee>> GetEmployees()
+
+        public Task<List<Employee>> GetEmployees()
         {
             return Task.Run(() =>
             {
@@ -393,7 +395,7 @@ namespace Aplikace.data
                 List<Insurance> insurances = GetAllInsurances();
 
                 using (var connection = new OracleDatabaseConnection())
-                {                
+                {
                     connection.OpenConnection();
                     string procedureName = "SELECT_PACIENTI";
 
@@ -904,7 +906,84 @@ namespace Aplikace.data
                 return visits;
             });
         }
+        //public Task<List<Document>> GetAllDocuments()
+        //{
+        //    return Task.Run(async () =>
+        //    {
+        //        List<Document> documents = new List<Document>();
+        //        using (var connection = new OracleDatabaseConnection())
+        //        {
+        //            connection.OpenConnection();
+        //            string procedureName = "SELECT_DOKUMENTYY";
 
+        //            using (OracleCommand cmd = new OracleCommand(procedureName, connection.connection))
+        //            {
+        //                cmd.CommandType = CommandType.StoredProcedure;
+
+        //                // Výstupní parametr pro kurzor
+        //                OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+        //                cursorParam.Direction = ParameterDirection.Output;
+        //                cmd.Parameters.Add(cursorParam);
+
+        //                using (OracleDataReader reader = cmd.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        int Id = reader["DOCUMENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["DOCUMENT_ID"]) : 0;
+        //                        byte[] file = null;
+        //                        if (!reader.IsDBNull(reader.GetOrdinal("FILE")))
+        //                        {
+        //                            OracleBlob oracleBlob = reader.GetOracleBlob(reader.GetOrdinal("FILE"));
+        //                            file = new byte[oracleBlob.Length];
+        //                            oracleBlob.Read(file, 0, (int)oracleBlob.Length);
+        //                        }
+        //                        string fileName = reader.IsDBNull(reader.GetOrdinal("FILE_NAME")) ? null : reader.GetString(reader.GetOrdinal("FILE_NAME"));
+        //                        string fileSuffix = reader.IsDBNull(reader.GetOrdinal("FILE_SUFFIX")) ? null : reader.GetString(reader.GetOrdinal("FILE_SUFFIX"));
+        //                        MemoryStream memoryStream = new MemoryStream(file);
+        //                        PdfDocument document = PdfReader.Open(memoryStream, PdfDocumentOpenMode.Import);
+        //                        Document doc = new Document(Id, document, fileName, fileSuffix);
+        //                        documents.Add(doc);
+
+
+
+
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        return documents;
+        //    });
+        //}
+        public List<Document> GetAllDocuments()
+        {
+            List<Document> documents = new List<Document>();
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT * FROM ST67060.DOKUMENT", databaseConnection.connection))
+                {
+                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int Id = reader["ID"] != DBNull.Value ? Convert.ToInt32(reader["ID"]) : 0;
+                            byte[] file = reader["SOUBOR"] != DBNull.Value ? (byte[])reader["SOUBOR"] : null;
+                            string fileName = reader["NAZEV_SOUBORU"] != DBNull.Value ? reader["NAZEV_SOUBORU"].ToString() : null;
+                            string fileSuffix = reader["PRIPONA_SOUBORU"] != DBNull.Value ? reader["PRIPONA_SOUBORU"].ToString() : null;
+
+                            using (MemoryStream memoryStream = new MemoryStream(file))
+                            {
+                                PdfDocument document = PdfReader.Open(memoryStream, PdfDocumentOpenMode.Import);
+                                Document doc = new Document(Id, document, fileName, fileSuffix);
+                                documents.Add(doc);
+                            }
+                        }
+                    }
+                }
+            }
+            return documents;
+        }
         public List<Anamnesis> GetAllAnamnesis()
         {
             List<Anamnesis> anamneses = new List<Anamnesis>();
@@ -942,8 +1021,10 @@ namespace Aplikace.data
         {
             return Task.Run(async () =>
             {
+                List<Document> documents = GetAllDocuments();
                 List<Patient> patients = GetAllPatients().Result;
                 List<Employee> employees = GetEmployees().Result;
+
                 List<Prescription> prescriptions = new List<Prescription>();
 
 
@@ -973,10 +1054,13 @@ namespace Aplikace.data
                                 DateTime date = reader["DATE_PRESCRIBED"] != DBNull.Value ? Convert.ToDateTime(reader["DATE_PRESCRIBED"]) : DateTime.MinValue;
                                 int patientId = reader["PATIENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["PATIENT_ID"]) : 0;
                                 int employeeId = reader["EMPLOYEE_ID"] != DBNull.Value ? Convert.ToInt32(reader["EMPLOYEE_ID"]) : 0;
+                                int documentId = reader["DOCUMENT_ID"] != DBNull.Value ? Convert.ToInt32(reader["DOCUMENT_ID"]) : 0;
+                                Document doc = documents.FirstOrDefault(docu => docu.Id == documentId);
 
                                 Patient patientTemp = patients.FirstOrDefault(p => p.Id == patientId);
                                 Employee employeeTemp = employees.FirstOrDefault(p => p.Id == employeeId);
                                 Prescription prescription = new Prescription(ID, drugName, supplement, employeeTemp, patientTemp, date);
+                                prescription.File = doc;
                                 prescriptions.Add(prescription);
 
 
@@ -2152,7 +2236,7 @@ namespace Aplikace.data
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                   
+
                     cmd.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = procedure.Name;
                     cmd.Parameters.Add("p_cena", OracleDbType.Decimal).Value = procedure.Price;
                     cmd.Parameters.Add("p_hradi_pojistovna", OracleDbType.Char).Value = procedure.CoveredByInsurance ? 'Y' : 'N';
@@ -2215,7 +2299,7 @@ namespace Aplikace.data
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    
+
                     cmd.Parameters.Add("p_id", OracleDbType.Decimal).Value = procedure.Id;
                     cmd.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = procedure.Name;
                     cmd.Parameters.Add("p_cena", OracleDbType.Decimal).Value = procedure.Price;
