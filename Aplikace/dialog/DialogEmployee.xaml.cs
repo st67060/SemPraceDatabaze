@@ -45,6 +45,7 @@ namespace Aplikace.dialog
 
                     dgEmployee.ItemsSource = employees;
                     cmbRole.ItemsSource = Enum.GetValues(typeof(Role)).Cast<Role>();
+
                 });
             });
         }

@@ -60,7 +60,12 @@ namespace Aplikace.dialog
             {
                 var selectedPrescription = (Prescription)dgPrescription.SelectedItem;
                 DataContext = selectedPrescription;
-
+                List<Employee> tempEmployee = employees.ToList();
+                List<Patient> tempPatient = patients.ToList();
+                int indexEmployee = tempEmployee.FindIndex(emp => emp.Id == selectedPrescription.Employee.Id);
+                int indexPatient = tempPatient.FindIndex(pat => pat.Id == selectedPrescription.Patient.Id);
+                cmbPatient.SelectedIndex = indexPatient;
+                cmbEmployee.SelectedIndex = indexEmployee;
             }
         }
 
@@ -68,7 +73,7 @@ namespace Aplikace.dialog
         {
             if (dgPrescription.SelectedItem != null)
             {
-                if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtDrugName.Text) && cmbPatient.SelectedItem != null && cmbEmployee.SelectedItem != null)
+                if (dpDate.SelectedDate != null)
                 {
                     Prescription temp = (Prescription)dgPrescription.SelectedItem;
                     Prescription prescription = new Prescription(temp.ID, txtDrugName.Text, decimal.Parse(txtSupplement.Text),  (Employee)cmbEmployee.SelectedItem, (Patient)cmbPatient.SelectedItem, (DateTime)dpDate.SelectedDate);
@@ -104,12 +109,12 @@ namespace Aplikace.dialog
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtDrugName.Text) && cmbPatient.SelectedItem != null && cmbEmployee.SelectedItem != null)
-            {
+            
+            
                 Prescription precription = new Prescription(0, txtDrugName.Text, decimal.Parse(txtSupplement.Text),  (Employee)cmbEmployee.SelectedItem, (Patient)cmbPatient.SelectedItem, (DateTime)dpDate.SelectedDate);
                 access.InsertPrescription(precription);
                 LoadPrescription();
-            }
+            
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Aplikace.dialog
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtName.Text) && decimal.TryParse(txtPrice.Text, out var price))
+            if (!string.IsNullOrWhiteSpace(txtName.Text))
             {
                 var newProcedure = new Procedure(0, txtName.Text, int.Parse(txtPrice.Text), chkCoveredByInsurance.IsChecked ?? false, txtProcedureSteps.Text);
                 access.InsertProcedure(newProcedure); 
@@ -52,7 +52,7 @@ namespace Aplikace.dialog
 
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
-            if (dgProcedures.SelectedItem != null && !string.IsNullOrWhiteSpace(txtName.Text) && decimal.TryParse(txtPrice.Text, out var price))
+            if (dgProcedures.SelectedItem != null )
             {
                 var selectedProcedure = (Procedure)dgProcedures.SelectedItem;
                 Procedure procedure = new Procedure(selectedProcedure.Id, txtName.Text, int.Parse(txtPrice.Text), chkCoveredByInsurance.IsChecked ?? false, txtProcedureSteps.Text);

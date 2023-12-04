@@ -106,7 +106,12 @@ namespace Aplikace.dialog
             {
                 var selectedReservation = (Reservation)dgReservations.SelectedItem;
                 DataContext = selectedReservation;
-                
+                List<Employee> tempEmployee = employees.ToList();
+                List<Patient> tempPatient = patients.ToList();
+                int indexEmployee = tempEmployee.FindIndex(emp => emp.Id == selectedReservation.Employee.Id);
+                int indexPatient = tempPatient.FindIndex(pat => pat.Id == selectedReservation.Patient.Id);
+                cmbPatient.SelectedIndex = indexPatient;
+                cmbEmployee.SelectedIndex = indexEmployee;
             }
         }
 

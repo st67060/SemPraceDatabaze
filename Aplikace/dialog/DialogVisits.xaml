@@ -17,8 +17,8 @@
         </Border.Background>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="284"/>
-                <ColumnDefinition Width="Auto" MinWidth="220"/>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="270" />
             </Grid.ColumnDefinitions>
 
             <!-- Таблица для отображения атрибутов Visits -->
@@ -55,7 +55,7 @@
                     <Button Content="Delete" Click="Delete_Click"/>
                 </StackPanel>
             </StackPanel>
-            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="479,10,-286,363" MouseLeftButtonDown="closeButton_MouseLeftButtonDown_1"/>
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="357,10,-120,363" MouseLeftButtonDown="closeButton_MouseLeftButtonDown_1"/>
         </Grid>
     </Border>
 </Window>

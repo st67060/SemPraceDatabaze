@@ -402,7 +402,7 @@ namespace Aplikace
             DialogPrescriptions dialogPrescrtiptions = new DialogPrescriptions();
             dialogPrescrtiptions.ShowDialog();
         }
-
+         
         private void btnProceduresDialog_Click(object sender, RoutedEventArgs e)
         {
             DialogProcedures dialogProcedure = new DialogProcedures();
@@ -411,8 +411,8 @@ namespace Aplikace
 
         private void btnUserDialog_Click(object sender, RoutedEventArgs e)
         {
-            //DialogUser dialogUser = new DialogUser();
-            //dialogUser.ShowDialog();
+            UserDialog userDialog = new UserDialog();
+            userDialog.ShowDialog();
         }
 
         private void btnRoleDialog_Click(object sender, RoutedEventArgs e)

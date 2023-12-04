@@ -1,7 +1,9 @@
 ﻿using Aplikace.data;
 using Aplikace.data.Entity;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -76,6 +78,9 @@ namespace Aplikace.dialog
             {
                 var visit = (Visit)dgVisits.SelectedItem;
                 DataContext = visit;
+                List<Patient> tempPatient = patients.ToList();                
+                int indexPatient = tempPatient.FindIndex(pat => pat.Id == visit.Patient.Id);
+                cmbPatient.SelectedIndex = indexPatient;
             }
         }
         private void LoadVisits()

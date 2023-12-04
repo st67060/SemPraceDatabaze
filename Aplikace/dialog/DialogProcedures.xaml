@@ -16,8 +16,8 @@
         </Border.Background>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="284"/>
-                <ColumnDefinition Width="Auto" MinWidth="220"/>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
 
 
@@ -52,7 +52,7 @@
                 </StackPanel>
             </StackPanel>
 
-            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="448,4,-255,369" MouseLeftButtonDown="closeButton_MouseLeftButtonDown_1"/>
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="364,4,-144,369" MouseLeftButtonDown="closeButton_MouseLeftButtonDown_1"/>
 
         </Grid>
     </Border>

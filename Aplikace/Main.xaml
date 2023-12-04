@@ -458,10 +458,11 @@
                                 <Button x:Name="btnPrescriptionsDialog" Style="{StaticResource CommonButtonStyle}" Content="Prescriptions" Click="btnPrescriptionsDialog_Click"/>
                             </StackPanel>
 
-                            <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal" Height="80" Width="450" Margin="0,47,0,0">
+                            <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal" Height="80" Width="610" Margin="0,47,0,0">
                                 <Button x:Name="btnVisitDialog" Style="{StaticResource CommonButtonStyle}" Content="Visits" Click="btnVisitDialog_Click"/>
                                 <Button x:Name="btnEmployeeDialog" Style="{StaticResource CommonButtonStyle}" Content="Employees" Click="btnEmployeeDialog_Click"/>
                                 <Button x:Name="btnHealthCardDialod" Style="{StaticResource CommonButtonStyle}" Content="Health Cards" Click="btnHealthCardDialod_Click"/>
+                                <Button x:Name="btnUserDialog" Style="{StaticResource CommonButtonStyle}" Content="User" Click="btnUserDialog_Click"/>
                             </StackPanel>
                         </Grid>
                     </GroupBox>
