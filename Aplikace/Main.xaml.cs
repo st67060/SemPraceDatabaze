@@ -1,4 +1,4 @@
-﻿using Aplikace.data;
+using Aplikace.data;
 using Aplikace.data.Entity;
 using Aplikace.data.Enum;
 using Aplikace.dialog;
@@ -33,7 +33,7 @@ namespace Aplikace
             this.user = user;
             InitializeComponent();
             MouseLeftButtonDown += (s, e) => DragMove();
-            DataContext = user;
+            userStackPanel.DataContext = user;
             SetAccessToData(user);
             LoadListOfEmployees();
 
@@ -591,14 +591,20 @@ namespace Aplikace
 
         private void btnShowPdf_Click(object sender, RoutedEventArgs e)
         {
-            Prescription prescription = (Prescription)cmbPrescription.SelectedItem;
-            prescription.File.File.SaveAs("output.pdf");
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            if (cmbPrescription.SelectedItem != null)
             {
-                FileName = "output.pdf",
-                UseShellExecute = true
-            };
-            Process.Start(startInfo);
+                Prescription prescription = (Prescription)cmbPrescription.SelectedItem;
+                prescription.File.File.SaveAs("output.pdf");
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = "output.pdf",
+                    UseShellExecute = true
+                };
+                Process.Start(startInfo);
+            }
+            else {
+                MessageBox.Show("No prescription selected", "error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private PdfDocument CreatePdf(string medication, Patient patient, Employee employee, int cost)
         {
