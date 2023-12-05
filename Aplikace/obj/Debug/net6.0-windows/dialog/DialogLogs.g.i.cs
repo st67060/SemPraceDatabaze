@@ -69,7 +69,7 @@ namespace Aplikace.dialog {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Aplikace;component/dialog/dialoglogs.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Aplikace;V1.0.0.0;component/dialog/dialoglogs.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\dialog\DialogLogs.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

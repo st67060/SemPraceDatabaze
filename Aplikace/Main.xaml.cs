@@ -2,9 +2,8 @@
 using Aplikace.data.Entity;
 using Aplikace.data.Enum;
 using Aplikace.dialog;
-using PdfSharp.Drawing;
-using PdfSharp.Fonts;
-using PdfSharp.Pdf;
+using IronPdf;
+using IronPdf.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +11,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -406,7 +404,7 @@ namespace Aplikace
             DialogPrescriptions dialogPrescrtiptions = new DialogPrescriptions();
             dialogPrescrtiptions.ShowDialog();
         }
-         
+
         private void btnProceduresDialog_Click(object sender, RoutedEventArgs e)
         {
             DialogProcedures dialogProcedure = new DialogProcedures();
@@ -492,12 +490,16 @@ namespace Aplikace
             else
             {
                 Prescription prescription = new Prescription(0, txtMedicationName.Text, int.Parse(txtCoPayment.Text), user.Employee, (Patient)cmbPatient.SelectedItem, (DateTime)dpDatePresctiption.SelectedDate);
+                PdfDocument pdfDocument = CreatePdf(txtMedicationName.Text, (Patient)cmbPatient.SelectedItem, user.Employee, int.Parse(txtCoPayment.Text));
+                prescription.File = new Document(0, pdfDocument, "Prescription", ".pdf");
+
                 if (access.InsertPrescription(prescription))
                 {
                     lPrescriptionCreated.Visibility = Visibility.Visible;
                     await Task.Delay(1500);
                     lPrescriptionCreated.Visibility = Visibility.Hidden;
                 }
+                LoadListOfPrescriptions();
             }
 
         }
@@ -589,8 +591,78 @@ namespace Aplikace
 
         private void btnShowPdf_Click(object sender, RoutedEventArgs e)
         {
- 
+            Prescription prescription = (Prescription)cmbPrescription.SelectedItem;
+            prescription.File.File.SaveAs("output.pdf");
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "output.pdf",
+                UseShellExecute = true
+            };
+            Process.Start(startInfo);
+        }
+        private PdfDocument CreatePdf(string medication, Patient patient, Employee employee, int cost)
+        {
 
+            string currentDate = "This prescription was published:" + DateTime.Now.ToString("yyyy-MM-dd") + " This document is valid for 7 days, to:" + DateTime.Now.AddDays(7).ToString("yyyy-MM-dd");
+            string copayInfo = "This prescription is subject to a copayment of $" + cost + ".";
+
+            string htmlStr = $@"
+    <html>
+        <head>
+            <style>
+                body {{
+                    font-family: 'Arial', sans-serif;
+                }}
+                .prescription-container {{
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    background-color: #fff;
+                }}
+                h1, h3 {{
+                    color: #333;
+                    text-align: center;
+                }}
+                p {{
+                    color: #555;
+                    margin-top: 15px;
+                }}
+                .footer {{
+                    margin-top: 30px;
+                    font-size: 12px;
+                    color: #777;
+                    text-align: center;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class='prescription-container'>
+                <h1>Prescription</h1>
+                <h3>
+                    <span>Name of the Medication:</span> {medication} <br>
+                    <span>This prescription is for:</span>
+                    <ul>
+                        <li>Name: {patient.FirstName}</li>
+                        <li>Surname: {patient.LastName}</li>
+                        <li>Social Security Number: {patient.SocialSecurityNumber}</li>
+                    </ul>
+                </h3>
+                <p>
+                    This prescription was created by: {employee.Name} {employee.Surname}.
+                </p>
+                <p>
+                    <span></span> {currentDate} <br>
+                    {copayInfo}
+                </p>
+            </div>
+            
+        </body>
+    </html>";
+            PdfDocument pdf = new ChromePdfRenderer().RenderHtmlAsPdf(htmlStr);
+            return pdf;
         }
     }
 }

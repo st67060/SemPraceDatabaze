@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="IronPdf" Version="2022.9.9056" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.120" />
-    <PackageReference Include="PDFsharp" Version="6.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
   </ItemGroup>
 

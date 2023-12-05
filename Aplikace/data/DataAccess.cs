@@ -1,10 +1,9 @@
 ﻿using Aplikace.data.Entity;
 using Aplikace.data.Enum;
 using Aplikace.Data;
+using IronPdf;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -971,13 +970,10 @@ namespace Aplikace.data
                             byte[] file = reader["SOUBOR"] != DBNull.Value ? (byte[])reader["SOUBOR"] : null;
                             string fileName = reader["NAZEV_SOUBORU"] != DBNull.Value ? reader["NAZEV_SOUBORU"].ToString() : null;
                             string fileSuffix = reader["PRIPONA_SOUBORU"] != DBNull.Value ? reader["PRIPONA_SOUBORU"].ToString() : null;
+                            PdfDocument document = new PdfDocument(file);
+                            Document doc = new Document(Id, document, fileName, fileSuffix);
+                            documents.Add(doc);
 
-                            using (MemoryStream memoryStream = new MemoryStream(file))
-                            {
-                                PdfDocument document = PdfReader.Open(memoryStream, PdfDocumentOpenMode.Import);
-                                Document doc = new Document(Id, document, fileName, fileSuffix);
-                                documents.Add(doc);
-                            }
                         }
                     }
                 }
@@ -1394,7 +1390,7 @@ namespace Aplikace.data
 
         public bool InsertPrescription(Prescription prescription)
         {
-            string insertProcedure = "INSERT_LEKARSKY_PREDPIS";
+            string insertProcedure = "INSERT_LEKARSKY_PREDPIS_DOKUMENT";
 
             using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
             {
@@ -1409,10 +1405,13 @@ namespace Aplikace.data
                     cmd.Parameters.Add("p_pacient_id", OracleDbType.Decimal).Value = Convert.ToDecimal(prescription.Patient.Id);
                     cmd.Parameters.Add("p_datum", OracleDbType.Date).Value = prescription.Date;
 
+                    cmd.Parameters.Add("p_soubor", OracleDbType.Blob).Value = prescription.File.File.Stream.ToArray();
+                    cmd.Parameters.Add("p_nazev_souboru", OracleDbType.Varchar2).Value = prescription.File.FileName;
+                    cmd.Parameters.Add("p_pripona_souboru", OracleDbType.Varchar2).Value = prescription.File.FileSuffix;
                     try
                     {
                         cmd.ExecuteNonQuery();
-                        return true;
+                    return true;
                     }
                     catch (OracleException ex)
                     {
