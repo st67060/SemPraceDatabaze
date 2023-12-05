@@ -15,5 +15,6 @@
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)sixlabors.imagesharp\3.0.2\build\SixLabors.ImageSharp.props" Condition="Exists('$(NuGetPackageRoot)sixlabors.imagesharp\3.0.2\build\SixLabors.ImageSharp.props')" />
+    <Import Project="$(NuGetPackageRoot)ironpdf.slim\2023.11.8\build\IronPdf.Slim.props" Condition="Exists('$(NuGetPackageRoot)ironpdf.slim\2023.11.8\build\IronPdf.Slim.props')" />
   </ImportGroup>
 </Project>

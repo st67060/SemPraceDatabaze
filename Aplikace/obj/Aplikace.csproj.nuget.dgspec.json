@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabazeLatest\\Aplikace\\Aplikace.csproj": {}
+    "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj": {}
   },
   "projects": {
-    "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabazeLatest\\Aplikace\\Aplikace.csproj": {
+    "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabazeLatest\\Aplikace\\Aplikace.csproj",
+        "projectUniqueName": "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj",
         "projectName": "Aplikace",
-        "projectPath": "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabazeLatest\\Aplikace\\Aplikace.csproj",
+        "projectPath": "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj",
         "packagesPath": "C:\\Users\\laibl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabazeLatest\\Aplikace\\obj\\",
+        "outputPath": "C:\\Users\\laibl\\Source\\Repos\\SemPraceDatabaze\\Aplikace\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -45,9 +45,9 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "dependencies": {
-            "IronPdf": {
+            "IronPdf.Slim": {
               "target": "Package",
-              "version": "[2022.9.9056, )"
+              "version": "[2023.11.8, )"
             },
             "Oracle.ManagedDataAccess.Core": {
               "target": "Package",

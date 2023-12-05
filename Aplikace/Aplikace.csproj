@@ -9,8 +9,8 @@
 
   <ItemGroup>
     <None Remove="assets\calendar.png" />
-    <None Remove="assets\chat.png" />
     <None Remove="assets\close.png" />
+    <None Remove="assets\curriculum-vitae.png" />
     <None Remove="assets\database.png" />
     <None Remove="assets\dentist.png" />
     <None Remove="assets\dentistRegister.png" />
@@ -18,6 +18,9 @@
     <None Remove="assets\list.png" />
     <None Remove="assets\lockLogin.png" />
     <None Remove="assets\medicalCard.png" />
+    <None Remove="assets\orthodontist.png" />
+    <None Remove="assets\patients.png" />
+    <None Remove="assets\prescription.png" />
     <None Remove="assets\settings.png" />
     <None Remove="assets\user.png" />
     <None Remove="assets\userLogin.png" />
@@ -25,20 +28,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="assets\curriculum-vitae.png" />
     <Content Include="assets\database.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IronPdf" Version="2022.9.9056" />
+    <PackageReference Include="IronPdf.Slim" Version="2023.11.8" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.120" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="assets\calendar.png" />
-    <Resource Include="assets\chat.png" />
     <Resource Include="assets\close.png" />
     <Resource Include="assets\dentist.png" />
     <Resource Include="assets\dentistRegister.png" />
@@ -46,6 +49,9 @@
     <Resource Include="assets\list.png" />
     <Resource Include="assets\lockLogin.png" />
     <Resource Include="assets\medicalCard.png" />
+    <Content Include="assets\orthodontist.png" />
+    <Resource Include="assets\patients.png" />
+    <Resource Include="assets\prescription.png" />
     <Resource Include="assets\settings.png" />
     <Resource Include="assets\user.png" />
     <Resource Include="assets\userLogin.png" />
