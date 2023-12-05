@@ -1,4 +1,4 @@
-﻿<Window x:Class="Aplikace.Main"
+<Window x:Class="Aplikace.Main"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -100,7 +100,7 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Blue"/>
             <Setter Property="BorderBrush" Value="Blue"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -162,47 +162,53 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <Border Background=" white" BorderBrush=" white" Width="480" Height="325" CornerRadius="20">
-                        <Border.Effect>
-                            <DropShadowEffect ShadowDepth="3" Opacity="0.2"/>
-                        </Border.Effect>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="325" Background="Transparent">
-                            <StackPanel.Resources>
-                                <Style TargetType="Label">
-                                    <Setter Property="Foreground" Value="#333" />
-                                    <Setter Property="FontWeight" Value="Bold" />
-                                    <Setter Property="FontSize" Value="24" />
-                                    <Setter Property="Margin" Value="20 5 " />
-                                </Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="#333" />
-                                    <Setter Property="FontSize" Value="20" />
-                                    <Setter Property="Margin" Value="10 0" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <GroupBox Margin="0,20,0,41" Width="750">
+                        <Grid Height="459" Margin="0,0,16,0">
+                            <Image Source="/assets/curriculum-vitae.png" Margin="0,-18,242,-27" />
+                            <Border Background=" white" BorderBrush=" white" Width="480" Height="325" CornerRadius="20" Opacity="0.9">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Black" Direction="315" ShadowDepth="5" Opacity="0.5"/>
+                                </Border.Effect>
+                                <StackPanel x:Name="userStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="480" Height="325" Background="Transparent">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="{x:Type Label}">
+                                            <Setter Property="Foreground" Value="#333" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="FontSize" Value="24" />
+                                            <Setter Property="Margin" Value="20 5 " />
+                                        </Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Foreground" Value="#333" />
+                                            <Setter Property="FontSize" Value="20" />
+                                            <Setter Property="Margin" Value="10 0" />
+                                            <Setter Property="VerticalAlignment" Value="Center" />
 
-                                </Style>
-                            </StackPanel.Resources>
+                                        </Style>
+                                    </StackPanel.Resources>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                                <Image x:Name="userImage" Width="90" Height="90"  />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                                <Label Content="Username:" />
-                                <TextBlock Text="{Binding Name}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                                <Label Content="First Name:" />
-                                <TextBlock Text="{Binding Employee.Name}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                                <Label Content="Last Name:" />
-                                <TextBlock Text="{Binding Employee.Surname}" />
-                            </StackPanel>
-                        </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                        <Image x:Name="userImage" Width="90" Height="90"  />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                        <Label Content="Username:" />
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                        <Label Content="First Name:" />
+                                        <TextBlock Text="{Binding Employee.Name}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                        <Label Content="Last Name:" />
+                                        <TextBlock Text="{Binding Employee.Surname}" />
+                                    </StackPanel>
+                                </StackPanel>
 
 
-                    </Border>
+                            </Border>
+                        </Grid>
 
+
+                    </GroupBox>
                 </TabItem>
                 <TabItem x:Name="mainMenuTabItem"  Style="{StaticResource ModernTabItemStyle}"  >
 
@@ -218,12 +224,13 @@
 
 
                         <Grid>
-                            <Label Content="List of Employees" Width="190" Margin="272,5,272,453"/>
-                            <Label Content="Main Doctor:" Width="190" Margin="134,457,410,1"/>
-                            <TextBox x:Name="txtSuperiorName" Margin="360,458,282,21" Text="{Binding Name}" FontSize="16" Focusable="False"/>
-                            <TextBox x:Name="txtSuperiorSurname" Margin="452,458,167,21" Text="{Binding Surname}" FontSize="16" Focusable="False"/>
-                            <TextBox x:Name="txtSuperiorRole" Margin="264,458,374,21" Text="{Binding Role}" FontSize="16" Focusable="False"/>
-                            <DataGrid x:Name="employeeDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" Width="466" BorderThickness="0" Height="400" Margin="134,52,134,53">
+                            <Label Content="Our doctors and nurses" Margin="361,42,147,416"/>
+                            <Label Content="Main Dentist:" Width="190" Margin="294,10,250,448"/>
+                            <TextBox x:Name="txtSuperiorName" Margin="500,11,147,468" Text="{Binding Name}" FontSize="16" Focusable="False"/>
+                            <TextBox x:Name="txtSuperiorSurname" Margin="587,11,46,468" Text="{Binding Surname}" FontSize="16" Focusable="False"/>
+                            <TextBox x:Name="txtSuperiorRole" Margin="424,11,234,468" Text="{Binding Role}" FontSize="16" Focusable="False"/>
+                            <Image Margin="0,206,402,-9" Source="/assets/orthodontist.png" Stretch="Fill"/>
+                            <DataGrid x:Name="employeeDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" Width="466" BorderThickness="0" Height="400" Margin="229,84,39,21">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}" />
                                     <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStyle}" />
@@ -252,90 +259,107 @@
 
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid HorizontalAlignment="Left" Width="766" Margin="0,34,0,15" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="280"/>
-                            <ColumnDefinition Width="280"/>
-                        </Grid.ColumnDefinitions>
+                    <GroupBox Margin="0,10,0,44" Width="745">
+                        <Grid>
+                            <Image Margin="0,26,164,-2" Source="/assets/patients.png" Stretch="Fill"/>
+                            <Rectangle HorizontalAlignment="Center" Height="502" Stroke="Black" StrokeThickness="0" VerticalAlignment="Center" Width="581" Fill="GhostWhite" Opacity="0.95" RadiusX="10" RadiusY="10">
+                                <Rectangle.Effect>
+                                    <DropShadowEffect Color="Black" Direction="315" ShadowDepth="5" Opacity="0.5"/>
+                                </Rectangle.Effect>
+                            </Rectangle>
 
-                        <Label HorizontalAlignment="Left" Content="Choose patient to see more details " Width="303" Grid.ColumnSpan="2" Margin="111,0,0,492" FontSize="14" Foreground="#FF312E2E"/>
-                        <Label HorizontalAlignment="Left" Content="List of Patients " Width="190" Grid.ColumnSpan="2" Margin="154,-26,0,522"/>
-                        <Label HorizontalAlignment="Left" Content="Search " Width="69" Margin="127,38,0,458" FontSize="16"/>
-                        <TextBox x:Name="searchTextBox"  Margin="196,40,0,0" Width="176" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="SearchTextBox_TextChanged" Grid.ColumnSpan="2" />
+                            <Grid HorizontalAlignment="Left" Width="735" Height="517" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="280"/>
+                                    <ColumnDefinition Width="280"/>
+                                </Grid.ColumnDefinitions>
 
-                        <StackPanel x:Name="stackPanelPatients" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,74,24,75">
-                            <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" 
+
+
+
+
+
+
+                                <Label HorizontalAlignment="Center" Content="Choose patient to see more details " Width="310" Margin="0,20,0,472" FontSize="14" Foreground="#FF312E2E" Grid.Column="1"/>
+                                <Label HorizontalAlignment="Center" Content="List of Patients " Width="190" Margin="0,1,0,482" Grid.Column="1"/>
+                                <Label HorizontalAlignment="Left" Content="Search " Width="68" Margin="164,50,0,434" FontSize="16"/>
+                                <TextBox x:Name="searchTextBox"  Margin="223,55,0,0" Width="176" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="SearchTextBox_TextChanged" Grid.ColumnSpan="2" />
+
+                                <StackPanel x:Name="stackPanelPatients" Grid.Column="0" Grid.ColumnSpan="2" Margin="76,84,141,75">
+                                    <DataGrid x:Name="patientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" 
                                       RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" 
-                                      Height="380" Width="516" SelectionChanged="patientDataGrid_SelectionChanged" >
-                                <DataGrid.CellStyle>
-                                    <Style TargetType="{x:Type DataGridCell}">
-                                        <Setter Property="FontSize" Value="11" />
+                                      Height="355" Width="324" SelectionChanged="patientDataGrid_SelectionChanged" >
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="{x:Type DataGridCell}">
+                                                <Setter Property="FontSize" Value="11" />
 
-                                    </Style>
-                                </DataGrid.CellStyle>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Name" Binding="{Binding FirstName}" Width="50" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Surrname" Binding="{Binding LastName}" Width="55" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="SSN" Binding="{Binding SocialSecurityNumber}" Width="70" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="40" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Birth" Binding="{Binding DateOfBirth}" Width="60" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="82" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="130" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                        <Button x:Name="addPatient" Margin="0,489,93,0" Content="Add new patient" Click="addPatient_Click"></Button>
-                        <Button x:Name="deletePatient" Margin="196,489,177,0" Content="Delete patient"  Grid.ColumnSpan="2" Click="deletePatient_Click"></Button>
-                        <Button x:Name="editPatient" Margin="108,489,-15,0" Content="Edit patient" Grid.Column="1" Click="editPatient_Click" />
-                        <StackPanel x:Name="addressDataStackPanel" Grid.Column="1" Margin="261,40,-240,-43" >
-                            <StackPanel.LayoutTransform>
-                                <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
-                            </StackPanel.LayoutTransform>
-                            <Label Content="HealthCard:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="Smokes:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding HealthCard.Smokes}" Width="150" Margin="59,5,5,5" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="Pregnancy:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding HealthCard.Pregnancy}" Width="150" Margin="35,5,5,5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="Alcohol:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding HealthCard.Alcohol}" Width="150" Margin="60,5,5,5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="Sport:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding HealthCard.Sport}" Width="150" Margin="77,5.3,5,5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="Fillings:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding HealthCard.Fillings}" Width="150" Margin="64,5,5,5"/>
-                            </StackPanel>
-                            <Label Content="Address:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="City:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding Address.City}" Width="150" Margin="90,5,5,5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="PostalCode:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding Address.PostalCode}" Width="150" Margin="29,5,5,5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="StreetNumber:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding Address.StreetNumber}" Width="150" Margin="3,5,5,5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="Country:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding Address.Country}" Width="150" Margin="55,5,5,5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Label Content="Street:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding Address.Street}" Width="150" Margin="73,5,5,5"/>
-                            </StackPanel>
-                        </StackPanel>
+                                            </Style>
+                                        </DataGrid.CellStyle>
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Name" Binding="{Binding FirstName}" Width="50" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                            <DataGridTextColumn Header="Surrname" Binding="{Binding LastName}" Width="65" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                            <DataGridTextColumn Header="SSN" Binding="{Binding SocialSecurityNumber}" Width="75" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="40" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                            <DataGridTextColumn Header="Birth" Binding="{Binding DateOfBirth, StringFormat='dd.MM.yyyy'}" Width="90"  HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
 
-                    </Grid>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                                <Button x:Name="addPatient" Height="40" Width="150" Margin="12,460,118,17" Content="Add new patient" Click="addPatient_Click" Style="{StaticResource CommonButtonStyle}" Grid.Column="1"/>
+                                <Button x:Name="deletePatient" Height="40" Width="150" Margin="203,460,-73,17" Content="Delete patient" Click="deletePatient_Click" Style="{StaticResource CommonButtonStyle}" Grid.Column="1"/>
+                                <Button x:Name="editPatient" Height="40" Width="150" Margin="109,460,21,17" Content="See details" Click="editPatient_Click" Style="{StaticResource CommonButtonStyle}"/>
+                                <StackPanel x:Name="addressDataStackPanel" Grid.Column="1" Margin="144,75,-73,-55" >
+                                    <StackPanel.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                    </StackPanel.LayoutTransform>
+                                    <Label Content="HealthCard:" HorizontalAlignment="Center" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="Smokes:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding HealthCard.Smokes}" Width="150" Margin="59,5,5,5" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="Pregnancy:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding HealthCard.Pregnancy}" Width="150" Margin="35,5,5,5"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="Alcohol:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding HealthCard.Alcohol}" Width="150" Margin="60,5,5,5"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="Sport:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding HealthCard.Sport}" Width="150" Margin="77,5.3,5,5"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="Fillings:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding HealthCard.Fillings}" Width="150" Margin="64,5,5,5"/>
+                                    </StackPanel>
+                                    <Label Content="Address:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="City:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding Address.City}" Width="150" Margin="90,5,5,5"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="PostalCode:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding Address.PostalCode}" Width="150" Margin="29,5,5,5"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="StreetNumber:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding Address.StreetNumber}" Width="150" Margin="3,5,5,5"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="Country:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding Address.Country}" Width="150" Margin="55,5,5,5"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Label Content="Street:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding Address.Street}" Width="150" Margin="73,5,5,5"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </Grid>
+
+                        </Grid>
+                    </GroupBox>
                 </TabItem>
                 <TabItem x:Name="calendarTabItem"  Style="{StaticResource ModernTabItemStyle}" >
                     <TabItem.Header>
@@ -346,17 +370,18 @@
                     </TabItem.Header>
                     <GroupBox Margin="10,10,10,46" Width="738">
                         <Grid Margin="0,0,-25,0" Width="751" Height="510">
-                            <Rectangle HorizontalAlignment="Center" Height="170" Margin="0,5,0,0" Stroke="Black" VerticalAlignment="Top" Width="438"/>
-                            <TextBlock Text="Notes:" Margin="236,79,430,403" Grid.Row="0" Foreground="#FF020202" FontSize="16"/>
-                            <TextBox  Margin="309,79,180,403" Name="txtNotes" Background="White" Opacity="0.7"/>
-                            <TextBlock Text="Date:" Margin="241,46,437,438" Foreground="#FF020202" FontSize="16" />
-                            <DatePicker Margin="309,48,180,436" Name="dpDate" FontSize="16" Text="Select Date"/>
-                            <TextBlock Text="Choose patient:" Margin="165,11,450,470" Foreground="#FF020202" FontSize="16"/>
-                            <ComboBox  Margin="306,10,180,470" Name="cmbPatients" />
-                            <Button x:Name="btnAddReservation" Content="Add new reservation" Width="150"  Height="35" Style="{StaticResource CommonButtonStyle}"  Click="AddNewReservation" Margin="288,121,313,354" FontSize="14"/>
+                            <Image Margin="0,0,540,310" Source="/assets/booking.png" Stretch="Fill"/>
+                            <Rectangle HorizontalAlignment="Left" Height="170" Margin="228,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="438"/>
+                            <TextBlock Text="Notes:" Margin="308,90,358,392" Grid.Row="0" Foreground="#FF020202" FontSize="16"/>
+                            <TextBox  Margin="381,90,108,392" x:Name="txtNotes" Background="White" Opacity="0.7"/>
+                            <TextBlock Text="Date:" Margin="313,57,365,427" Foreground="#FF020202" FontSize="16" />
+                            <DatePicker Margin="381,59,108,425" x:Name="dpDate" FontSize="16" Text="Select Date"/>
+                            <TextBlock Text="Choose patient:" Margin="237,22,378,459" Foreground="#FF020202" FontSize="16"/>
+                            <ComboBox  Margin="378,21,108,459" x:Name="cmbPatients" />
+                            <Button x:Name="btnAddReservation" Content="Add new reservation" Width="150"  Height="35" Style="{StaticResource CommonButtonStyle}"  Click="AddNewReservation" Margin="360,132,241,343" FontSize="14"/>
 
                             <!-- DataGrid pro rezervace -->
-                            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="21,260,388,52"  FontSize="10" SelectionChanged="dgReservations_SelectionChanged">
+                            <DataGrid x:Name="dgReservations" AutoGenerateColumns="False" Margin="21,260,388,52"  FontSize="10" SelectionChanged="dgReservations_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Patient Name" Binding="{Binding Patient.FirstName}" Width="80" />
                                     <DataGridTextColumn Header="Patient Surname" Binding="{Binding Patient.LastName}" Width="90" />
@@ -366,7 +391,7 @@
                             </DataGrid>
 
 
-                            <DataGrid Name="dgProcedures" AutoGenerateColumns="False" Margin="380,360,53,10" FontSize="10" RenderTransformOrigin="0.487,0.513">
+                            <DataGrid x:Name="dgProcedures" AutoGenerateColumns="False" Margin="380,360,53,10" FontSize="10" RenderTransformOrigin="0.487,0.513">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="115" />
                                     <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="90" />
@@ -379,7 +404,7 @@
                             <Button x:Name="btnAddNewProcedure" Width="150" Height="35" Style="{StaticResource CommonButtonStyle}" Content="Add procedure"   Click="btnAddNewProcedure_Click" Margin="463,315,138,160" FontSize="18"/>
 
                             <TextBlock Text="Select procedure for selected reservation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="395,234,0,0" Foreground="#FF2B2B2B" FontWeight="Normal" FontSize="16"/>
-                            <ComboBox  Margin="423,276,96,200" Name="cmbProcedure" />
+                            <ComboBox  Margin="423,276,96,200" x:Name="cmbProcedure" />
                             <TextBlock Text="Reservations" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="123,205,0,0" Foreground="Black" FontWeight="Bold"/>
                             <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="484,205,0,0" Foreground="Black" FontWeight="Bold"><Run Language="cs-cz" Text="Procedures"/></TextBlock>
                         </Grid>
@@ -404,6 +429,10 @@
                                 <RowDefinition Height="*"/>
 
                             </Grid.RowDefinitions>
+                            <Image Margin="470,75,-22,-2" Grid.Row="3" Source="/assets/prescription.png" Stretch="Fill"/>
+
+
+
                             <Rectangle HorizontalAlignment="Left" Height="257" Margin="10,8,0,0" Stroke="Black" VerticalAlignment="Top" Width="399" Grid.RowSpan="4"/>
                             <Label Content="Medication Name:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
                             <TextBox x:Name="txtMedicationName" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="190,0,0,0" Width="200" Text="{Binding DrugName}"/>
@@ -417,7 +446,7 @@
                             <DatePicker x:Name="dpDatePresctiption" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,10,0,0" Width="200" SelectedDate="{Binding Date}"/>
                             <Button x:Name="btnAddPrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Add new Prescription" Margin="91,66,441,228" Click="btnAddPrescription_Click" Grid.Row="3" FontSize="16" />
                             <Button x:Name="btnDeletePrescription" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Delete existing Prescription" Margin="475,15,57,279" Grid.Row="3"  Click="btnDeletePrescription_Click" FontSize="16"/>
-                            <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Top" Margin="251,198,251,0"  Visibility="Hidden" Background="#FFC4FF81" Foreground="#FF333333"  Height="32" Grid.Row="3"/>
+                            <Label x:Name="lPrescriptionCreated" Content="New Prescription Created!" VerticalAlignment="Top" Margin="93,135,409,0"  Visibility="Hidden"  Foreground="#FF333333"  Height="32" Grid.Row="3" Opacity="0.9"/>
                             <Button x:Name="btnShowPdf" Width="220" Height="40" Style="{StaticResource CommonButtonStyle}" Content="Show Pdf" Margin="475,75,57,219" Grid.Row="3"  FontSize="16" Click="btnShowPdf_Click"/>
 
 
@@ -454,7 +483,7 @@
 
                             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Height="66" Margin="45,5,0,0">
                                 <Button x:Name="btnInsuranceDialog" Style="{StaticResource CommonButtonStyle}" Content="Insurances" Click="btnInsuranceDialog_Click"/>
-                                <Button x:Name="btnPatientsDialog" Style="{StaticResource CommonButtonStyle}" Content="Patients" Click="btnPatientsDialog_Click"/> 
+                                <Button x:Name="btnPatientsDialog" Style="{StaticResource CommonButtonStyle}" Content="Patients" Click="btnPatientsDialog_Click"/>
                                 <Button x:Name="btnReservationDialog" Style="{StaticResource CommonButtonStyle}" Content="Reservations" Click="btnReservationDialog_Click"/>
                                 <Button x:Name="btnPrescriptionsDialog" Style="{StaticResource CommonButtonStyle}" Content="Prescriptions" Click="btnPrescriptionsDialog_Click"/>
                             </StackPanel>
@@ -480,7 +509,7 @@
                     <Grid HorizontalAlignment="Left" Width="770" Margin="0,47,0,14" >
 
 
-                        <Label HorizontalAlignment="Left" Content="Choose nonAdmin User to Emulate" Width="320" Margin="112,36,0,433"/>
+                        <Label HorizontalAlignment="Left" Content="Choose nonadmin User to Emulate" Width="320" Margin="124,58,0,411" Foreground="#FF3A3939" FontWeight="Normal"/>
                         <StackPanel x:Name="f" Grid.Column="0" Margin="0,142,227,27">
                             <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="347" Width="386" SelectionChanged="usersDataGrid_SelectionChanged" >
                                 <DataGrid.Columns>
@@ -518,6 +547,8 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
+                        <Image Margin="486,34,0,214" Source="/assets/admin-panel.png" Stretch="Fill"/>
+                        <Label HorizontalAlignment="Left" Content="Users" Width="68" Margin="238,34,0,435" Foreground="Black" FontWeight="Bold"/>
 
 
 
