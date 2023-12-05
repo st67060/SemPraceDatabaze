@@ -1,8 +1,9 @@
-﻿using Aplikace.data;
+using Aplikace.data;
 using Aplikace.data.Entity;
 using Aplikace.data.Enum;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,8 +34,10 @@ namespace Aplikace.dialog
             address = null;
             healthCard = null;
             InitializeComponent();
+            btnConfirm.Content = "Create";
             cmbAnamnesis.ItemsSource = access.GetAllAnamnesis();
             cmbInsuranceCompany.ItemsSource = access.GetAllInsurances();
+            MouseLeftButtonDown += (s, e) => DragMove();
 
         }
         public DialogPatientAdd(Patient patient)
@@ -46,8 +49,17 @@ namespace Aplikace.dialog
             healthCard = patient.HealthCard;
             DataContext = patient;
             InitializeComponent();
-            cmbAnamnesis.ItemsSource = access.GetAllAnamnesis();
-            cmbInsuranceCompany.ItemsSource = access.GetAllInsurances();
+            btnConfirm.Content = "Edit";
+            MouseLeftButtonDown += (s, e) => DragMove();
+            List<Anamnesis> anamneses = access.GetAllAnamnesis();
+            cmbAnamnesis.ItemsSource = anamneses;
+            List<Insurance> insurances = access.GetAllInsurances();
+            cmbInsuranceCompany.ItemsSource = insurances;
+
+            int indexAnamnesis = anamneses.FindIndex(ana => ana.Id == patient.HealthCard.Anamnesis.Id);
+            int indexInsurance = insurances.FindIndex(ins => ins.Id == patient.InsuranceCompany.Id);
+            cmbAnamnesis.SelectedIndex = indexAnamnesis;
+            cmbInsuranceCompany.SelectedIndex = indexInsurance;
 
         }
 
@@ -193,6 +205,11 @@ namespace Aplikace.dialog
                 e.Handled = true;
 
             }
+        }
+
+        private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
     }
 }
