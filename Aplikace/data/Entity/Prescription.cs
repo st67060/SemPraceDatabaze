@@ -123,7 +123,17 @@ namespace Aplikace.data.Entity
         }
         public override string ToString()
         {
-            return $" Medication: {DrugName}, {Supplement}, Employee: {Employee.Surname}, Patient: {Patient.LastName}, Date: {Date.ToString("dd/MM/yy")}";
+            if (patient == null || employee == null)
+
+            {
+                return $" Medication: {DrugName}, {Supplement}, Employee: , Patient: , Date: {Date.ToString("dd/MM/yy")}";
+
+            }
+            else
+            {
+                return $" Medication: {DrugName}, {Supplement}, Employee: {Employee.Surname}, Patient: {Patient.LastName}, Date: {Date.ToString("dd/MM/yy")}";
+            }
+
         }
     }
 
