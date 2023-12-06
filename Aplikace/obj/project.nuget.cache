@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jtAqiAn6FrIlJVyMfJrGzbSMPzoS3B6AimN70EcQw9fS/QCQb7JaEcLH0sS1UdLSa5d6kKfhJCqcMP5loQOfFw==",
+  "dgSpecHash": "OKq4MPpobwdbZ+bjBJ8Uzi0/ahKnoHsll6S/0XGnjjdD/txLVuQJhZoTiy1fk29+MFt5gTtoCji49kUhm2zXLg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ROG STRIX\\Source\\Repos\\SemPraceDatabazelatest\\Aplikace\\Aplikace.csproj",
+  "projectFilePath": "C:\\Users\\ROG STRIX\\Source\\Repos\\SemPraceDatabaze\\Aplikace\\Aplikace.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ROG STRIX\\.nuget\\packages\\bitmiracle.libtiff.net\\2.4.649\\bitmiracle.libtiff.net.2.4.649.nupkg.sha512",
     "C:\\Users\\ROG STRIX\\.nuget\\packages\\google.protobuf\\3.23.0\\google.protobuf.3.23.0.nupkg.sha512",
