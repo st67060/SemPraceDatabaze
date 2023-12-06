@@ -491,7 +491,7 @@ namespace Aplikace
             {
                 Prescription prescription = new Prescription(0, txtMedicationName.Text, int.Parse(txtCoPayment.Text), user.Employee, (Patient)cmbPatient.SelectedItem, (DateTime)dpDatePresctiption.SelectedDate);
                 PdfDocument pdfDocument = CreatePdf(txtMedicationName.Text, (Patient)cmbPatient.SelectedItem, user.Employee, int.Parse(txtCoPayment.Text));
-                prescription.File = new Document(0, pdfDocument, "Prescription", ".pdf");
+                prescription.File = new Document(0, pdfDocument, "Prescription_"+prescription.drugName, "pdf");
 
                 if (access.InsertPrescription(prescription))
                 {
