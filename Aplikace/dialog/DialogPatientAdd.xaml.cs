@@ -1,6 +1,7 @@
 using Aplikace.data;
 using Aplikace.data.Entity;
 using Aplikace.data.Enum;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -87,7 +88,14 @@ namespace Aplikace.dialog
                     healthCard = new HealthCard(healthCard.Id, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
                     patient = new Patient(patient.Id, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
                     DataAccess access = new DataAccess();
-                    DialogResult = access.UpdatePatient(patient);
+                    if(access.UpdatePatient(patient)){
+                        DialogResult = true;
+                    }
+                    else { DialogResult = false;
+                        MessageBox.Show("Invalid email format", "Email error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    }
+                    ;
                     if (DialogResult == true)
                     {
                         Close();
@@ -103,7 +111,17 @@ namespace Aplikace.dialog
                     healthCard = new HealthCard(0, (bool)chkSmokes.IsChecked, (bool)chkPregnancy.IsChecked, (bool)chkAlcohol.IsChecked, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
                     patient = new Patient(0, txtFirstName.Text, txtLastName.Text, long.Parse(txtSocialSecurityNumber.Text), txtGender.Text, (DateTime)dpDateOfBirth.SelectedDate, long.Parse(txtPhone.Text), txtEmail.Text, address, healthCard, (Insurance)cmbInsuranceCompany.SelectedItem);
                     DataAccess access = new DataAccess();
-                    DialogResult = access.InsertPatient(patient);
+                    if (access.InsertPatient(patient))
+                    {
+                        DialogResult = true;
+                    }
+                    else
+                    {
+                        DialogResult = false;
+                        MessageBox.Show("Invalid email format", "Email error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    }
+                    ;
                     if (DialogResult == true)
                     {
                         Close();
