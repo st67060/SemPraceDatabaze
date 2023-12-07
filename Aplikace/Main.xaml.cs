@@ -13,9 +13,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace Aplikace
 {
@@ -91,11 +93,16 @@ namespace Aplikace
         {
             if (user.Employee.Photo != null)
             {
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = new MemoryStream(user.Employee.Photo);
-                bitmapImage.EndInit();
-                return bitmapImage;
+                try
+                {
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = new MemoryStream(user.Employee.Photo);
+                    bitmapImage.EndInit();
+                    return bitmapImage;
+                }
+                catch { return null; }
+               
             }
             else { return null; }
 
@@ -148,6 +155,11 @@ namespace Aplikace
                 {
                     data.Users = new ObservableCollection<User>(users);
                     usersDataGrid.ItemsSource = data.Users;
+                    foreach (Role enumValue in Enum.GetValues(typeof(Role)))
+                    {
+                        cmbChangeRole.Items.Add(new ComboBoxItem { Content = enumValue.ToString() });
+                    }
+                   
                 });
             });
         }
@@ -229,10 +241,12 @@ namespace Aplikace
                 if (temp.Employee.Role != Role.Admin)
                 {
                     emulateUserButton.Visibility = Visibility.Visible;
+                    cmbChangeRole.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     emulateUserButton.Visibility = Visibility.Hidden;
+                    cmbChangeRole.Visibility = Visibility.Hidden;
                 }
 
 
@@ -240,6 +254,7 @@ namespace Aplikace
             else
             {
                 emulateUserButton.Visibility = Visibility.Hidden;
+                cmbChangeRole.Visibility = Visibility.Hidden;
             }
 
         }
@@ -671,6 +686,30 @@ namespace Aplikace
     </html>";
             PdfDocument pdf = new ChromePdfRenderer().RenderHtmlAsPdf(htmlStr);
             return pdf;
+        }
+
+        private void statiscticButton_Click(object sender, RoutedEventArgs e)
+        {
+            DaialogStatisctics dialog = new DaialogStatisctics();
+            dialog.ShowDialog();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            //if (usersDataGrid.SelectedItem != null) {
+            //    User selectedUser = (User)usersDataGrid.SelectedItem;
+            //    Employee selectedEmployee = selectedUser.Employee;
+            //    if (cmbChangeRole.SelectedItem != null)
+            //    {
+            //        Employee employee = new Employee(selectedEmployee.Id, selectedEmployee.Name, selectedEmployee.Surname,
+            //                                     selectedEmployee.HireDate, selectedEmployee.Photo, (Role)cmbChangeRole.SelectedIndex-1);
+            //        employee.Superior = selectedEmployee.Superior;
+            //        access.UpdateEmployee(employee);
+            //        LoadListOfUsers();
+
+            //    }
+            
+            //}
         }
     }
 }

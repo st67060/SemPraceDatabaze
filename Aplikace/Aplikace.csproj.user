@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="dialog\DaialogStatisctics.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="dialog\DialogAddress.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -48,6 +51,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="dialog\DaialogStatisctics.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="dialog\DialogAddress.xaml">
       <SubType>Designer</SubType>
     </Page>

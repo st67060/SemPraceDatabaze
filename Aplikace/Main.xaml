@@ -360,6 +360,7 @@
 
                         </Grid>
                     </GroupBox>
+
                 </TabItem>
                 <TabItem x:Name="calendarTabItem"  Style="{StaticResource ModernTabItemStyle}" >
                     <TabItem.Header>
@@ -515,13 +516,14 @@
                     <Grid HorizontalAlignment="Left" Width="770" Margin="0,47,0,14" >
 
 
-                        <Label HorizontalAlignment="Left" Content="Choose nonadmin User to Emulate" Width="320" Margin="124,58,0,411" Foreground="#FF3A3939" FontWeight="Normal"/>
-                        <StackPanel x:Name="f" Grid.Column="0" Margin="0,142,227,27">
-                            <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="347" Width="386" SelectionChanged="usersDataGrid_SelectionChanged" >
+                        <Label HorizontalAlignment="Left" Content="Choose nonadmin User to Emulate" Width="320" Margin="127,36,0,433" Foreground="#FF3A3939" FontWeight="Normal"/>
+                        <StackPanel x:Name="f" Grid.Column="0" Margin="13,141,281,28">
+                            <DataGrid x:Name="usersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" GridLinesVisibility="None" RowBackground="#F3F3F3" AlternatingRowBackground="White" SelectionMode="Single" SelectionUnit="FullRow" BorderThickness="0" Height="347" Width="466" SelectionChanged="usersDataGrid_SelectionChanged" >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Username" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                     <DataGridTextColumn Header="Employee" Binding="{Binding Employee.Surname}" Width="*" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
+                                    <DataGridTextColumn Header="Role" Binding="{Binding Employee.Role}" Width="70" HeaderStyle="{StaticResource DataGridHeaderStylePatient}" />
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
@@ -553,8 +555,21 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
+                        <ComboBox x:Name="cmbChangeRole" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#F0F0F0" BorderBrush="#3498DB" BorderThickness="2" Foreground="#3498DB" Padding="5" Margin="521,329,0,0" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBox.Resources>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Foreground" Value="#3498DB"/>
+                                    <Setter Property="Padding" Value="10"/>
+                                </Style>
+                            </ComboBox.Resources>
+                            <!-- Položky ComboBoxu -->
+                            <ComboBoxItem Content="Select role" IsEnabled="False"/>
+                            
+                        </ComboBox>
+
                         <Image Margin="486,34,0,214" Source="/assets/admin-panel.png" Stretch="Fill"/>
-                        <Label HorizontalAlignment="Left" Content="Users" Width="68" Margin="238,34,0,435" Foreground="Black" FontWeight="Bold"/>
+                        <Label HorizontalAlignment="Left" Content="Users" Width="68" Margin="238,12,0,457" Foreground="Black" FontWeight="Bold"/>
 
 
 
@@ -589,7 +604,29 @@
                     </Style>
                 </Button.Style>
             </Button>
-
+            <Button x:Name="statiscticButton" Width="100" Height="50" Content="Statistics" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,680,10" Foreground="#333" BorderThickness="0" FontSize="15" Click="statiscticButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="white" />
+                                <Setter Property="Opacity" Value="0.5" />
+                                <!-- Barva pozadí při hover -->
+                                <Setter Property="Foreground" Value="#333" />
+                                <!-- Barva textu při hover -->
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
             <Image x:Name="closeButton" Margin="868,5,5,568" Source="/assets/close.png" Stretch="Fill" MouseLeftButtonDown="closeButton_MouseLeftButtonDown" Height="27" Width="27"/>
 

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\databaze\Aplikace\obj\Debug\net6.0-windows\
+C:\Users\laibl\Source\Repos\SemPraceDatabazee\Aplikace\obj\Debug\net6.0-windows\
 Aplikace
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\databaze\Aplikace\App.xaml
-19454667361
+C:\Users\laibl\Source\Repos\SemPraceDatabazee\Aplikace\App.xaml
+201298535572
 
-43-1471143655
-219-2147333786
-dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogEmployee.xaml;dialog\DialogHealthCard.xaml;dialog\DialogInsurance.xaml;dialog\DialogLogs.xaml;dialog\DialogPatient.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogPrescriptions.xaml;dialog\DialogProcedures.xaml;dialog\DialogReservations.xaml;dialog\DialogRole.xaml;dialog\DialogSysCatalog.xaml;dialog\DialogUser.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
+441895730857
+219-868811245
+dialog\DaialogStatisctics.xaml;dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogEmployee.xaml;dialog\DialogHealthCard.xaml;dialog\DialogInsurance.xaml;dialog\DialogLogs.xaml;dialog\DialogPatient.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogPrescriptions.xaml;dialog\DialogProcedures.xaml;dialog\DialogReservations.xaml;dialog\DialogRole.xaml;dialog\DialogSysCatalog.xaml;dialog\DialogUser.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
 
 True
 

@@ -1,0 +1,41 @@
+﻿<Window x:Class="Aplikace.dialog.DaialogStatisctics"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aplikace.dialog"
+        mc:Ignorable="d"
+                      Height="300" Width="500" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0" >
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#bde0fe" />
+                <GradientStop Offset="0.5" Color="#a2d2ff" />
+                <GradientStop Offset="1" Color="#0096c7" />
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+
+            <Label HorizontalAlignment="Center" Content="Statistics" Width="105" Margin="0,5,0,255" FontSize="20" FontWeight="Bold" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                    <TextBlock Text="Most Common Allergy: " Margin="0,0,5,0" FontSize="16"/>
+                    <TextBox Text="{Binding MostCommonAllergy}" Width="127" Background="{x:Null}" FontSize="16" BorderThickness="0,0,0,1" BorderBrush="Black" Focusable="False"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                    <TextBlock Text="Smoking Patients Count: " Margin="0,0,5,0" FontSize="16" />
+                    <TextBox Text="{Binding SmokingPatientsCount, StringFormat={}{0:N2} %}"  Width="128" Background="{x:Null}" FontSize="16" BorderThickness="0,0,0,1" BorderBrush="Black" Focusable="False"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                    <TextBlock Text="Average Patient Age: " Margin="0,0,5,0" FontSize="16"/>
+                    <TextBox Text="{Binding AveragePatientAge, StringFormat={}{0:N2} years}" Width="127" Background="{x:Null}" FontSize="16" BorderThickness="0,0,0,1" BorderBrush="Black"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Image x:Name="closeButton"  Source="/assets/close.png" Stretch="Fill" Height="27" Width="27" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,6,0" MouseLeftButtonDown="closeButton_MouseLeftButtonDown"/>
+        </Grid>
+    </Border>
+</Window>
+

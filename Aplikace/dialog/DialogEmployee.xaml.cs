@@ -56,7 +56,8 @@ namespace Aplikace.dialog
             {
                 Employee selectedEmployee = (Employee)dgEmployee.SelectedItem;
                 Employee employee = new Employee(selectedEmployee.Id, txtName.Text, txtSurname.Text,
-                                                 selectedEmployee.HireDate, selectedEmployee.Photo, selectedEmployee.Role);
+                                                 (DateTime)dpHireDate.SelectedDate, selectedEmployee.Photo, (Role)cmbRole.SelectedItem);
+                employee.Superior = selectedEmployee.Superior;
                 access.UpdateEmployee(employee);
                 LoadEmployees();
             }

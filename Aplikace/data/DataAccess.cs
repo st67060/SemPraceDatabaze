@@ -980,6 +980,63 @@ namespace Aplikace.data
             }
             return documents;
         }
+        public string GetMostCommonAllergy()
+        {
+            string mostCommonAllergy = string.Empty;
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT NAZEV_ALERGIE FROM ST67060.NEJCASTEJSI_ALERGIE", databaseConnection.connection))
+                {
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        mostCommonAllergy = result.ToString();
+                    }
+                }
+            }
+            return mostCommonAllergy;
+        }
+        public double GetSmokingPercentage()
+        {
+            double smokingPercentage = 0.0;
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT SMOKING_PERCENTAGE FROM ST67060.PACIENT_KOURI_VIEW", databaseConnection.connection))
+                {
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        smokingPercentage = Convert.ToDouble(result);
+                    }
+                }
+            }
+            return smokingPercentage;
+        }
+        public double GetAveragePatientAge()
+        {
+            double averageAge = 0.0;
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT PRUMERNY_VEK FROM ST67060.PRUMERNY_VEK_PACIENTU", databaseConnection.connection))
+                {
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        averageAge = Convert.ToDouble(result);
+                    }
+                }
+            }
+            return averageAge;
+        }
         public List<Anamnesis> GetAllAnamnesis()
         {
             List<Anamnesis> anamneses = new List<Anamnesis>();
@@ -2157,16 +2214,16 @@ namespace Aplikace.data
                     cmd.Parameters.Add("p_fotka", OracleDbType.Blob).Value = employee.Photo;
                     cmd.Parameters.Add("p_nadrizeny_id", OracleDbType.Decimal).Value = Convert.ToDecimal(employee.Superior?.Id);
 
-                    try
-                    {
+                    //try
+                    //{
                         cmd.ExecuteNonQuery();
                         return true;
-                    }
-                    catch (OracleException ex)
-                    {
-                        Console.WriteLine("Error: " + ex.Message);
-                        return false;
-                    }
+                    //}
+                    //catch (OracleException ex)
+                    //{
+                    //    Console.WriteLine("Error: " + ex.Message);
+                    //    return false;
+                    //}
                 }
             }
         }
