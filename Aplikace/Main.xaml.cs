@@ -371,8 +371,8 @@ namespace Aplikace
 
         private void btnPatientsDialog_Click(object sender, RoutedEventArgs e)
         {
-            //DialogPatient dialogPatient = new DialogPatient();
-            //dialogPatient.ShowDialog();
+            DialogPatient dialogPatient = new DialogPatient();
+            dialogPatient.ShowDialog();
         }
 
         private void btnReservationDialog_Click(object sender, RoutedEventArgs e)
@@ -395,8 +395,8 @@ namespace Aplikace
 
         private void btnHealthCardDialod_Click(object sender, RoutedEventArgs e)
         {
-            //DialogHealthCard dialogHealthCard = new DialogHealthCard();
-            //dialogHealthCard.ShowDialog();
+            DialogHealthCard dialogHealthCard = new DialogHealthCard();
+            dialogHealthCard.ShowDialog();
         }
 
         private void btnPrescriptionsDialog_Click(object sender, RoutedEventArgs e)
@@ -419,8 +419,8 @@ namespace Aplikace
 
         private void btnRoleDialog_Click(object sender, RoutedEventArgs e)
         {
-            //DialogRole dialogRole = new DialogRole();
-            //dialogRole.ShowDialog();
+            DialogRole dialogRole = new DialogRole();
+            dialogRole.ShowDialog();
         }
 
         private void btnLogsDialog_Click(object sender, RoutedEventArgs e)
@@ -506,11 +506,13 @@ namespace Aplikace
 
         private void cmbPrescription_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            Prescription prescription = cmbPrescription.SelectedItem as Prescription;
-            gpPrescription.DataContext = prescription;
-            List<Patient> temp = data.Patients.ToList();
-            cmbPatient.SelectedIndex = temp.FindIndex(patient => patient.Id == prescription.Patient.Id);
-
+            if (cmbPrescription.SelectedItem != null)
+            {
+                Prescription prescription = cmbPrescription.SelectedItem as Prescription;
+                gpPrescription.DataContext = prescription;
+                List<Patient> temp = data.Patients.ToList();
+                cmbPatient.SelectedIndex = temp.FindIndex(patient => patient.Id == prescription.Patient.Id);
+            }
         }
 
 

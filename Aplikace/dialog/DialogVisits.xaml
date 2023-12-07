@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="270" />
             </Grid.ColumnDefinitions>
 
-            <!-- Таблица для отображения атрибутов Visits -->
+          
             <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding visits}" SelectionChanged="dgVisits_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
@@ -37,7 +37,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- Формуляр для ввода атрибутов Visits -->
+           
             <StackPanel Grid.Column="1" Margin="10">
                 <TextBlock Text="Date:" Margin="0,0,0,5"/>
                 <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
@@ -48,7 +48,7 @@
                 <TextBlock Text="Patient:" Margin="0,0,0,5"/>
                 <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" SelectedItem="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding patients}"/>
 
-                <!-- Кнопки для добавления, изменения и удаления записей -->
+                
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                     <Button Content="Add New" Click="AddNew_Click" Margin="0,0,10,0"/>
                     <Button Content="Modify" Click="Modify_Click" Margin="0,0,10,0"/>

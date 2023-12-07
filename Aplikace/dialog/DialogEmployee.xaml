@@ -26,7 +26,7 @@
                     <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" />
                     <DataGridTextColumn Header="Hire Date" Binding="{Binding HireDate}" />
                     <DataGridTextColumn Header="Role" Binding="{Binding Role}" />
-                    <!-- Для Photo, возможно, потребуется другой подход -->
+                    
                 </DataGrid.Columns>
             </DataGrid>
 

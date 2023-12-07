@@ -119,9 +119,9 @@ namespace Aplikace.data.Entity
             }
         }
 
-      
 
-        public ObservableCollection<Alergy> Alergies 
+
+        public ObservableCollection<Alergy> Alergies
         {
             get { return alergies; }
             set
@@ -140,5 +140,12 @@ namespace Aplikace.data.Entity
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+        
+            return $"Card ID: {Id}, Smokes: {(Smokes ? "Yes" : "No")}, Alcohol: {(Alcohol ? "Yes" : "No")}, Sports: {Sport}, Fillings: {Fillings}";
+        }
+
     }
 }

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\ROG STRIX\Source\Repos\SemPraceDatabaze\Aplikace\obj\Debug\net6.0-windows\
+C:\databaze\Aplikace\obj\Debug\net6.0-windows\
 Aplikace
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\ROG STRIX\Source\Repos\SemPraceDatabaze\Aplikace\App.xaml
-16530885612
+C:\databaze\Aplikace\App.xaml
+19454667361
 
-40-1893104715
-2191949257246
-dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogEmployee.xaml;dialog\DialogInsurance.xaml;dialog\DialogLogs.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogPrescriptions.xaml;dialog\DialogProcedures.xaml;dialog\DialogReservations.xaml;dialog\DialogSysCatalog.xaml;dialog\DialogUser.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
+43-1471143655
+219-2147333786
+dialog\DialogAddress.xaml;dialog\DialogAllergy.xaml;dialog\DialogAnamnesis.xaml;dialog\DialogEmployee.xaml;dialog\DialogHealthCard.xaml;dialog\DialogInsurance.xaml;dialog\DialogLogs.xaml;dialog\DialogPatient.xaml;dialog\DialogPatientAdd.xaml;dialog\DialogPrescriptions.xaml;dialog\DialogProcedures.xaml;dialog\DialogReservations.xaml;dialog\DialogRole.xaml;dialog\DialogSysCatalog.xaml;dialog\DialogUser.xaml;dialog\DialogVisits.xaml;Login.xaml;Main.xaml;Register.xaml;
 
-False
+True
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 namespace Aplikace.data.Entity
 {
-   
+
 
     public class Insurance : INotifyPropertyChanged
     {
@@ -68,6 +68,13 @@ namespace Aplikace.data.Entity
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+            
+            return $"{Name} ({Abbreviation})";
+        }
+
     }
 
 }

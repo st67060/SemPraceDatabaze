@@ -47,6 +47,11 @@ namespace Aplikace.data.Entity
             }
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

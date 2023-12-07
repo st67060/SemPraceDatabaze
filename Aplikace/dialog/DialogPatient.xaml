@@ -1,0 +1,91 @@
+﻿<Window x:Class="Aplikace.dialog.DialogPatient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aplikace.dialog"
+        mc:Ignorable="d"
+        Height="600" Width="1200" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+    <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#bde0fe" />
+                <GradientStop Offset="0.5" Color="#a2d2ff" />
+                <GradientStop Offset="1" Color="#0096c7" />
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="850" />
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Name="dgPatients" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding PatientsList}" SelectionChanged="dgPatients_SelectionChanged" IsReadOnly="True" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" />
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" />
+                    <DataGridTextColumn Header="SSN" Binding="{Binding SocialSecurityNumber}" />
+                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" />
+                    <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth}" />
+                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                    <DataGridTextColumn Header="Insurance Company" Binding="{Binding InsuranceCompany}" />
+                    <DataGridTextColumn Header="Health Card" Binding="{Binding HealthCard}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1" Margin="10" >
+                <TextBlock Text="First Name:" Margin="0,0,0,5"/>
+                <TextBox Name="txtFirstName" Width="200" Margin="0,0,0,10" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Last Name:" Margin="0,0,0,5"/>
+                <TextBox Name="txtLastName" Width="200" Margin="0,0,0,10" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="SSN:" Margin="0,0,0,5"/>
+                <TextBox Name="txtSSN" Width="200" Margin="0,0,0,10" Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Gender:" Margin="0,0,0,5"/>
+                <TextBox Name="txtGender" Width="200" Margin="0,0,0,10" Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Date of Birth:" Margin="0,0,0,5"/>
+                <DatePicker Name="dpDateOfBirth" Width="200" Margin="0,0,0,10" SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Phone:" Margin="0,0,0,5"/>
+                <TextBox Name="txtPhone" Width="200" Margin="0,0,0,10" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Email:" Margin="0,0,0,5"/>
+                <TextBox Name="txtEmail" Width="200" Margin="0,0,0,10" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Address:" Margin="0,0,0,5"/>
+                <ComboBox Name="cmbAddress" Width="200" Margin="0,0,0,10"
+          ItemsSource="{Binding AddressesList}"
+          SelectedValuePath="Id"
+          SelectedValue="{Binding Address.Id, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Insurance Company:" Margin="0,0,0,5"/>
+                <ComboBox Name="cmbInsuranceCompany" Width="200" Margin="0,0,0,10"
+          ItemsSource="{Binding InsurancesList}"
+          SelectedValuePath="Id"
+          SelectedValue="{Binding InsuranceCompany.Id, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Health Card:" Margin="0,0,0,5"/>
+                <ComboBox Name="cmbHealthCard" Width="200" Margin="0,0,0,10"
+          ItemsSource="{Binding HealthCardsList}"
+          SelectedValuePath="Id"
+          SelectedValue="{Binding HealthCard.Id, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                    <Button Content="Add New" Click="AddNew_Click" Margin="0,0,10,0"/>
+                    <Button Content="Modify" Click="Modify_Click" Margin="0,0,10,0"/>
+                    <Button Content="Delete" Click="Delete_Click"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <Image x:Name="closeButton" Source="/assets/close.png" Stretch="Fill" Grid.Column="1" Margin="310,10,-90,558" MouseLeftButtonDown="closeButton_MouseLeftButtonDown"/>
+
+        </Grid>
+    </Border>
+</Window>

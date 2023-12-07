@@ -63,7 +63,7 @@ namespace Aplikace.data.Entity
             set { SetProperty(ref street, value); }
         }
 
-        
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -81,6 +81,12 @@ namespace Aplikace.data.Entity
                 return true;
             }
             return false;
+        }
+
+        public override string ToString()
+        {
+          
+            return $"{Street} {StreetNumber}, {PostalCode} {City}, {Country}";
         }
     }
 }

@@ -1221,6 +1221,52 @@ namespace Aplikace.data
 
             return userList;
         }
+
+        public List<HealthCard> GetAllHealthCards()
+        {
+            List<HealthCard> healthCards = new List<HealthCard>();
+            List<Anamnesis> anamnesisList = GetAllAnamnesis(); 
+            using (OracleDatabaseConnection databaseConnection = new OracleDatabaseConnection())
+            {
+                databaseConnection.OpenConnection();
+
+                using (OracleCommand cmd = new OracleCommand("SELECT_ZDRAVOTNI_KARTY", databaseConnection.connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    OracleParameter cursorParam = new OracleParameter("v_cursor", OracleDbType.RefCursor);
+                    cursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(cursorParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    using (OracleDataReader reader = ((OracleRefCursor)cursorParam.Value).GetDataReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int healthCardId = reader.GetInt32(reader.GetOrdinal("HEALTH_CARD_ID"));
+                            bool smokes = ConvertDbCharToBool(reader.GetString(reader.GetOrdinal("SMOKES")));
+                            bool pregnancy = ConvertDbCharToBool(reader.GetString(reader.GetOrdinal("PREGNANCY")));
+                            bool alcohol = ConvertDbCharToBool(reader.GetString(reader.GetOrdinal("ALCOHOL")));
+                            string sport = reader.IsDBNull(reader.GetOrdinal("SPORT")) ? null : reader.GetString(reader.GetOrdinal("SPORT"));
+                            int fillings = reader.GetInt32(reader.GetOrdinal("FILLINGS"));
+                            int anamnesisId = reader.GetInt32(reader.GetOrdinal("ANAMNESIS_ID"));
+
+                            Anamnesis anamnesisTemp = anamnesisList.FirstOrDefault(a => a.Id == anamnesisId);
+
+                            HealthCard healthCard = new HealthCard(healthCardId, smokes, pregnancy, alcohol, sport, fillings, anamnesisTemp);
+                            healthCards.Add(healthCard);
+                        }
+                    }
+                }
+            }
+
+            return healthCards;
+        }
+
+
+
+
         public List<Insurance> GetAllInsurances()
         {
             List<Insurance> insurances = new List<Insurance>();
@@ -2267,7 +2313,7 @@ namespace Aplikace.data
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Добавляем параметр ID
+                    
                     OracleParameter paramId = new OracleParameter("p_zakrok_id", OracleDbType.Decimal);
                     paramId.Value = procedure.Id;
                     cmd.Parameters.Add(paramId);
