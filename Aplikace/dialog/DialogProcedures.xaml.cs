@@ -45,20 +45,28 @@ namespace Aplikace.dialog
             if (!string.IsNullOrWhiteSpace(txtName.Text))
             {
                 var newProcedure = new Procedure(0, txtName.Text, int.Parse(txtPrice.Text), chkCoveredByInsurance.IsChecked ?? false, txtProcedureSteps.Text);
-                access.InsertProcedure(newProcedure); 
+                access.InsertProcedure(newProcedure);
                 LoadProcedures();
+            }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Modify_Click(object sender, RoutedEventArgs e)
         {
-            if (dgProcedures.SelectedItem != null )
+            if (dgProcedures.SelectedItem != null)
             {
                 var selectedProcedure = (Procedure)dgProcedures.SelectedItem;
                 Procedure procedure = new Procedure(selectedProcedure.Id, txtName.Text, int.Parse(txtPrice.Text), chkCoveredByInsurance.IsChecked ?? false, txtProcedureSteps.Text);
 
-                access.UpdateProcedure(selectedProcedure); 
+                access.UpdateProcedure(selectedProcedure);
                 LoadProcedures();
+            }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -67,10 +75,14 @@ namespace Aplikace.dialog
             if (dgProcedures.SelectedItem != null)
             {
                 var selectedProcedure = (Procedure)dgProcedures.SelectedItem;
-                access.DeleteProcedure(selectedProcedure); 
+                access.DeleteProcedure(selectedProcedure);
                 LoadProcedures();
             }
-        }        
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         private void dgProcedures_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
@@ -84,6 +96,40 @@ namespace Aplikace.dialog
         private void closeButton_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             this.Close();
+        }
+
+        private bool IsTextual(string text)
+        {
+            return text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
+        private void txtName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtProcedureSteps_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool IsNumeric(string text)
+        {
+            return int.TryParse(text, out _);
+        }
+
+        private void txtPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

@@ -35,7 +35,7 @@
             <!-- Formulář pro zadání atributů Address -->
             <StackPanel x:Name="spForm" Grid.Column="1" Margin="10,4,10,16">
                 <TextBlock Text="City:" Margin="0,0,0,5"/>
-                <TextBox Name="txtCity" Width="200" Margin="0,0,0,10" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtCity" Width="200" Margin="0,0,0,10" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtCity_PreviewTextInput"/>
 
                 <TextBlock Text="Postal Code:" Margin="0,0,0,5"/>
                 <TextBox Name="txtPostalCode" Width="200" Margin="0,0,0,10" Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}" TextChanged="txtPostalCode_TextChanged" PreviewTextInput="txtPostalCode_PreviewTextInput"/>
@@ -44,10 +44,10 @@
                 <TextBox Name="txtStreetNumber" Width="200" Margin="0,0,0,10" Text="{Binding StreetNumber, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtStreetNumber_PreviewTextInput"/>
 
                 <TextBlock Text="Country:" Margin="0,0,0,5"/>
-                <TextBox Name="txtCountry" Width="200" Margin="0,0,0,10" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtCountry" Width="200" Margin="0,0,0,10" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtCountry_PreviewTextInput"/>
 
                 <TextBlock Text="Street:" Margin="0,0,0,5"/>
-                <TextBox Name="txtStreet" Width="200" Margin="0,0,0,10" Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtStreet" Width="200" Margin="0,0,0,10" Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtStreet_PreviewTextInput"/>
 
                 <!-- Tlačítka pro přidání, úpravu a odstranění -->
                 <StackPanel Orientation="Horizontal">

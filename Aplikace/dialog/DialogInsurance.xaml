@@ -31,10 +31,10 @@
             <!-- Формуляр для ввода атрибутов Insurance -->
             <StackPanel Grid.Column="1" Margin="10">
                 <TextBlock Text="Name:" Margin="0,0,0,5"/>
-                <TextBox Name="txtName" Width="200" Margin="0,0,0,10" Text="{Binding SelectedInsurance.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtName" Width="200" Margin="0,0,0,10" Text="{Binding SelectedInsurance.Name, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtName_PreviewTextInput"/>
 
                 <TextBlock Text="Abbreviation:" Margin="0,0,0,5"/>
-                <TextBox Name="txtAbbreviation" Width="200" Margin="0,0,0,10" Text="{Binding SelectedInsurance.Abbreviation, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtAbbreviation" Width="200" Margin="0,0,0,10" Text="{Binding SelectedInsurance.Abbreviation, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtAbbreviation_PreviewTextInput"/>
 
                 <!-- Кнопки для добавления, изменения и удаления записей -->
                 <StackPanel Orientation="Horizontal">

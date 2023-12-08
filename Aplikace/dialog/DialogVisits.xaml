@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Aplikace.dialog"
         mc:Ignorable="d"
         
-        Height="400" Width="800" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+        Height="400" Width="800" ResizeMode="NoResize" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True"  >
     <Border CornerRadius="20" BorderBrush="Transparent" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -21,11 +21,12 @@
                 <ColumnDefinition Width="270" />
             </Grid.ColumnDefinitions>
 
-          
-            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding visits}" SelectionChanged="dgVisits_SelectionChanged">
+
+            <DataGrid Name="dgVisits" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding visits}" SelectionChanged="dgVisits_SelectionChanged" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                    <DataGridTextColumn Header="Details" Binding="{Binding Details}" />
+                    <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" />
+
                     <DataGridTextColumn Header="Patient">
                         <DataGridTextColumn.Binding>
                             <MultiBinding StringFormat="{}{0} {1}">
@@ -42,8 +43,8 @@
                 <TextBlock Text="Date:" Margin="0,0,0,5"/>
                 <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <TextBlock Text="Details:" Margin="0,0,0,5"/>
-                <TextBox Name="txtDetails" Width="200" Margin="0,0,0,10" Text="{Binding Details, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Notes:" Margin="0,0,0,5"/>
+                <TextBox Name="txtNotes" Width="200" Margin="0,0,0,10" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Patient:" Margin="0,0,0,5"/>
                 <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10" SelectedItem="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding patients}"/>

@@ -1,8 +1,10 @@
 ﻿using Aplikace.data;
 using Aplikace.data.Entity;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Aplikace.dialog
 {
@@ -36,13 +38,24 @@ namespace Aplikace.dialog
                 access.UpdateInsurance(selectedInsurance);
                 LoadInsurances();
             }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            Insurance newInsurance = new Insurance(0, txtName.Text, txtAbbreviation.Text);
-            access.InsertInsurance(newInsurance);
-            LoadInsurances();
+            if (!string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                Insurance newInsurance = new Insurance(0, txtName.Text, txtAbbreviation.Text);
+                access.InsertInsurance(newInsurance);
+                LoadInsurances();
+            }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -52,6 +65,10 @@ namespace Aplikace.dialog
                 Insurance selectedInsurance = (Insurance)dgInsurance.SelectedItem;
                 access.DeleteInsurance(selectedInsurance);
                 LoadInsurances();
+            }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -66,6 +83,27 @@ namespace Aplikace.dialog
             {
                 txtName.Text = selectedInsurance.Name;
                 txtAbbreviation.Text = selectedInsurance.Abbreviation;
+            }
+        }
+
+        private bool IsTextual(string text)
+        {
+            return text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
+        private void txtName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtAbbreviation_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
             }
         }
     }

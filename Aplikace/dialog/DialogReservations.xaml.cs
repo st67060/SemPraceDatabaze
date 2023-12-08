@@ -32,7 +32,7 @@ namespace Aplikace.dialog
             access = new DataAccess();
             DataContext = this;
             InitializeComponent();
-            MouseLeftButtonDown += (s, e) => DragMove(); 
+            MouseLeftButtonDown += (s, e) => DragMove();
             LoadReservations();
         }
 
@@ -63,6 +63,10 @@ namespace Aplikace.dialog
                 access.InsertReservation(reservation);
                 LoadReservations();
             }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Modify_Click(object sender, RoutedEventArgs e)
@@ -73,8 +77,12 @@ namespace Aplikace.dialog
                 {
                     Reservation temp = (Reservation)dgReservations.SelectedItem;
                     Reservation reservation = new Reservation(temp.Id, txtNotes.Text, (DateTime)dpDate.SelectedDate, (Patient)cmbPatient.SelectedItem, (Employee)cmbEmployee.SelectedItem);
-                    access.UpdateReservation(temp);
+                    access.UpdateReservation(reservation);
                     LoadReservations();
+                }
+                else
+                {
+                    MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -118,6 +126,19 @@ namespace Aplikace.dialog
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
+        }
+
+        private bool IsTextual(string text)
+        {
+            return text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
+        private void txtNotes_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

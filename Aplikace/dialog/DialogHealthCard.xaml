@@ -44,10 +44,10 @@
                 <CheckBox Name="chkAlcohol" Margin="0,5" IsChecked="{Binding Alcohol, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Sport:" Margin="0,5"/>
-                <TextBox Name="txtSport" Width="200" Margin="0,5" Text="{Binding Sport, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtSport" Width="200" Margin="0,5" Text="{Binding Sport, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtSport_PreviewTextInput"/>
 
                 <TextBlock Text="Fillings:" Margin="0,5"/>
-                <TextBox Name="txtFillings" Width="200" Margin="0,5" Text="{Binding Fillings, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtFillings" Width="200" Margin="0,5" Text="{Binding Fillings, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtFillings_PreviewTextInput"/>
 
                 <TextBlock Text="Anamnesis:" Margin="0,5"/>
                 <ComboBox Name="cmbAnamnesis" Width="200" Margin="0,5" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding AnamnesisList}" SelectedValue="{Binding AnamnesisId, UpdateSourceTrigger=PropertyChanged}"/>

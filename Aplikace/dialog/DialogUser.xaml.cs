@@ -48,6 +48,10 @@ namespace Aplikace.dialog
                 access.InsertUser(user);
                 LoadUsers();
             }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Modify_Click(object sender, RoutedEventArgs e)
@@ -62,6 +66,10 @@ namespace Aplikace.dialog
                     selectedUser.Employee = (Employee)cmbEmployee.SelectedItem;
                     access.UpdateUser(selectedUser);
                     LoadUsers();
+                }
+                else
+                {
+                    MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

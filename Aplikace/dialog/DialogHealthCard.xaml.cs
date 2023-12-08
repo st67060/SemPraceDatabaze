@@ -26,7 +26,7 @@ namespace Aplikace.dialog
         DataAccess access;
         ObservableCollection<HealthCard> healthCards;
         ObservableCollection<Anamnesis> AnamnesisList;
-       
+
 
         public DialogHealthCard()
         {
@@ -57,13 +57,20 @@ namespace Aplikace.dialog
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtSport.Text)) {
+            if (!string.IsNullOrWhiteSpace(txtSport.Text) && cmbAnamnesis.SelectedItem != null)
+            {
                 var newHealthCard = new HealthCard(0, chkSmokes.IsChecked ?? false, chkPregnancy.IsChecked ?? false, chkAlcohol.IsChecked ?? false, txtSport.Text, int.Parse(txtFillings.Text), (Anamnesis)cmbAnamnesis.SelectedItem);
                 access.InsertHealthCard(newHealthCard);
-                }
+                LoadHealthCards();
             }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
-            private void Modify_Click(object sender, RoutedEventArgs e)
+
+        private void Modify_Click(object sender, RoutedEventArgs e)
         {
             if (dgHealthCards.SelectedItem != null)
             {
@@ -72,7 +79,10 @@ namespace Aplikace.dialog
                 access.UpdateHealthCard(healthCards);
                 LoadHealthCards();
             }
-
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -98,15 +108,15 @@ namespace Aplikace.dialog
         {
             Task.Run(() =>
             {
-                 healthCards = new ObservableCollection<HealthCard>(access.GetAllHealthCards());
-                 AnamnesisList = new ObservableCollection<Anamnesis>(access.GetAllAnamnesis());
-                 
+                healthCards = new ObservableCollection<HealthCard>(access.GetAllHealthCards());
+                AnamnesisList = new ObservableCollection<Anamnesis>(access.GetAllAnamnesis());
+
 
                 Dispatcher.Invoke(() =>
                 {
                     dgHealthCards.ItemsSource = healthCards;
                     cmbAnamnesis.ItemsSource = AnamnesisList;
-                    
+
                 });
             });
         }
@@ -114,6 +124,32 @@ namespace Aplikace.dialog
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
+        }
+
+        private bool IsTextual(string text)
+        {
+            return text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
+        private void txtSport_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool IsNumeric(string text)
+        {
+            return int.TryParse(text, out _);
+        }
+
+        private void txtFillings_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

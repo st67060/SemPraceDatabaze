@@ -20,8 +20,8 @@
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
 
-            
-            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding ReservationsList}" SelectionChanged="dgReservations_SelectionChanged" >
+
+            <DataGrid Name="dgReservations" AutoGenerateColumns="False" Margin="10" Grid.Column="0" ItemsSource="{Binding ReservationsList}" SelectionChanged="dgReservations_SelectionChanged" IsReadOnly="True" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" />
@@ -58,7 +58,7 @@
                 <DatePicker Name="dpDate" Width="200" Margin="0,0,0,10" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Notes:" Margin="0,0,0,5"/>
-                <TextBox Name="txtNotes" Width="200" Margin="0,0,0,10" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtNotes" Width="200" Margin="0,0,0,10" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtNotes_PreviewTextInput"/>
 
                 <TextBlock Text="Patient:" Margin="0,0,0,5"/>
                 <ComboBox Name="cmbPatient" Width="200" Margin="0,0,0,10"  SelectedValuePath="Id" ItemsSource="{Binding PatientsList}" SelectedValue="{Binding PatientId, UpdateSourceTrigger=PropertyChanged}"/>

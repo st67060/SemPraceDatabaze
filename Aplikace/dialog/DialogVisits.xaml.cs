@@ -25,7 +25,7 @@ namespace Aplikace.dialog
             InitializeComponent();
             MouseLeftButtonDown += (s, e) => DragMove();
             LoadVisits();
-            
+
 
         }
 
@@ -33,25 +33,32 @@ namespace Aplikace.dialog
         {
             if (dgVisits.SelectedItem != null)
             {
-                if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtDetails.Text) && cmbPatient.SelectedItem != null)
+                if (dpDate.SelectedDate != null && !string.IsNullOrWhiteSpace(txtNotes.Text) && cmbPatient.SelectedItem != null)
                 {
                     Visit temp = (Visit)dgVisits.SelectedItem;
-                    Visit visit = new Visit(temp.Id, (DateTime)dpDate.SelectedDate, txtDetails.Text, (Patient)cmbPatient.SelectedItem);
+                    Visit visit = new Visit(temp.Id, (DateTime)dpDate.SelectedDate, txtNotes.Text, (Patient)cmbPatient.SelectedItem);
                     access.UpdateVisit(visit);
                     LoadVisits();
                 }
-
+                else
+                {
+                    MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
             }
         }
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (dpDate.SelectedDate != null && string.IsNullOrWhiteSpace(txtDetails.Text) && cmbPatient.SelectedItem != null)
+            if (dpDate.SelectedDate != null && cmbPatient.SelectedItem != null)
             {
-                Visit visit = new Visit(0, (DateTime)dpDate.SelectedDate, txtDetails.Text, (Patient)cmbPatient.SelectedItem);
+                Visit visit = new Visit(0, (DateTime)dpDate.SelectedDate, txtNotes.Text, (Patient)cmbPatient.SelectedItem);
                 access.InsertVisit(visit);
                 LoadVisits();
+            }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -78,7 +85,7 @@ namespace Aplikace.dialog
             {
                 var visit = (Visit)dgVisits.SelectedItem;
                 DataContext = visit;
-                List<Patient> tempPatient = patients.ToList();                
+                List<Patient> tempPatient = patients.ToList();
                 int indexPatient = tempPatient.FindIndex(pat => pat.Id == visit.Patient.Id);
                 cmbPatient.SelectedIndex = indexPatient;
             }
@@ -101,11 +108,24 @@ namespace Aplikace.dialog
             });
         }
 
-        
+
 
         private void closeButton_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             this.Close();
+        }
+
+        private bool IsTextual(string text)
+        {
+            return text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
+        private void txtNotes_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

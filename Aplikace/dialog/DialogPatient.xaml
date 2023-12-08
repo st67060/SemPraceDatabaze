@@ -37,22 +37,22 @@
 
             <StackPanel Grid.Column="1" Margin="10" >
                 <TextBlock Text="First Name:" Margin="0,0,0,5"/>
-                <TextBox Name="txtFirstName" Width="200" Margin="0,0,0,10" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtFirstName" Width="200" Margin="0,0,0,10" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtFirstName_PreviewTextInput"/>
 
                 <TextBlock Text="Last Name:" Margin="0,0,0,5"/>
-                <TextBox Name="txtLastName" Width="200" Margin="0,0,0,10" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtLastName" Width="200" Margin="0,0,0,10" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtLastName_PreviewTextInput"/>
 
                 <TextBlock Text="SSN:" Margin="0,0,0,5"/>
-                <TextBox Name="txtSSN" Width="200" Margin="0,0,0,10" Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtSSN" Width="200" Margin="0,0,0,10" Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtSSN_PreviewTextInput"/>
 
                 <TextBlock Text="Gender:" Margin="0,0,0,5"/>
-                <TextBox Name="txtGender" Width="200" Margin="0,0,0,10" Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtGender" Width="200" Margin="0,0,0,10" Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtGender_PreviewTextInput"/>
 
                 <TextBlock Text="Date of Birth:" Margin="0,0,0,5"/>
                 <DatePicker Name="dpDateOfBirth" Width="200" Margin="0,0,0,10" SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Phone:" Margin="0,0,0,5"/>
-                <TextBox Name="txtPhone" Width="200" Margin="0,0,0,10" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtPhone" Width="200" Margin="0,0,0,10" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtPhone_PreviewTextInput"/>
 
                 <TextBlock Text="Email:" Margin="0,0,0,5"/>
                 <TextBox Name="txtEmail" Width="200" Margin="0,0,0,10" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>

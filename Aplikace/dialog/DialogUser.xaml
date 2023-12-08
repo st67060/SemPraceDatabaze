@@ -20,11 +20,11 @@
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
 
-            <DataGrid Name="dgUsers" AutoGenerateColumns="False" Margin="10" Grid.Column="0" SelectionChanged="dgUsers_SelectionChanged">
+            <DataGrid Name="dgUsers" AutoGenerateColumns="False" Margin="10" Grid.Column="0" SelectionChanged="dgUsers_SelectionChanged" IsReadOnly="True">
                 <DataGrid.Columns>
                     <!-- Updated to display Name and associated Employee -->
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Password" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Password" Binding="{Binding Password}" />
                     <DataGridTemplateColumn Header="Employee">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -48,7 +48,7 @@
                 <!-- TextBlock and TextBox for ID removed -->
 
                 <TextBlock Text="Name:" Margin="0,0,0,5"/>
-                <TextBox Name="txtName" Width="200" Margin="0,0,0,10" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtName" Width="200" Margin="0,0,0,10" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Password:" Margin="0,0,0,5"/>
                 <TextBox Name="txtPassword" Width="200" Margin="0,0,0,10" Text ="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>

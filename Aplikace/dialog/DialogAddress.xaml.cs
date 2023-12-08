@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,11 @@ namespace Aplikace.dialog
             return int.TryParse(text, out _);
         }
 
+        private bool IsTextual(string text)
+        {
+            return text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
         private void LoadAddresses()
         {
             addresses = new ObservableCollection<Address>(access.GetAllAddresses());
@@ -53,14 +59,25 @@ namespace Aplikace.dialog
                 access.UpdateAddress(address);
                 LoadAddresses();
             }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            Address address = new Address(0, txtCity.Text, int.Parse(txtPostalCode.Text),
-                                          int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
-            access.InsertAddress(address);
-            LoadAddresses();
+            if (!string.IsNullOrWhiteSpace(txtCity.Text))
+            {
+                Address address = new Address(0, txtCity.Text, int.Parse(txtPostalCode.Text),
+                                              int.Parse(txtStreetNumber.Text), txtCountry.Text, txtStreet.Text);
+                access.InsertAddress(address);
+                LoadAddresses();
+            }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -73,14 +90,13 @@ namespace Aplikace.dialog
                 {
                     LoadAddresses();
                 }
-                else {
+                else
+                {
                     MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                
+
             }
         }
-
-        
 
         private void closeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -95,7 +111,7 @@ namespace Aplikace.dialog
 
         private void txtPostalCode_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            // Оставьте вашу текущую логику здесь
         }
 
         private void txtPostalCode_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -103,7 +119,6 @@ namespace Aplikace.dialog
             if (!IsNumeric(e.Text))
             {
                 e.Handled = true;
-
             }
         }
 
@@ -112,7 +127,30 @@ namespace Aplikace.dialog
             if (!IsNumeric(e.Text))
             {
                 e.Handled = true;
+            }
+        }
 
+        private void txtCity_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtCountry_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtStreet_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
             }
         }
     }

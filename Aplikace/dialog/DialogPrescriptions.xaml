@@ -57,10 +57,10 @@
 
             <StackPanel Grid.Column="1" Margin="10">
                 <TextBlock Text="Drug Name:" Margin="0,0,0,5"/>
-                <TextBox Name="txtDrugName" Width="200" Margin="0,0,0,10" Text="{Binding DrugName, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtDrugName" Width="200" Margin="0,0,0,10" Text="{Binding DrugName, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtDrugName_PreviewTextInput"/>
 
                 <TextBlock Text="Supplement:" Margin="0,0,0,5"/>
-                <TextBox Name="txtSupplement" Width="200" Margin="0,0,0,10" Text="{Binding Supplement, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtSupplement" Width="200" Margin="0,0,0,10" Text="{Binding Supplement, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="txtSupplement_PreviewTextInput"/>
 
                 <!-- Для Employee и Patient предполагается использование ComboBox или аналогичных элементов -->
                 <!-- Пример для Employee -->

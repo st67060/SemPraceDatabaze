@@ -37,7 +37,7 @@ namespace Aplikace.dialog
             LoadPrescription();
         }
 
-        private async void LoadPrescription ()
+        private async void LoadPrescription()
         {
             await Task.Run(() =>
             {
@@ -53,7 +53,7 @@ namespace Aplikace.dialog
                 });
             });
         }
-        
+
         private void dgPrescription_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgPrescription.SelectedItem != null)
@@ -76,9 +76,13 @@ namespace Aplikace.dialog
                 if (dpDate.SelectedDate != null)
                 {
                     Prescription temp = (Prescription)dgPrescription.SelectedItem;
-                    Prescription prescription = new Prescription(temp.ID, txtDrugName.Text, decimal.Parse(txtSupplement.Text),  (Employee)cmbEmployee.SelectedItem, (Patient)cmbPatient.SelectedItem, (DateTime)dpDate.SelectedDate);
+                    Prescription prescription = new Prescription(temp.ID, txtDrugName.Text, decimal.Parse(txtSupplement.Text), (Employee)cmbEmployee.SelectedItem, (Patient)cmbPatient.SelectedItem, (DateTime)dpDate.SelectedDate);
                     access.UpdatePrescription(temp);
                     LoadPrescription();
+                }
+                else
+                {
+                    MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -109,12 +113,44 @@ namespace Aplikace.dialog
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            
-            
-                Prescription precription = new Prescription(0, txtDrugName.Text, decimal.Parse(txtSupplement.Text),  (Employee)cmbEmployee.SelectedItem, (Patient)cmbPatient.SelectedItem, (DateTime)dpDate.SelectedDate);
+
+            if (cmbPatient.SelectedItem != null && cmbEmployee.SelectedItem != null)
+            {
+                Prescription precription = new Prescription(0, txtDrugName.Text, decimal.Parse(txtSupplement.Text), (Employee)cmbEmployee.SelectedItem, (Patient)cmbPatient.SelectedItem, (DateTime)dpDate.SelectedDate);
                 access.InsertPrescription(precription);
                 LoadPrescription();
-            
+            }
+            else
+            {
+                MessageBox.Show("data integrity violation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
+        private bool IsTextual(string text)
+        {
+            return text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+        }
+
+        private void txtDrugName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsTextual(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool IsNumeric(string text)
+        {
+            return int.TryParse(text, out _);
+        }
+
+        private void txtSupplement_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IsNumeric(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 }
